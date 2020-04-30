@@ -1,4 +1,4 @@
-package com.javawomen.CentraldeErros;
+package com.javawomen.errorcenter;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

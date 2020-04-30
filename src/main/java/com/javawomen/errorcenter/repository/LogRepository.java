@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.javawomen.CentraldeErros.repository;
+package com.javawomen.errorcenter.repository;
 
 /**
  * @author MarleiMaria

@@ -1,6 +1,6 @@
-package com.javawomen.CentraldeErros.service;
+package com.javawomen.errorcenter.service;
 
-import com.javawomen.CentraldeErros.model.UserModel;
+import com.javawomen.errorcenter.model.UserModel;
 
 public class UserController {
 	public void cadastrarUsuario() {

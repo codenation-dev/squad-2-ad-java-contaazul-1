@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.javawomen.CentraldeErros.model.controller;
+package com.javawomen.errorcenter.model.controller;
 
 /**
  * @author MarleiMaria

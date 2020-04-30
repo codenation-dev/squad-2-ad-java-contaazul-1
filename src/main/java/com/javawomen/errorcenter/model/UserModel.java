@@ -1,4 +1,4 @@
-package com.javawomen.CentraldeErros.model;
+package com.javawomen.errorcenter.model;
 
 import java.security.Timestamp;
 
