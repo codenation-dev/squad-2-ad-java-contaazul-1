@@ -1,0 +1,14 @@
+package com.javawomen.errorcenter.repository;
+
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.javawomen.errorcenter.model.Level;
+
+@Repository
+public interface LevelRepository extends JpaRepository<Level, Long>{
+
+	Level findByName(String name);
+
+}
