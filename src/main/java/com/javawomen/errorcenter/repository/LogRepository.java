@@ -1,12 +1,24 @@
-/**
- * 
- */
 package com.javawomen.errorcenter.repository;
 
-/**
- * @author MarleiMaria
- *
- */
-public class LogRepository {
+import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
+import com.javawomen.errorcenter.model.Log;
+
+@Repository
+public interface LogRepository extends JpaRepository<Log, Long> {
+
+	//List<Log> findByEnvironmentDescription(String environment);
+	 
+	List<Log> findByLevelName(@Param("level") String level); //esse query é automático
+
+	Page<Log> findByEnvironmentName(String nameEnvironment, Pageable paginacao);
+
+
+	
 }
