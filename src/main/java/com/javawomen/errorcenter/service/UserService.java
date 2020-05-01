@@ -2,7 +2,7 @@ package com.javawomen.errorcenter.service;
 
 import java.util.Optional;
 
-import org.springframework.stereotype.Service;
+//import org.springframework.stereotype.Service;
 
 import com.javawomen.errorcenter.model.User;
 import com.javawomen.errorcenter.repository.UserRepository;
@@ -13,7 +13,7 @@ import com.javawomen.errorcenter.repository.UserRepository;
  *
  */
 
-@Service
+//@Service
 public class UserService {
 	
 	UserRepository userrepository;

@@ -2,7 +2,7 @@ package com.javawomen.errorcenter.service;
 
 import java.util.Optional;
 
-import org.springframework.stereotype.Service;
+//import org.springframework.stereotype.Service;
 
 import com.javawomen.errorcenter.model.Log;
 import com.javawomen.errorcenter.repository.LogRepository;
@@ -12,7 +12,7 @@ import com.javawomen.errorcenter.repository.LogRepository;
  *
  */
 
-@Service
+//@Service
 public class LogService {
 
 	LogRepository logRepository;
