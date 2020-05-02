@@ -86,11 +86,11 @@ public class UserController {
 		return ResponseEntity.created(uri).body(new UserDto(user));
 	}
 
-	// ------------------ put --------------------------------
+	// ------------------ PUT --------------------------------
 
 	@PutMapping("/{id}")
 	@Transactional
-	public ResponseEntity<UserDto> atualizar(@PathVariable Long id, @RequestBody @Valid UpdateUserForm form) {
+	public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @RequestBody @Valid UpdateUserForm form) {
 		Optional<User> optional = userRepository.findById(id);
 		if (optional.isPresent()) {
 			User user = form.update(id, userRepository);
@@ -103,7 +103,7 @@ public class UserController {
 	// ------------------ DELETE --------------------------------
 	@DeleteMapping("/{id}")
 	@Transactional
-	public ResponseEntity<?> remover(@PathVariable Long id) {
+	public ResponseEntity<?> deleteUser(@PathVariable Long id) {
 		Optional<User> optional = userRepository.findById(id);
 		if (optional.isPresent()) {
 			userRepository.deleteById(id);
