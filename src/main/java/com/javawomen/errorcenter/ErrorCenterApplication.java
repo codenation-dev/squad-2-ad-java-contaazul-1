@@ -6,7 +6,7 @@ import org.springframework.data.web.config.EnableSpringDataWebSupport;
 
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-@SpringBootApplication
+@SpringBootApplication//vem com tomcat para rodar a api
 @EnableSpringDataWebSupport
 @EnableSwagger2
 public class ErrorCenterApplication {
