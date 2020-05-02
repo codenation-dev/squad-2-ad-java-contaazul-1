@@ -47,7 +47,7 @@ public class UserController {
 
 	@GetMapping
 	public Page<UserDto> getAllUsers(
-			@PageableDefault(sort = "user_id", direction = Direction.ASC, page = 0, size = 10) Pageable paginacao) {
+			@PageableDefault(sort = "id", direction = Direction.ASC, page = 0, size = 10) Pageable paginacao) {
 		
 		Page<User> users = userRepository.findAll(paginacao);
 		return UserDto.converter(users);
@@ -57,9 +57,11 @@ public class UserController {
 	// ------------------ GET BY ID --------------------------------
 	// http://localhost:8080/users/{id} nao testado: traz o user cadastrado no id
 	@GetMapping("/{id}") //(value = "/{id}")
-	public UserDto getUserById(@PathVariable(value = "id") String id) {
+	public UserDto getUserById(@PathVariable Long id) {
 		Optional<User> user = userRepository.findById(id);
+		//User user=userRepository.findById(id);
 		return UserDto.converterToUser(user);
+		
 	}
 
 	// ------------------ GET BY EMAIL--------------------------------
