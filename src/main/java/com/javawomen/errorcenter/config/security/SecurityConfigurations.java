@@ -53,6 +53,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter{
 		.antMatchers("/logs").permitAll()                  //métodos de config liberacao de urls
 		.antMatchers(HttpMethod.GET, "/logs/*").permitAll()
 		.antMatchers(HttpMethod.POST, "/auth").permitAll()
+		.antMatchers(HttpMethod.POST, "/users").permitAll()
 		.antMatchers(HttpMethod.GET, "/actuator/**").permitAll() //após testar retire isso antes de ir a producao
 		.anyRequest().authenticated() //evita q uma url que nao foi configurada seja publica
 		.and().csrf().disable() //desabilita o ataque csrf
