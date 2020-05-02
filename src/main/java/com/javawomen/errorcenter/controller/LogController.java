@@ -51,9 +51,11 @@ public class LogController {
 	
 	//------------------   GET ALL   --------------------------------
 	//@Cacheable(value="getAllLogs")
-	//http://localhost:8080/logs                   ok: traz uma lista de logs cadastrados
-	@GetMapping//(value = "/{environment}") // , produces="application/json")//@RequestMapping("/logs") ASC ou DESC 
-	public Page<LogDto> getAll(@RequestParam(required = false)String nameEnvironment,@PageableDefault(sort = "createdAt", direction = Direction.ASC, page = 0, size = 10) Pageable paginacao) {		
+	//http://localhost:8080/logs      
+	//testado ok: traz uma lista de logs cadastrados
+	//@GetMapping(value = "/{environment}"), produces="application/json") @RequestMapping("/logs") ASC ou DESC 
+	@GetMapping
+	public Page<LogDto> getAllLogs(@RequestParam(required = false)String nameEnvironment,@PageableDefault(sort = "createdAt", direction = Direction.ASC, page = 0, size = 10) Pageable paginacao) {		
 		if (nameEnvironment == null) {
 			Page<Log> logs = logRepository.findAll(paginacao);
 		return LogDto.converter(logs);		
@@ -87,7 +89,7 @@ public class LogController {
 	//@CacheEvict(value="getAllLogs", allEntries = true)
 	@DeleteMapping("/{id}")
 	@Transactional
-	public ResponseEntity<?> remover(@PathVariable Long id) {
+	public ResponseEntity<?> deleteLog(@PathVariable Long id) {
 		Optional<Log> optional = logRepository.findById(id);
 		if (optional.isPresent()) {
 			logRepository.deleteById(id);
