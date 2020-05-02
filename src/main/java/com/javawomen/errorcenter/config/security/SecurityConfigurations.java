@@ -50,8 +50,9 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter{
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-		.antMatchers("/logs").permitAll()                  //métodos de config liberacao de urls
-		.antMatchers(HttpMethod.GET, "/logs/*").permitAll()
+		//.antMatchers("/logs").permitAll()                  //métodos de config liberacao de urls
+		//.antMatchers(HttpMethod.GET, "/logs/*").permitAll()
+		.antMatchers(HttpMethod.POST, "/logs").permitAll()
 		.antMatchers(HttpMethod.POST, "/auth").permitAll()
 		.antMatchers(HttpMethod.POST, "/users").permitAll()
 		.antMatchers(HttpMethod.GET, "/actuator/**").permitAll() //após testar retire isso antes de ir a producao
