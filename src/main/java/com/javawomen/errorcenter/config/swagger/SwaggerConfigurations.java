@@ -26,7 +26,7 @@ public class SwaggerConfigurations {
 		
 		  return new Docket(DocumentationType.SWAGGER_2)
 	                .select()
-	                .apis(RequestHandlerSelectors.basePackage("com.example.app"))
+	                .apis(RequestHandlerSelectors.basePackage("com.javawomen.errorcenter"))
 	                .paths(PathSelectors.ant("/**"))
 	                .build()
 	                .ignoredParameterTypes(User.class)
