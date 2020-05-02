@@ -19,7 +19,9 @@ public interface UserRepository extends JpaRepository<User, Long>{
 	//findByEmail ok
 	//put nao outr
 	
-	
+	//é usado em: AuthenticationService
 	Optional<User> findByEmail(@Param("email") String email);
+
+	Optional<User> findById(@Param("id")String id);
 	
 }
