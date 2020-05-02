@@ -103,11 +103,14 @@ public class UserController {
 	// ------------------ DELETE --------------------------------
 	@DeleteMapping("/{id}")
 	@Transactional
-	public ResponseEntity<?> deleteUser(@PathVariable Long id) {
-		Optional<User> optional = userRepository.findById(id);
-		if (optional.isPresent()) {
+	public ResponseEntity<UserDto> deleteUser(@PathVariable Long id) {
+		//ao colocar essa linha e o return comentado retorna apenas o Response headers sem o response body no swagger
+		//public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+		Optional<User> optionalUser = userRepository.findById(id);
+		if (optionalUser.isPresent()) {
 			userRepository.deleteById(id);
-			return ResponseEntity.ok().build();
+		//return ResponseEntity.ok().build();
+			return ResponseEntity.ok(UserDto.converterToUser(optionalUser));
 		}
 
 		return ResponseEntity.notFound().build();
