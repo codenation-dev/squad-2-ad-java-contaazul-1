@@ -32,9 +32,9 @@ public class AuthenticationController {
 	
 	@PostMapping
 	public ResponseEntity<TokenDto> authenticate(@RequestBody @Valid LoginForm loginForm){
-		
-		System.out.println(loginForm.getEmail());
-		System.out.println(loginForm.getPassCode());
+		//tirar
+		System.out.println("class AuthenticationController: " + loginForm.getEmail());
+		System.out.println("class AuthenticationController: " + loginForm.getPassCode());
 		
 		UsernamePasswordAuthenticationToken loginData = loginForm.convert();
 		
