@@ -1,13 +1,16 @@
 package com.javawomen.errorcenter.controller;
 
 import java.net.URI;
-import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 //import org.springframework.http.ResponseEntity;
@@ -33,18 +36,34 @@ public class UserController {
 	@Autowired
 	private UserRepository userRepository;
 
-	// ------------------ GET ALL mudar para
-	// Optional<User>--------------------------------
+	// ------------------ GET ALL --------------------------------
 
 	// http://localhost:8080/users ok: traz uma lista de users cadastrados
+	// @GetMapping
+	// public List<UserDto> getAllUsers() {
+	// List<User> users = userRepository.findAll();
+	// return UserDto.converter(users);
+	// }
+
 	@GetMapping
-	public List<UserDto> getAllUsers() {
-		List<User> users = userRepository.findAll();
+	public Page<UserDto> getAllUsers(
+			@PageableDefault(sort = "user_id", direction = Direction.ASC, page = 0, size = 10) Pageable paginacao) {
+		
+		Page<User> users = userRepository.findAll(paginacao);
 		return UserDto.converter(users);
 	}
+	
+	
+	// ------------------ GET BY ID --------------------------------
+	// http://localhost:8080/users/{id} nao testado: traz o user cadastrado no id
+	@GetMapping("/{id}") //(value = "/{id}")
+	public UserDto getUserById(@PathVariable(value = "id") String id) {
+		Optional<User> user = userRepository.findById(id);
+		return UserDto.converterToUser(user);
+	}
 
-	// ------------------ GET --------------------------------
-
+	// ------------------ GET BY EMAIL--------------------------------
+	// método no repository usado por: AuthenticationService
 	// http://localhost:8080/users/email ok: traz o user cadastrado no email
 	// @GetMapping("/{email}") //(value = "/{email}")
 	// public UserDto getUserByEmail(@PathVariable(value = "email") String email) {
@@ -53,22 +72,12 @@ public class UserController {
 	// }
 
 	// ------------------ POST --------------------------------
-
+	// o post é RequestBody: spring pega no corpo e nao na url eihn!
+	// testado ok: cadastra o user no bco
+	//trocar o nome do metodo
 	@PostMapping
-	@Transactional // ok: cadastra o user no bco
-	public ResponseEntity<UserDto> registerUser(@RequestBody @Valid UserForm form, UriComponentsBuilder uriBuilder) { // o
-																														// post
-																														// é
-																														// RequestBody:
-																														// spring
-																														// pega
-																														// no
-																														// corpo
-																														// e
-																														// nao
-																														// na
-																														// url
-																														// eihn!
+	@Transactional
+	public ResponseEntity<UserDto> registerUser(@RequestBody @Valid UserForm form, UriComponentsBuilder uriBuilder) {
 		User user = form.converter(); // form: dado do cliente
 		userRepository.save(user);
 		URI uri = uriBuilder.path("/users/{id}").buildAndExpand(user.getId()).toUri();
@@ -85,7 +94,7 @@ public class UserController {
 			User user = form.update(id, userRepository);
 			return ResponseEntity.ok(new UserDto(user));
 		}
-
+		
 		return ResponseEntity.notFound().build();
 	}
 
