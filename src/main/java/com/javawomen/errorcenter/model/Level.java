@@ -1,5 +1,7 @@
 package com.javawomen.errorcenter.model;
 
+import javax.persistence.Column;
+
 //import javax.persistence.Column;
 
 import javax.persistence.Entity;
@@ -7,11 +9,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 
 
-@Entity
-@Table(name = "level")
+@Entity //mudei isso 1
+@Table(name = "level", uniqueConstraints={@UniqueConstraint(columnNames={"name"})}) //não são chave-primária, no entanto, precisam possuir valores únicos
 public class Level {
 	
 	@Id //javax.persistence.Id;
@@ -20,15 +23,15 @@ public class Level {
 	
 	//@NotNull
 	//@Size (max =  50)
-	//@Column(name="levelName")
+	@Column(name="name")//mudei isso 1
 	private String name;
 	
 	
 	
-	public Level(Long id, String name) {
-		this.id = id;
-		this.name = name;
-	}
+	//public Level(Long id, String name) { //mudei isso 1
+	//	this.id = id;
+	//	this.name = name;
+	//}
 
 	public Level() {
 	}
