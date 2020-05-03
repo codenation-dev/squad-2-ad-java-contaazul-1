@@ -24,8 +24,8 @@ public class AuthenticationService implements UserDetailsService {
 	//userName == Email do user, a senha fica por conta do spring checar em memoria se estah correta, eu nao tenho acesso a ela
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		//consultar bc atraves do email
 		
+		//consultar bc atraves do email
 		Optional<User> user = userRepository.findByEmail(username);
 		
 		if(user.isPresent()) {
