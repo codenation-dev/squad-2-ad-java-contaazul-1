@@ -67,13 +67,22 @@ public class LogController {
 	
 	//------------------   GET BY LEVEL   --------------------------------
 
-	//http://localhost:8080/logs/debug             ok: traz o log cadastrado no email
-	@GetMapping(value = "/{level}") // , produces="application/json")//@RequestMapping("/logs")
-	public List<LogDto> getLevel(@PathVariable(value = "level") String level) {	
+	//http://localhost:8080/logs?name=debug             ok: traz o log cadastrado no email
+	@GetMapping(params = "levelName") // , produces="application/json")//@RequestMapping("/logs")
+	public List<LogDto> getLevel(@RequestParam("levelName") String level) {	
 		List<Log> logs = logRepository.findByLevelName(level);
 		return LogDto.converterToLog(logs);		
 	}
 	
+	//------------------   GET BY ID   --------------------------------
+
+	//http://localhost:8080/logs/debug             ok: traz o log cadastrado no email
+	@GetMapping("/{id}") // , produces="application/json")//@RequestMapping("/logs")
+	@Transactional
+	public LogDto getLogById(@PathVariable Long id) {	
+		Optional<Log> log = logRepository.findById(id);
+		return LogDto.converterToLog(log);		
+	}
 	//------------------   POST   --------------------------------
 	//@CacheEvict(value="getAllLogs", allEntries = true)
 	@PostMapping
