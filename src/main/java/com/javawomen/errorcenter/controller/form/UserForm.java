@@ -13,13 +13,13 @@ import com.javawomen.errorcenter.model.User;
 //dados que chegam do cliente
 public class UserForm {
 	
-	@NotNull @NotEmpty @Length(min = 2)
+	@NotNull @NotEmpty @Length(min = 3)
     private String name;
 	
-	@NotNull @NotEmpty @Length(min = 5)
+	@NotNull @NotEmpty @Length(min = 9)
     private String email;
 	
-	@NotNull @NotEmpty @Length(min = 5)
+	@NotNull @NotEmpty @Length(min = 6)
     private String password;
     
 	
