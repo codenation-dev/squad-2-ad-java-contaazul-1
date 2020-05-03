@@ -1,8 +1,9 @@
 package com.javawomen.errorcenter.controller.dto;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
+
+import org.springframework.data.domain.Page;
 
 import com.javawomen.errorcenter.model.User;
 
@@ -41,15 +42,29 @@ public class UserDto {
 		return createdAt;
 	}
 	
-    //retorna uma lista de Usuários sem a senha
-	public static List<UserDto> converter(List<User> users) {
-		return users.stream().map(UserDto::new).collect(Collectors.toList());
-	}
 	
-	//static
+	
+	// -------------- static ----------------------
+	
+    //retorna uma lista de Usuários sem a senha
+	//public static List<UserDto> converter(List<User> users) {
+	//	return users.stream().map(UserDto::new).collect(Collectors.toList());
+	//}
+	
+	
 	//retorna um Usuário sem a senha
 	public static UserDto converterToUser(User user) {			
 		return new UserDto(user);
+	}
+	
+	//retorna uma lista de Usuários sem a senha
+	public static Page<UserDto> converter(Page<User> users) {
+		return users.map(UserDto::new);
+	}
+
+	public static UserDto converterToUser(Optional<User> userOptional) {
+		//User user = userOptional.get();		
+		return converterToUser(userOptional.get());
 	}
     
     
