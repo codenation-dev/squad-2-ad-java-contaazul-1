@@ -1,6 +1,6 @@
 package com.javawomen.errorcenter.model;
 
-//import javax.persistence.Column;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,32 +15,31 @@ import javax.persistence.Table;
  * serve para criar logs.
  * nao estou usando o : //@EntityListeners(AuditingEntityListener.class)
  */
-
+import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity      
-@Table(name = "environment")
+@Table(name = "environment", uniqueConstraints={@UniqueConstraint(columnNames={"name"})})//, name = "name")}) //não são chave-primária, no entanto, precisam possuir valores únicos
 public class Environment {
 	
-	@Id //javax.persistence.Id;
-	@GeneratedValue(strategy = GenerationType.IDENTITY) //@GeneratedValue(strategy = GenerationType.SEQUENCE)//uso sequence por conta do bco ser postgresql
-	private Long id;	//@Column(name="environment_id")
+	 
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY) //@GeneratedValue(strategy = GenerationType.SEQUENCE)//uso sequence por conta do bco ser postgresql
+	private Long id;	//se colocar agora tem que mudar muitas outras coisas @Column(name="environment_id")
 	
-	//@NotNull @Size (max =  100) -> é validado no formController
+	@NotNull @NotBlank @Size (min =  3) //-> nos outros é validado no formController
+	@Column(name = "name")//, unique = true)
 	private String name;	
-	
-	
 	
 	
 	public Environment() {
 	}
 
-	//public Environment(Long id, String name) {
-	//	this.id = id;
+	//public Environment(String name) {
 	//	this.name = name;
 	//}
 
-	
-	
 	
 	public Long getId() {
 		return id;
