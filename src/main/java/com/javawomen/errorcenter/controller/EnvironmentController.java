@@ -25,6 +25,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.javawomen.errorcenter.model.Environment;
 import com.javawomen.errorcenter.repository.EnvironmentRepository;
+//import com.javawomen.errorcenter.service.EnvironmentService;
 
 @RestController
 @RequestMapping("/environments")
@@ -32,6 +33,9 @@ public class EnvironmentController {
 
 	@Autowired
 	private EnvironmentRepository environmentRepository;
+	
+	//@Autowired
+	//private EnvironmentService environmentService;
 	
 	//------------------   GET ALL   -------------------------------
 	
