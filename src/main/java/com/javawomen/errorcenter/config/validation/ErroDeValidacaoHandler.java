@@ -4,6 +4,7 @@ package com.javawomen.errorcenter.config.validation;
 import java.util.ArrayList;
 import java.util.List;
 
+//import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -34,5 +35,20 @@ public class ErroDeValidacaoHandler {
 		
 		return dto;
 	}
-
+	//este estah aqui para teste do level em logdto....INTERNAL_SERVER_ERROR)
+	/*@ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
+	@ExceptionHandler(Exception.class)
+	public List<ErroDeFormularioDto> handle2(MethodArgumentNotValidException exception) {
+		List<ErroDeFormularioDto> dto = new ArrayList<>();
+		
+		List<FieldError> fieldErrors = exception.getBindingResult().getFieldErrors();
+		fieldErrors.forEach(e -> {
+			String mensagem = messageSource.getMessage(e, LocaleContextHolder.getLocale());
+			ErroDeFormularioDto erro = new ErroDeFormularioDto(e.getField(), mensagem);
+			dto.add(erro);
+		});
+		
+		return dto;
+	}
+*/
 }
