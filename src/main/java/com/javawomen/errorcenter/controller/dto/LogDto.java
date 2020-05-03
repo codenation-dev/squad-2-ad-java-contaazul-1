@@ -2,6 +2,7 @@ package com.javawomen.errorcenter.controller.dto;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
 
@@ -76,18 +77,24 @@ public class LogDto {
 	}
 
 
-
-	//retorna uma lista de Logs 
+	// -------------- static ----------------------
+	
+	//retorna uma lista em paginas de Logs 
 	public static Page<LogDto> converter(Page<Log> logs) {
 		//return logs.stream().map(LogDto::new).collect(Collectors.toList());
 		return logs.map(LogDto::new);
 	}
 	
-	// -------------- static ----------------------
 	//retorna um log (para nao devolvar uma entidade)
 	public static List<LogDto> converterToLog(List<Log> logs) {			
 		//return new LogDto(log);
 		return logs.stream().map(LogDto::new).collect(Collectors.toList());
+	}
+
+	public static LogDto converterToLog(Optional<Log> logOptional) {
+		// TODO Auto-generated method stub
+		//return converterToLog(userOptional.get());
+		return new LogDto(logOptional.get());
 	}
 
 }
