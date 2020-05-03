@@ -1,5 +1,8 @@
 package com.javawomen.errorcenter.controller.form;
 
+import java.util.NoSuchElementException;
+import java.util.Optional;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -33,57 +36,46 @@ public class LogForm {
 		return nameLevel;
 	}
 
-
-
 	public void setNameLevel(String nameLevel) {
 		this.nameLevel = nameLevel;
 	}
-
-
 
 	public String getNameEnvironment() {
 		return nameEnvironment;
 	}
 
-
-
 	public void setNameEnvironment(String nameEnvironment) {
 		this.nameEnvironment = nameEnvironment;
 	}
-
-
 
 	public String getOrigin() {
 		return origin;
 	}
 
-
-
 	public void setOrigin(String origin) {
 		this.origin = origin;
 	}
-
-
 
 	public String getDescription() {
 		return description;
 	}
 
-
-
 	public void setDescription(String description) {
 		this.description = description;
 	}
 
-
-
 	public Log converter(LevelRepository levelRepository, EnvironmentRepository environmentRepository) {
-		
-		Level level = levelRepository.findByName(nameLevel);
-		
-		Environment environment = environmentRepository.findByName(nameEnvironment);
-		
-		return new Log(level, environment, origin, description);
+
+		Optional<Level> levelOptional = levelRepository.findByName(nameLevel);		
+		Optional<Environment> environmentOptional = environmentRepository.findByName(nameEnvironment);
+
+		//retornar um optional para tratar o nullpointexception
+		if(levelOptional.isPresent() && environmentOptional.isPresent()) {
+			return new Log(levelOptional.get(), environmentOptional.get(), origin, description);
+		}
+		//arrumar esse erro de retorno para tirar todo o texte de erro que tem no retorno 500
+		throw new NoSuchElementException("ERRO no: LOGFORM public Log converter ");
+
 	}
 	
 }
