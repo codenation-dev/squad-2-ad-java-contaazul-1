@@ -59,7 +59,6 @@ public class UserController {
 	@GetMapping("/{id}") //(value = "/{id}")
 	public UserDto getUserById(@PathVariable Long id) {
 		Optional<User> user = userRepository.findById(id);
-		//User user=userRepository.findById(id);
 		return UserDto.converterToUser(user);
 		
 	}
