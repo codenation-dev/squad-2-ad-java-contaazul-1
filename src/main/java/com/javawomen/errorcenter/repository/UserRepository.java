@@ -10,18 +10,11 @@ import org.springframework.stereotype.Repository;
 import com.javawomen.errorcenter.model.User;
 
 
-//extends o crudRepository
+//JpaRepository extends o crudRepository
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>{	
-	//save ok testado
-	//delete
-	//findAll ok
-	//findByEmail ok
-	//put nao outr
 	
 	//é usado em: AuthenticationService
 	Optional<User> findByEmail(@Param("email") String email);
-
-	//User findById(@Param("id")String id);
 	
 }
