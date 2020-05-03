@@ -12,13 +12,9 @@ import com.javawomen.errorcenter.model.Log;
 
 @Repository
 public interface LogRepository extends JpaRepository<Log, Long> {
-
-	//List<Log> findByEnvironmentDescription(String environment);
 	 
 	List<Log> findByLevelName(@Param("level") String level); //esse query é automático
 
 	Page<Log> findByEnvironmentName(String nameEnvironment, Pageable paginacao);
-
-
 	
 }
