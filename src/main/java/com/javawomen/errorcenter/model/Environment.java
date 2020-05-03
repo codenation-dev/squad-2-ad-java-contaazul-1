@@ -34,10 +34,10 @@ public class Environment {
 	public Environment() {
 	}
 
-	public Environment(Long id, String name) {
-		this.id = id;
-		this.name = name;
-	}
+	//public Environment(Long id, String name) {
+	//	this.id = id;
+	//	this.name = name;
+	//}
 
 	
 	
