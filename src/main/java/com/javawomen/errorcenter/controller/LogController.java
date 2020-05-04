@@ -74,6 +74,35 @@ public class LogController {
 		return LogDto.converterToLog(logs);		
 	}
 	
+	//------------------   GET BY PARAMS   --------------------------------
+	
+	//método do requisito buscar
+	//!!!! Melhorar esse método: throw, return Page ...
+	
+	
+	 @GetMapping(value = "/filter",params = {"nameLevel", "nameEnvironment", "origin", "description"})
+	    public List<Log> findByLogParams(
+	    		@RequestParam(required = false, value = "nameLevel") String levelName,
+	    		@RequestParam(required = false, value = "nameEnvironment") String environmentName,
+	    		@RequestParam(required = false, value = "origin") String origin,
+	    		@RequestParam(required = false, value = "description") String description
+	    		) {
+	        if(!levelName.isEmpty()) {
+	        	return logRepository.findByLevelName(levelName); //lista com o nivel;
+	        }else
+	        if(!environmentName.isEmpty()) {
+	        	return logRepository.findByEnvironmentName(environmentName);//lista somente deste ambiente
+	        }else
+	        if(!origin.isEmpty()) {
+	        	return logRepository.findByOrigin(origin);//lista somente desta origem
+	        }else
+	        if(!description.isEmpty()) {
+	        	return logRepository.findByDescription(description);//lista somente desta description
+	        }
+			return null; //tem q lançar um throw aki e não retornar null
+	        
+	}
+	
 	//------------------   GET BY ID   --------------------------------
 
 	//http://localhost:8080/logs/debug             ok: traz o log cadastrado no email
