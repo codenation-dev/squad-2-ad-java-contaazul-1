@@ -16,5 +16,11 @@ public interface LogRepository extends JpaRepository<Log, Long> {
 	List<Log> findByLevelName(@Param("level") String level); //esse query é automático
 
 	Page<Log> findByEnvironmentName(String nameEnvironment, Pageable paginacao);
+
+	List<Log> findByEnvironmentName(String environmentName);
+
+	List<Log> findByOrigin(String origin);
+
+	List<Log> findByDescription(String description);
 	
 }
