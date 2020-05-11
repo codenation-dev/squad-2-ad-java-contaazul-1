@@ -1,6 +1,7 @@
 package com.javawomen.errorcenter.controller.form;
 
-
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -10,19 +11,27 @@ import com.javawomen.errorcenter.model.User;
 import com.javawomen.errorcenter.repository.UserRepository;
 
 
-
 public class UpdateUserForm {
 	
-	@NotNull @NotEmpty @Length(min = 2)
+	@NotNull(message="{name.not.null}")
+	@NotEmpty(message="{name.not.empty}")
+	@NotBlank(message="{name.not.blank}")
+	@Length(min=3,max=50)
     private String name;
 	
-	@NotNull @NotEmpty @Length(min = 5)
+	@NotNull(message="{email.not.null}")
+	@NotEmpty(message="{email.not.empty}")
+	@Email(message="{email.not.valid}")
+	@NotBlank(message="{email.not.blank}")
+	@Length(min=9,max=100)
     private String email;
 	
-	@NotNull @NotEmpty @Length(min = 5)
+	@NotNull(message="{password.not.null}")
+	@NotEmpty(message="{password.not.empty}")
+	@NotBlank(message="{password.not.blank}")
+	@Length(min = 6,max=100)
     private String password;
     
-	
 	
 	public String getName() {
 		return name;
