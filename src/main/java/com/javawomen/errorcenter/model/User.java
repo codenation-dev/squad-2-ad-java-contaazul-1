@@ -27,7 +27,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 //<<UserDetails>> essa classe é a q tem detalhes do user
 @Entity              
-@Table(name = "user", uniqueConstraints={@UniqueConstraint(columnNames={"email"})}) //não são chave-primária, no entanto, precisam possuir valores únicos
+@Table(name = "person", uniqueConstraints={@UniqueConstraint(columnNames={"email"})}) //não são chave-primária, no entanto, precisam possuir valores únicos
 public class User implements UserDetails{ 
 	
 	
@@ -35,7 +35,7 @@ public class User implements UserDetails{
 	
 	
 	@Id //vem do javax.persistence.Id;
-	@GeneratedValue(strategy = GenerationType.IDENTITY) //@GeneratedValue(strategy = GenerationType.SEQUENCE)//uso sequence por conta do bco ser postgresql
+	@GeneratedValue(strategy = GenerationType.SEQUENCE) //@GeneratedValue(strategy = GenerationType.SEQUENCE)//uso sequence por conta do bco ser postgresql
 	@Column(name="user_id") //O tamanho default das colunas é 255.
 	private Long id;	
 		
