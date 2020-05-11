@@ -1,28 +1,36 @@
 package com.javawomen.errorcenter.controller.form;
 
-
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
 import com.javawomen.errorcenter.model.User;
-//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 
-//dados que chegam do cliente
 public class UserForm {
 	
-	@NotNull @NotEmpty @Length(min = 3)
+	@NotNull(message="{name.not.null}")
+	@NotEmpty(message="{name.not.empty}")
+	@NotBlank(message="{name.not.blank}")
+	@Length(min=3,max=50)
     private String name;
 	
-	@NotNull @NotEmpty @Length(min = 9)
+	@NotNull(message="{email.not.null}")
+	@NotEmpty(message="{email.not.empty}")
+	@Email(message="{email.not.valid}")
+	@NotBlank(message="{email.not.blank}")
+	@Length(min=9,max=100)
     private String email;
 	
-	@NotNull @NotEmpty @Length(min = 6)
+	@NotNull(message="{name.not.null}")
+	@NotEmpty(message="{name.not.empty}")
+	@NotBlank(message="{name.not.blank}")
+	@Length(min = 6,max=100)
     private String password;
     
-	
 	
 	public String getName() {
 		return name;
