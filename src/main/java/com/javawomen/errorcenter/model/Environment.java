@@ -25,7 +25,7 @@ import javax.validation.constraints.Size;
 public class Environment {
 	
 	 
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY) //@GeneratedValue(strategy = GenerationType.SEQUENCE)//uso sequence por conta do bco ser postgresql
+	@Id @GeneratedValue(strategy = GenerationType.SEQUENCE) //@GeneratedValue(strategy = GenerationType.SEQUENCE)//uso sequence por conta do bco ser postgresql
 	private Long id;	//se colocar agora tem que mudar muitas outras coisas @Column(name="environment_id")
 	
 	@NotNull @NotBlank @Size (min =  3) //-> nos outros é validado no formController

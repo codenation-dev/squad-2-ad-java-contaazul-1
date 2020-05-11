@@ -23,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class Log {
 
 	 //javax.persistence.Id;
-	@Id @Column(name="log_id") @GeneratedValue(strategy = GenerationType.IDENTITY) //@GeneratedValue(strategy = GenerationType.SEQUENCE)//uso sequence por conta do bco ser postgresql
+	@Id @Column(name="log_id") @GeneratedValue(strategy = GenerationType.SEQUENCE) //@GeneratedValue(strategy = GenerationType.SEQUENCE)//uso sequence por conta do bco ser postgresql
 	private Long id;	
 	
     //@Column(columnDefinition = "timestamp default now()"
