@@ -1,1 +1,5 @@
-# squad-2-ad-java-contaazul-1
+# Central de Erros
+
+# h1 Objetivo
+
+# h3 hahdajdbajd
