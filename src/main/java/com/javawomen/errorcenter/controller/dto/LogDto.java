@@ -19,7 +19,6 @@ public class LogDto {
 	
 	
 	public LogDto(Log log) {
-		super();
 		this.id = log.getId();
 		this.createdAt = log.getCreatedAt();
 		this.levelName = log.getLevel().getName();
@@ -92,9 +91,12 @@ public class LogDto {
 	}
 
 	public static LogDto converterToLog(Optional<Log> logOptional) {
-		// TODO Auto-generated method stub
 		//return converterToLog(userOptional.get());
 		return new LogDto(logOptional.get());
+	}
+
+	public static LogDto converterToLog(Log log) {
+		return new LogDto(log);
 	}
 
 }
