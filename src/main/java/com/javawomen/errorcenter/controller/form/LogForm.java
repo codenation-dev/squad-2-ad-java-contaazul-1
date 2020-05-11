@@ -3,35 +3,45 @@ package com.javawomen.errorcenter.controller.form;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
+import com.javawomen.errorcenter.config.validation.ResourceNotFoundException;
 import com.javawomen.errorcenter.model.Environment;
 import com.javawomen.errorcenter.model.Level;
 import com.javawomen.errorcenter.model.Log;
 import com.javawomen.errorcenter.repository.EnvironmentRepository;
 import com.javawomen.errorcenter.repository.LevelRepository;
 
-
-
 public class LogForm {
-	
-	@NotNull @NotEmpty 
-	private String nameLevel; //Level level;
-	
-	@NotNull @NotEmpty 
-	private String nameEnvironment; //Environment environment;
-	
-	@NotNull @NotEmpty 
-	private String origin;
-	
-	@NotNull @NotEmpty @Length(min = 3)
-	private String description;
-	
 
-	
+	@NotNull(message = "{nameLevel.not.null}")
+	@NotEmpty(message = "{nameLevel.not.empty}")
+	@NotBlank(message = "{nameLevel.not.blank}")
+	@Length(min = 3, max = 15)
+	private String nameLevel;
+
+	@NotNull(message = "{nameEnvironment.not.null}")
+	@NotEmpty(message = "{nameEnvironment.not.empty}")
+	@NotBlank(message = "{nameEnvironment.not.blank}")
+	@Length(min = 3, max = 25)
+	private String nameEnvironment;
+
+	@NotNull(message = "{origin.not.null}")
+	@NotEmpty(message = "{origin.not.empty}")
+	@NotBlank(message = "{origin.not.blank}")
+	@Length(min = 5, max = 50)
+	private String origin;
+
+	@NotNull(message = "{description.not.null}")
+	@NotEmpty(message = "{description.not.empty}")
+	@NotBlank(message = "{description.not.blank}")
+	@Length(min = 10, max = 100)
+	private String description;
+
 	public String getNameLevel() {
 		return nameLevel;
 	}
@@ -66,16 +76,18 @@ public class LogForm {
 
 	public Log converter(LevelRepository levelRepository, EnvironmentRepository environmentRepository) {
 
-		Optional<Level> levelOptional = levelRepository.findByName(nameLevel);		
+		Optional<Level> levelOptional = levelRepository.findByName(nameLevel);
 		Optional<Environment> environmentOptional = environmentRepository.findByName(nameEnvironment);
 
-		//retornar um optional para tratar o nullpointexception
-		if(levelOptional.isPresent() && environmentOptional.isPresent()) {
-			return new Log(levelOptional.get(), environmentOptional.get(), origin, description);
-		}
-		//arrumar esse erro de retorno para tirar todo o texte de erro que tem no retorno 500
-		throw new NoSuchElementException("ERRO no: LOGFORM public Log converter ");
+		if(!levelOptional.isPresent())throw new ResourceNotFoundException("Level não encontrado.");
+		if(!environmentOptional.isPresent())throw new ResourceNotFoundException("Ambiente não encontrado.");
+
+		// retornar um optional para tratar o nullpointexception
+		//if(levelOptional.isPresent() && environmentOptional.isPresent())
+		return new Log(levelOptional.get(), environmentOptional.get(), origin, description);
 
 	}
-	
+
+
+
 }
