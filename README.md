@@ -35,11 +35,10 @@ durante o AceleraDev, portanto tem alguns requisitos solicitados:
 
 ### Equipe do projeto
 
-|Nome   |  Linkedin |  GitHub |  
-|---|---|---|---|
-| Leticia de Souza Buss  | https://www.linkedin.com/in/leticia-d-942652134/| https://github.com/leticiabuss  |   
-| Alice Borges dos Santos |  https://www.linkedin.com/in/alice-borges/ | https://github.com/aliceborges |  
-| Natalia Suzuki | https://www.linkedin.com/in/natalia-suzuki-210349108/  | https://github.com/nataliasuzuki |   
-| Marlei Borchardt | https://www.linkedin.com/in/marlei-borchardt  | https://github.com/marleiSilveira| 
-| Karina Aparecida de Souza Padilha | https://www.linkedin.com/in/karina-aparecida-de-souza-padilha-143951106/  | - | 
-
+| Nome  |  Linkedin | GitHub  |
+|---|---|---|
+| Leticia de Souza Buss  | https://www.linkedin.com/in/leticia-d-942652134/  |  https://github.com/leticiabuss |
+| Alice Borges dos Santo  | https://www.linkedin.com/in/alice-borges/ |  https://github.com/aliceborges |
+| Natalia Suzuki  | https://www.linkedin.com/in/natalia-suzuki-210349108/  |  https://github.com/nataliasuzuki |
+| Marlei Borchardt  | https://www.linkedin.com/in/marlei-borchardt  |  https://github.com/marleiSilveira |
+| Karina Aparecida de Souza Padilha | https://www.linkedin.com/in/karina-aparecida-de-souza-padilha-143951106/  |  - |
