@@ -23,10 +23,10 @@ import javax.validation.constraints.NotBlank;
 public class Level {
 	
 	@Id //javax.persistence.Id;
-	@GeneratedValue(strategy = GenerationType.IDENTITY) //@GeneratedValue(strategy = GenerationType.SEQUENCE)//uso sequence por conta do bco ser postgresql
+	@GeneratedValue(strategy = GenerationType.SEQUENCE) //@GeneratedValue(strategy = GenerationType.SEQUENCE)//uso sequence por conta do bco ser postgresql
 	private Long id;	//@Column(name="level_id")
 	
-	@NotNull @NotBlank @Size(min = 3) 
+	@NotNull @NotBlank @Size(min = 3, max = 15) 
 	@Column(name="name")	
 	private String name;
 	
