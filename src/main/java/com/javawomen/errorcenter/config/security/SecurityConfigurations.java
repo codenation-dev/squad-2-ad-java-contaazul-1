@@ -13,6 +13,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 
 import com.javawomen.errorcenter.repository.UserRepository;
 
@@ -25,7 +27,7 @@ import com.javawomen.errorcenter.repository.UserRepository;
 public class SecurityConfigurations extends WebSecurityConfigurerAdapter{
 
 	@Autowired
-	private AuthenticationService authenticationService;
+	private AuthenticationService authenticationService;//userdetsilsservice aki
 	@Autowired
 	private TokenService tokenService;
 	@Autowired
@@ -43,16 +45,17 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter{
 		auth.userDetailsService(authenticationService).passwordEncoder(new BCryptPasswordEncoder());
 	}
 	
-	
-	
-	
 	//configurações de Autorização da urls do projeto //colocaraki o endpoint publico
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-		//.antMatchers("/logs").permitAll()                  //métodos de config liberacao de urls
-		//.antMatchers(HttpMethod.GET, "/logs/*").permitAll()
-		.antMatchers(HttpMethod.POST, "/logs").permitAll()
+		.antMatchers("/roles").hasRole("ADMIN")
+		.antMatchers("/roles/**").hasRole("ADMIN")
+		.antMatchers(HttpMethod.DELETE, "/logs/**").hasRole("ADMIN")// Padrão ROLE_
+		.antMatchers(HttpMethod.DELETE, "/users/**").hasRole("ADMIN")
+		.antMatchers(HttpMethod.PUT, "/users/**").hasRole("ADMIN")
+		.antMatchers(HttpMethod.PATCH, "/users/role/**").hasRole("ADMIN")
+		.antMatchers(HttpMethod.POST, "/logs").hasAnyRole("SYSTEM", "ADMIN")//.permitAll()//liberar para sistema e admin
 		.antMatchers(HttpMethod.POST, "/auth").permitAll()
 		.antMatchers(HttpMethod.POST, "/users").permitAll()
 		.antMatchers(HttpMethod.GET, "/actuator/**").permitAll() //após testar retire isso antes de ir a producao
@@ -64,8 +67,9 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter{
 		//.and().formLogin();//sem isso fico sem a controller de autentic tb;gera form, sessao nao statelless de autenticação do spring - spring tem o form q autenticacao e o controller q o recebe esse formulario
 		//do modo statelles...  o form de login quem fornece é o cliente
 	}
-	
-	
+	//------------ COLOCAR -----------------
+	//"hasRole('ROLE_USER') and hasRole('ROLE_ADMIN')"
+	//access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')"	
 	
 	
 	//não precisa pois não tenho o front
@@ -82,7 +86,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter{
 	//-----------    DEMONSTRACAO DE CRIPTOGRAFIA DA SENHA     -------------------------
 	//apenas mostrar com funciona a criptografia da senha que vai para o bco que se coloca no data.sql 
 	//public static void main(String[] args) {
-	//	System.out.println(new BCryptPasswordEncoder().encode("123"));
+	//	System.out.println(new BCryptPasswordEncoder().encode("123")); // BCrypt Calculator = gera cod
 	//}
 	
 }
