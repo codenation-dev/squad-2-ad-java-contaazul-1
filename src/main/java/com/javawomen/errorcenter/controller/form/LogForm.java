@@ -15,6 +15,8 @@ import com.javawomen.errorcenter.model.Level;
 import com.javawomen.errorcenter.model.Log;
 import com.javawomen.errorcenter.repository.EnvironmentRepository;
 import com.javawomen.errorcenter.repository.LevelRepository;
+import com.javawomen.errorcenter.service.EnvironmentService;
+import com.javawomen.errorcenter.service.LevelService;
 
 public class LogForm {
 
@@ -41,6 +43,7 @@ public class LogForm {
 	@NotBlank(message = "{description.not.blank}")
 	@Length(min = 10, max = 100)
 	private String description;
+	
 
 	public String getNameLevel() {
 		return nameLevel;
@@ -74,16 +77,27 @@ public class LogForm {
 		this.description = description;
 	}
 
-	public Log converter(LevelRepository levelRepository, EnvironmentRepository environmentRepository) {
+	//public Log converter(LevelRepository levelRepository, EnvironmentRepository environmentRepository) {
 
-		Optional<Level> levelOptional = levelRepository.findByName(nameLevel);
-		Optional<Environment> environmentOptional = environmentRepository.findByName(nameEnvironment);
+	//	Optional<Level> levelOptional = levelRepository.findByName(nameLevel);
+	//	Optional<Environment> environmentOptional = environmentRepository.findByName(nameEnvironment);
+
+	//	if(!levelOptional.isPresent())throw new ResourceNotFoundException("Level não encontrado.");
+	//	if(!environmentOptional.isPresent())throw new ResourceNotFoundException("Ambiente não encontrado.");
+
+		// retornar um optional para tratar o nullpointexception
+		//if(levelOptional.isPresent() && environmentOptional.isPresent())
+	//	return new Log(levelOptional.get(), environmentOptional.get(), origin, description);
+
+	//}
+
+	public Log converter(LevelService levelService, EnvironmentService environmentService) {
+		Optional<Level> levelOptional = levelService.findByName(nameLevel);
+		Optional<Environment> environmentOptional = environmentService.findByName(nameEnvironment);
 
 		if(!levelOptional.isPresent())throw new ResourceNotFoundException("Level não encontrado.");
 		if(!environmentOptional.isPresent())throw new ResourceNotFoundException("Ambiente não encontrado.");
 
-		// retornar um optional para tratar o nullpointexception
-		//if(levelOptional.isPresent() && environmentOptional.isPresent())
 		return new Log(levelOptional.get(), environmentOptional.get(), origin, description);
 
 	}
