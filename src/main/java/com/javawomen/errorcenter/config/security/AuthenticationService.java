@@ -14,7 +14,7 @@ import com.javawomen.errorcenter.repository.UserRepository;
 
 
 //o controller do user fica no spring, eu nao preciso fazer
-
+//esse é service userdao
 @Service //gerenciada por spring
 public class AuthenticationService implements UserDetailsService {
 	@Autowired
@@ -31,7 +31,7 @@ public class AuthenticationService implements UserDetailsService {
 		if(user.isPresent()) {
 			return user.get();
 		}
-		throw new UsernameNotFoundException("Dados inválidos!");
+		throw new UsernameNotFoundException("Usuário " + username + " não foi encontrado.");
 	}
 
 }
