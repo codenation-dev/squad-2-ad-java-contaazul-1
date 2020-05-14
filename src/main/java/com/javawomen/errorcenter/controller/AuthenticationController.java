@@ -27,7 +27,7 @@ public class AuthenticationController {
 	private AuthenticationManager authManager;//essa classe é do spring mas não faz injecao de dependencias automaticamente, temos que fz manualmente na classe security configuration
 	
 	@Autowired
-	private TokenService tokenService;
+	private TokenService tokenService; //import com.javawomen.errorcenter.config.security.TokenService;
 	
 	
 	@PostMapping
@@ -45,7 +45,7 @@ public class AuthenticationController {
 			//antes de devolver o OK,devo gerar o TOKEN
 			String token = tokenService.generateToken(authentication);
 			
-			System.out.println("TOKEN GERADO pelo json=webtoken pelo jjwt:  " + token);
+			System.out.println("TOKEN GERADO pelo json = webtoken pelo jjwt:  " + token);
 			//return ResponseEntity.ok().build();
 			//retornar o token para o cliente
 			return ResponseEntity.ok(new TokenDto(token, "Bearer"));
