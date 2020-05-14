@@ -27,7 +27,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 //<<UserDetails>> essa classe é a q tem detalhes do user
 @Entity              
-@Table(name = "user", uniqueConstraints={@UniqueConstraint(columnNames={"email"})}) //não são chave-primária, no entanto, precisam possuir valores únicos
+@Table(name = "TBuser", uniqueConstraints={@UniqueConstraint(columnNames={"email"})}) //não são chave-primária, no entanto, precisam possuir valores únicos
 public class User implements UserDetails{ 
 	
 	
@@ -35,7 +35,7 @@ public class User implements UserDetails{
 	
 	
 	@Id //vem do javax.persistence.Id;
-	@GeneratedValue(strategy = GenerationType.IDENTITY) //@GeneratedValue(strategy = GenerationType.SEQUENCE)//uso sequence por conta do bco ser postgresql
+	@GeneratedValue(strategy = GenerationType.SEQUENCE) //@GeneratedValue(strategy = GenerationType.SEQUENCE)//uso sequence por conta do bco ser postgresql
 	@Column(name="user_id") //O tamanho default das colunas é 255.
 	private Long id;	
 		
@@ -54,6 +54,7 @@ public class User implements UserDetails{
     @Column(name = "created_at") //@Column(columnDefinition = "timestamp default now()")
     private LocalDateTime createdAt = LocalDateTime.now();
     
+    
     @ManyToMany(fetch = FetchType.EAGER)		  //qnd carregar o user, ja carrego a lista de perfil dele
     private List<Role> roles = new ArrayList<>(); //pefil, já inicio para não ficar null
     
@@ -63,10 +64,11 @@ public class User implements UserDetails{
 	public User() {}
 
 	
-	public User(String name, String email, String password) {
+	public User(String name, String password, String email, Role role) {
 		this.name = name;
 		this.email = email;
 		this.password = password;
+		setRoles(role);
 	}
 
 
@@ -112,6 +114,18 @@ public class User implements UserDetails{
 		this.createdAt = createdAt;
 	}
 
+	public List<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Role role) {
+		this.roles.add(role);
+	}
+	
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
+	}
+	
 	//-------------------------  USER DETAILS -----------------------------
 	
 	//GrantedAuthority: para o spring secutrity, além da classe user, precisamos de uma classe que tem o perfil do user
