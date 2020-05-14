@@ -27,6 +27,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 //<<UserDetails>> essa classe é a q tem detalhes do user
 @Entity              
+
 @Table(name = "TBuser", uniqueConstraints={@UniqueConstraint(columnNames={"email"})}) //não são chave-primária, no entanto, precisam possuir valores únicos
 public class User implements UserDetails{ 
 	

@@ -19,6 +19,7 @@ public class Role implements GrantedAuthority {
 
 	@Id 
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	//@Column(name="perfil_id")
 	private Long id;
 	
 	@NotNull @NotBlank
