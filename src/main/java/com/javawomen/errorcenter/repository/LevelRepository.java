@@ -11,7 +11,6 @@ import com.javawomen.errorcenter.model.Level;
 @Repository
 public interface LevelRepository extends JpaRepository<Level, Long>{
 
+	Optional<Level> findByName(String name);//usado no logForm
 	
-	Optional<Level> findByName(String name);
-	//Level findByName(String name);
 }
