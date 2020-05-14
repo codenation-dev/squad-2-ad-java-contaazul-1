@@ -16,8 +16,9 @@ public class LogDto {
 	private String environmentName;//Environment environment;
 	private String origin;
 	private String description;
+	private Long frequency;
 	
-	
+	//ver se precisa de metodos set dentro dos dto
 	public LogDto(Log log) {
 		this.id = log.getId();
 		this.createdAt = log.getCreatedAt();
@@ -25,6 +26,7 @@ public class LogDto {
 		this.environmentName = log.getEnvironment().getName();
 		this.origin = log.getOrigin();
 		this.description = log.getDescription();
+		this.frequency = 0L;
 	}
 	
 	public Long getId() {
@@ -75,7 +77,13 @@ public class LogDto {
 		this.description = description;
 	}
 
+	public Long getFrequency() {
+		return frequency;
+	}
 
+	public void setFrequency(Long frequency) {
+		this.frequency = frequency;
+	}
 	// -------------- static ----------------------
 	
 	//retorna uma lista em paginas de Logs 
@@ -84,7 +92,7 @@ public class LogDto {
 		return logs.map(LogDto::new);
 	}
 	
-	//retorna um log (para nao devolvar uma entidade)
+	//retorna um log (para nao devolver uma entidade)
 	public static List<LogDto> converterToLog(List<Log> logs) {			
 		//return new LogDto(log);
 		return logs.stream().map(LogDto::new).collect(Collectors.toList());
@@ -98,5 +106,7 @@ public class LogDto {
 	public static LogDto converterToLog(Log log) {
 		return new LogDto(log);
 	}
+
+
 
 }
