@@ -2,13 +2,14 @@ package com.javawomen.errorcenter.controller;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
-import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 //import org.springframework.cache.annotation.CacheEvict;
 //import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -16,8 +17,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,24 +31,49 @@ import com.javawomen.errorcenter.config.validation.ResourceNotFoundException;
 import com.javawomen.errorcenter.controller.dto.LogDto;
 import com.javawomen.errorcenter.controller.form.LogForm;
 import com.javawomen.errorcenter.model.Log;
-import com.javawomen.errorcenter.repository.EnvironmentRepository;
-import com.javawomen.errorcenter.repository.LevelRepository;
-import com.javawomen.errorcenter.repository.LogRepository;
+import com.javawomen.errorcenter.service.EnvironmentService;
+import com.javawomen.errorcenter.service.LevelService;
 import com.javawomen.errorcenter.service.LogService;
+
+//import springfox.documentation.annotations.ApiIgnore;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequestMapping("/logs")
 public class LogController {
 
 	@Autowired
-	private LogRepository logRepository;
-	@Autowired
-	private LevelRepository levelRepository;
-	@Autowired
-	private EnvironmentRepository environmentRepository;
-	@Autowired
 	private LogService logService;
+	@Autowired
+	private EnvironmentService environmentService;
+	@Autowired
+	private LevelService levelService;
 
+	// ------------------ GET ALL TESTADO OK --------------------------------
+	// endpoint: http://localhost:8080/logs
+	@GetMapping
+	@Cacheable("listOfLog")//importei o do spring, verififcar se nao tem q ser o javax
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "page", dataType = "integer", paramType = "query", value = "Pagina a ser carregada", defaultValue = "0"), 
+		@ApiImplicitParam(name = "size", dataType = "integer", paramType = "query", value = "Quantidade de registros", defaultValue = "10"), 
+		@ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query", value = "Ordenação dos registros")
+	})
+	public Page<LogDto> getLogs(@RequestParam(required = false) String nameEnvironment,
+			@PageableDefault(sort = "createdAt"
+			, direction = Direction.ASC, page = 0, size = 10) @ApiIgnore Pageable paginacao) {
+		if (nameEnvironment == null) {
+			Page<Log> logs = logService.findAll(paginacao);
+			return LogDto.converter(logs);
+		} else {
+			Page<Log> logs = logService.findByEnvironment(nameEnvironment, paginacao);
+			return LogDto.converter(logs);
+		}
+	}
+
+	
+	//este estah funcionando
 	// ------------------ GET ALL --------------------------------
 	// @CrossOrigin(origins = "http://localhost:8080")
 	// @Cacheable(value="getAllLogs")
@@ -58,18 +82,20 @@ public class LogController {
 	// @RequestMapping("/logs") ASC ou DESC
 
 	// endpoint: http://localhost:8080/logs
-	@GetMapping
-	public Page<LogDto> getLogs(@RequestParam(required = false) String nameEnvironment,
-			@PageableDefault(sort = "createdAt", direction = Direction.ASC, page = 0, size = 10) Pageable paginacao) {
-		if (nameEnvironment == null) {
-			Page<Log> logs = logRepository.findAll(paginacao);
-			return LogDto.converter(logs);
-		} else {
-			Page<Log> logs = logRepository.findByEnvironmentName(nameEnvironment, paginacao);
-			return LogDto.converter(logs);
-		}
-	}
-
+	//@GetMapping
+	//public Page<LogDto> getLogs(@RequestParam(required = false) String nameEnvironment,
+	//		@PageableDefault(sort = "createdAt", direction = Direction.ASC, page = 0, size = 10) Pageable paginacao) {
+	//	if (nameEnvironment == null) {
+	//		Page<Log> logs = logService.findAll(paginacao);
+	//		return LogDto.converter(logs);
+	//	} else {
+	//		Page<Log> logs = logService.findByEnvironment(nameEnvironment, paginacao);
+	//		return LogDto.converter(logs);
+	//	}
+	//}
+	
+	
+	
 	// ------------------ GET BY ID --------------------------------
 	// Page<LogDto> //@Valid
 	// endpoint: http://localhost:8080/logs/Long
@@ -77,12 +103,16 @@ public class LogController {
 	@GetMapping("/{id}")
 	@Transactional
 	public LogDto getLogById(@PathVariable Long id) {
-		Optional<Log> log = logService.findByIds(id);// .orElseThrow(()-> new ObjectNotFoundException("Nenhum registro
-														// encontrado.",Log.class.getName()));
-		return LogDto.converterToLog(log);
+		Optional<Log> logOptional = logService.findById(id);// .orElseThrow(()-> new ObjectNotFoundException("Nenhum
+															// registro
+		// encontrado.",Log.class.getName()));
+		if (!logOptional.isPresent())
+			throw new ResourceNotFoundException("ID não encontrado.");
+
+		return LogDto.converterToLog(logOptional);
 	}
 
-	// ------------------ GET BY LEVEL--------------------------------
+	// ------------------ GET BY LEVEL --------------------------------------
 	// Page<LogDto> //@Valid
 	// endpoint:http://localhost:8080/logs/level/debug; error; warning
 
@@ -101,8 +131,7 @@ public class LogController {
 		return ResponseEntity.ok(LogDto.converterToLog(logs));
 	}
 
-	// ------------------ GET BY DESCRIPTION (TITTEL)
-	// --------------------------------
+	// ------------------ GET BY DESCRIPTION (TITTEL)-----------------------------
 	// Page<LogDto> //@Valid
 	// endpoint: http://localhost:8080/logs/description/derscricao do log (titulo)
 	@GetMapping("/description/{description}")
@@ -119,15 +148,37 @@ public class LogController {
 		List<Log> logs = logService.findByOrigin(origin);
 		return ResponseEntity.ok(LogDto.converterToLog(logs));// .ok(T body)
 	}
+	
+	//-----------------   TESTADO ok   --------------------------------
+	
+	// 1 -  pegar um log e devolver o numero de vezes que ele aparece no banco
 
+	// esse metodo preenche o requisito de frequencia para a ultima tela, ele
+	// corresponde apenas ao Log que está sendo apresentado
+	@GetMapping("/frequency/{id}")
+	Long countLog(Long id) {
+		return logService.countByAttribute(id);
+	}
+
+	// 2  - devolver ordenado por frequency: o getAll e getByEnvironment 
+	//http://localhost:8080/logs/frequency?nameEnvironment=producao
+	@GetMapping("/frequency")
+	public ResponseEntity<Map<Long, List<LogDto>>> getLogsFrequency(@RequestParam(required = false) String nameEnvironment) {		
+		if (nameEnvironment == null) {
+			return ResponseEntity.ok(logService.countByAttributeList());
+		} else {
+			return ResponseEntity.ok(logService.countByEnvironmentList(nameEnvironment));
+		}
+	}
+	
+	
 	// ------------------ POST --------------------------------
 	// @CacheEvict(value="getAllLogs", allEntries = true)
 	@PostMapping
-	@Transactional //com void devolve 200, deveria retornar 201//      : cadastra o log no bco
-	public ResponseEntity<LogDto> createLog(@RequestBody @Valid LogForm form, UriComponentsBuilder uriBuilder) {		// o post é RequestBody: spring pega no corpo e nao na url eihn!
-		
-		Log log = form.converter(levelRepository, environmentRepository);
-		logRepository.save(log);	
+	@Transactional // com void devolve 200, deveria retornar 201// : cadastra o log no bco
+	public ResponseEntity<LogDto> createLog(@RequestBody @Valid LogForm form, UriComponentsBuilder uriBuilder) {
+		Log log = form.converter(levelService, environmentService);
+		logService.save(log);
 		URI uri = uriBuilder.path("/logs/{id}").buildAndExpand(log.getId()).toUri();
 		return ResponseEntity.created(uri).body(new LogDto(log));
 	}
@@ -137,14 +188,11 @@ public class LogController {
 	@DeleteMapping("/{id}")
 	@Transactional
 	public ResponseEntity<?> deleteLog(@PathVariable Long id) {
-		Optional<Log> optional = logRepository.findById(id);
-		if (optional.isPresent()) {
-			logRepository.deleteById(id);
-			return ResponseEntity.ok().build();
-		}
-		return ResponseEntity.notFound().build();
+		Optional<Log> logOptional = logService.findById(id);
+		if (!logOptional.isPresent())
+			throw new ResourceNotFoundException("ID não encontrado.");
+		logService.deleteById(id);
+		return ResponseEntity.ok(LogDto.converterToLog(logOptional));
 	}
-
-
 
 }
