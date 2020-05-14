@@ -12,7 +12,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 //import javax.validation.constraints.Size;
+import javax.persistence.Transient;
 
+import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.CreatedDate;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -23,7 +25,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class Log {
 
 	 //javax.persistence.Id;
-	@Id @Column(name="log_id") @GeneratedValue(strategy = GenerationType.IDENTITY) //@GeneratedValue(strategy = GenerationType.SEQUENCE)//uso sequence por conta do bco ser postgresql
+	@Id @Column(name="log_id") @GeneratedValue(strategy = GenerationType.SEQUENCE) //@GeneratedValue(strategy = GenerationType.SEQUENCE)//uso sequence por conta do bco ser postgresql
 	private Long id;	
 	
     //@Column(columnDefinition = "timestamp default now()"
@@ -40,11 +42,17 @@ public class Log {
     
     //@JoinColumn(name="environment")
     //@JoinColumn(name="environment_id")
-    @ManyToOne
+    @ManyToOne 
 	private Environment environment;    
     
+    @Length(min = 5, max = 50)
     private String origin;
+    
+    @Length(min = 10, max = 100)
     private String description;
+    
+    //@Transient
+    //private Long frequency;
 
 
     /*
@@ -58,11 +66,12 @@ public class Log {
 	public Log() {}
 
 	
-	public Log(Level level2, Environment environment2, String origin2, String description2) {
-		this.level = level2;
-		this.environment = environment2;
-		this.origin = origin2;
-		this.description = description2;
+	public Log(Level level, Environment environment, String origin, String description) {
+		this.level = level;
+		this.environment = environment;
+		this.origin = origin;
+		this.description = description;
+		//this.frequency = 0L;
 	}
 
 
@@ -115,6 +124,9 @@ public class Log {
 	public void setLevel(Level level) {
 		this.level = level;
 	}
+
+
+
     
     
 }

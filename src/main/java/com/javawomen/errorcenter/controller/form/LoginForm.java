@@ -7,6 +7,7 @@ public class LoginForm {
 	private String email;
 	
 	private String passCode;
+	
 
 	public void setEmail(String email) {
 		this.email = email;

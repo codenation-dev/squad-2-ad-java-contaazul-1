@@ -14,7 +14,7 @@ import com.javawomen.errorcenter.model.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>{	
 	
-	//é usado em: AuthenticationService
+	//Não mudar é usado em: AuthenticationService
 	Optional<User> findByEmail(@Param("email") String email);
 	
 }
