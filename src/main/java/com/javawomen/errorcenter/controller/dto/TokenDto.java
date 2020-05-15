@@ -1,5 +1,5 @@
 package com.javawomen.errorcenter.controller.dto;
-
+ 
 public class TokenDto {
 	
 	private String token;

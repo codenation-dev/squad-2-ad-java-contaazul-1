@@ -7,7 +7,6 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 
 import com.javawomen.errorcenter.model.Level;
-import com.javawomen.errorcenter.model.User;
 
 public class LevelForm {
 	

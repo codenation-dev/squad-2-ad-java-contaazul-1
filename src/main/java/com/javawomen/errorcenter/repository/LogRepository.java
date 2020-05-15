@@ -11,7 +11,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.javawomen.errorcenter.model.Log;
-
+ 
 @Repository
 public interface LogRepository extends JpaRepository<Log, Long> {
 	 

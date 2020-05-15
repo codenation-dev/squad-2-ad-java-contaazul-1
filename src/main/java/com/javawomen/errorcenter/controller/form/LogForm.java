@@ -1,6 +1,5 @@
 package com.javawomen.errorcenter.controller.form;
 
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import javax.validation.constraints.NotBlank;
@@ -13,8 +12,6 @@ import com.javawomen.errorcenter.config.validation.ResourceNotFoundException;
 import com.javawomen.errorcenter.model.Environment;
 import com.javawomen.errorcenter.model.Level;
 import com.javawomen.errorcenter.model.Log;
-import com.javawomen.errorcenter.repository.EnvironmentRepository;
-import com.javawomen.errorcenter.repository.LevelRepository;
 import com.javawomen.errorcenter.service.EnvironmentService;
 import com.javawomen.errorcenter.service.LevelService;
 

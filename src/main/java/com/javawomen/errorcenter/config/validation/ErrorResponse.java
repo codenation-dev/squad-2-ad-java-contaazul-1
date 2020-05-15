@@ -3,7 +3,7 @@ package com.javawomen.errorcenter.config.validation;
 import java.util.List;
 
 public class ErrorResponse {
-	
+	 
     private final String message;
     private final int code;
     private final String status;

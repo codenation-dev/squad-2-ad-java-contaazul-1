@@ -6,7 +6,7 @@ public class ResourceNotFoundDetails {
 	private int status;
 	private String details;
 	private String developmentMessage;
-
+ 
 	
 	public ResourceNotFoundDetails(String title, int status, String details, String developmentMessage) {
 		this.title = title;

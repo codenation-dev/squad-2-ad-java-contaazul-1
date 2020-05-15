@@ -22,7 +22,7 @@ import com.javawomen.errorcenter.controller.form.LoginForm;
 @RequestMapping("/auth")  //endereço de autenticação que o cliente deve configurar
 public class AuthenticationController {
 	//qnd no formulario do cliente o user clicar em logar, aqui é onde ele será autenticado
-	
+	 
 	@Autowired
 	private AuthenticationManager authManager;//essa classe é do spring mas não faz injecao de dependencias automaticamente, temos que fz manualmente na classe security configuration
 	

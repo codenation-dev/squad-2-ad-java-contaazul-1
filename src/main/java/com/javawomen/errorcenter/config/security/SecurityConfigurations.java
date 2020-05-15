@@ -44,18 +44,19 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter{
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(authenticationService).passwordEncoder(new BCryptPasswordEncoder());
 	}
-	
+	 
 	//configurações de Autorização da urls do projeto //colocaraki o endpoint publico
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-		.antMatchers("/roles").hasRole("ADMIN")
-		.antMatchers("/roles/**").hasRole("ADMIN")
-		.antMatchers(HttpMethod.DELETE, "/logs/**").hasRole("ADMIN")// Padrão ROLE_
-		.antMatchers(HttpMethod.DELETE, "/users/**").hasRole("ADMIN")
-		.antMatchers(HttpMethod.PUT, "/users/**").hasRole("ADMIN")
-		.antMatchers(HttpMethod.PATCH, "/users/role/**").hasRole("ADMIN")
-		.antMatchers(HttpMethod.POST, "/logs").hasAnyRole("SYSTEM", "ADMIN")//.permitAll()//liberar para sistema e admin
+		.antMatchers("/roles").permitAll()//hasRole("ADMIN")
+		//.antMatchers(HttpMethod.POST, "/roles").permitAll()
+		.antMatchers("/roles/**").permitAll()//hasRole("ADMIN")
+		.antMatchers(HttpMethod.DELETE, "/logs/**").hasRole("USER")// Padrão ROLE_
+		.antMatchers(HttpMethod.DELETE, "/users/**").hasRole("USER")
+		.antMatchers(HttpMethod.PUT, "/users/**").hasRole("USER")
+		.antMatchers(HttpMethod.PATCH, "/users/role/**").permitAll()//.hasRole("ADMIN")
+		.antMatchers(HttpMethod.POST, "/logs").hasAnyRole("USER", "SYSTEM", "ADMIN")//.permitAll()//liberar para sistema e admin
 		.antMatchers(HttpMethod.POST, "/auth").permitAll()
 		.antMatchers(HttpMethod.POST, "/users").permitAll()
 		.antMatchers(HttpMethod.GET, "/actuator/**").permitAll() //após testar retire isso antes de ir a producao

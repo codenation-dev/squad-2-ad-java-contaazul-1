@@ -1,21 +1,11 @@
 package com.javawomen.errorcenter.controller.form;
 
-import java.util.Optional;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-import com.javawomen.errorcenter.config.validation.ResourceNotFoundException;
-import com.javawomen.errorcenter.model.Role;
-import com.javawomen.errorcenter.model.User;
-import com.javawomen.errorcenter.repository.UserRepository;
-import com.javawomen.errorcenter.service.RoleService;
-import com.javawomen.errorcenter.service.UserService;
 
 
 //deletar essa classe apos os testes

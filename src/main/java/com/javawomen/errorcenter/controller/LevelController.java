@@ -31,7 +31,7 @@ public class LevelController {
 	@Autowired
 	private LevelService levelService;
 	
-	
+	 
 	// ------------------ GET ALL -------------------------------
 
 	@GetMapping

@@ -32,32 +32,30 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import springfox.documentation.annotations.ApiIgnore;
 
+import com.javawomen.errorcenter.controller.form.RoleForm;
 import com.javawomen.errorcenter.controller.form.UpdateUserForm;
 import com.javawomen.errorcenter.controller.form.UserForm;
 import com.javawomen.errorcenter.config.validation.ResourceNotFoundException;
 import com.javawomen.errorcenter.controller.dto.UserDto;
 import com.javawomen.errorcenter.model.Role;
 import com.javawomen.errorcenter.model.User;
+import com.javawomen.errorcenter.repository.RoleRepository;
+import com.javawomen.errorcenter.repository.UserRepository;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
 
-	// @Autowired
-	// private UserRepository userRepository;
+	//@Autowired
+	//private UserRepository userRepository;
 	@Autowired
 	private UserService userService;
 	@Autowired
 	private RoleService roleService;
+	//@Autowired
+	//private RoleRepository roleRepository;
 
 	// ------------------------- GET ALL --------------------------------
-
-	// http://localhost:8080/users ok: traz uma lista de users cadastrados
-	// @GetMapping
-	// public List<UserDto> getAllUsers() {
-	// List<User> users = userRepository.findAll();
-	// return UserDto.converter(users);
-	// }
 
 	@GetMapping
 	@Cacheable("listOfUser") // importei o do spring, verififcar se nao tem q ser o javax
@@ -133,15 +131,18 @@ public class UserController {
 	// ------------------ Alterar Role USer --------------------------------
 
 	// metodo para o admin setar/mudar a role para admin, user,
-	@PatchMapping("/role/{id}")
+	@PatchMapping("/{id}")
 	@Transactional
-	public ResponseEntity<UserDto> updateUserRole(@PathVariable Long id, @RequestBody String roleName) {
-		Optional<User> userOptional = userService.findById(id);
-		if (!userOptional.isPresent())throw new ResourceNotFoundException("ID não encontrado.");
-		Optional<Role> roleOptional = roleService.findByName(roleName);
-		if(!roleOptional.isPresent())throw new ResourceNotFoundException("Role não encontrado.");
-		
-		User user = userService.updateRole(userOptional, roleOptional);
+	public ResponseEntity<UserDto> updateUserRole(@PathVariable Long id, @RequestBody Long roleId) {
+		Optional<User> userOptional = userService.findById(id);//
+		Optional<Role> roleOptional = roleService.findById(roleId);//repository
+		if (!roleOptional.isPresent())
+			throw new ResourceNotFoundException("ID Role não encontrado.");//
+		if (!userOptional.isPresent())
+			throw new ResourceNotFoundException("ID do usuário não encontrado.");//
+
+		User user = userOptional.get();
+		user.setRoles(roleOptional.get());
 		return ResponseEntity.ok(new UserDto(user));
 
 		// return ResponseEntity.notFound().build();

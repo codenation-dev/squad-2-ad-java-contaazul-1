@@ -5,7 +5,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import com.javawomen.errorcenter.model.Role;
-
+ 
 public class RoleForm {
 	
 	@NotNull(message = "{nameLevel.not.null}")

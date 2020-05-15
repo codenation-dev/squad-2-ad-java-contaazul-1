@@ -43,7 +43,7 @@ import springfox.documentation.annotations.ApiIgnore;
 @RestController
 @RequestMapping("/logs")
 public class LogController {
-
+ 
 	@Autowired
 	private LogService logService;
 	@Autowired

@@ -18,7 +18,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 //@EnableSwagger2
 @Configuration
 public class SwaggerConfigurations {
-
+ 
 	//definir um bean para o spring e devolver o obj tipo docket do swagger
 	@Bean
 	public Docket centralErrosApi() {

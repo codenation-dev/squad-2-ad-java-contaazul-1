@@ -13,7 +13,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.javawomen.errorcenter.model.User;
 import com.javawomen.errorcenter.repository.UserRepository;
-
+ 
 
 //o filtro foi instanciado na classe Security\cpnfigurations e por isso o spring nao pode fz injecao autowired
 //nao tem o bean de gerenciamento do spring, ou seja, é uma classe java
