@@ -24,7 +24,6 @@ public class UserDto {
 		this.createdAt = user.getCreatedAt();
 	}
 	
-	//getter
 
 	public Long getId() {
 		return id;

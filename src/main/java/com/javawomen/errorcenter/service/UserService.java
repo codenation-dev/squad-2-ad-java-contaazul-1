@@ -14,7 +14,6 @@ import java.util.regex.Pattern;
 
 import com.javawomen.errorcenter.config.validation.ResourceNotFoundException;
 import com.javawomen.errorcenter.config.validation.UserDataInvalid;
-import com.javawomen.errorcenter.controller.form.UpdateUserForm;
 import com.javawomen.errorcenter.controller.form.UserForm;
 import com.javawomen.errorcenter.model.Role;
 
@@ -54,6 +53,9 @@ public class UserService {// implements ServiceInterface<User>{
 		return userRepository.getOne(id);
 	}
 	
+	public Optional<User> findByEmail(String email) {
+		return userRepository.findByEmail(email);
+	}
 	
 
 	// implementar:
@@ -142,5 +144,7 @@ public class UserService {// implements ServiceInterface<User>{
 		
 	}
 	// ---------- FIM VALIDAR EMAIL E SENHA ---------------
+
+
 
 }

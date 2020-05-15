@@ -1,19 +1,11 @@
 package com.javawomen.errorcenter.controller.form;
 
-import java.util.Optional;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-import com.javawomen.errorcenter.config.validation.ResourceNotFoundException;
-import com.javawomen.errorcenter.model.Role;
-import com.javawomen.errorcenter.model.User;
-import com.javawomen.errorcenter.service.RoleService;
 
 public class UserForm {
 
@@ -34,10 +26,7 @@ public class UserForm {
 	@NotBlank(message = "{password.not.blank}")
 	@Length(min = 8)
 	private String password;
-	
-	//private String roleName = "ROLE_USER";
-
-	
+		
 	
 	public String getName() {
 		return name;
