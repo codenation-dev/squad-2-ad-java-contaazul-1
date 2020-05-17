@@ -2,10 +2,13 @@ package com.javawomen.errorcenter.service;
  
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.javawomen.errorcenter.controller.dto.LevelDto;
+import com.javawomen.errorcenter.controller.form.LevelForm;
 import com.javawomen.errorcenter.model.Level;
 import com.javawomen.errorcenter.repository.LevelRepository;
 
@@ -35,6 +38,22 @@ public class LevelService{// implements ServiceInterface<Level>{
 		return levelRepository.findByName(nameLevel);
 	}
 	
+	//--------------- métodos que devolvem um dto ------------
+	public LevelDto converterToLevel(Optional<Level> levelOptional) {
+		return converterToLevel(levelOptional.get());
+	}
 	
+	public LevelDto converterToLevel(Level level) {			
+		return new LevelDto(level);
+	}
+	
+	public List<LevelDto> converter(List<Level> levels) {
+		return levels.stream().map(LevelDto::new).collect(Collectors.toList());
+	}
+	
+	//------------------- métodos que devolvem um FORM --------------------
+	public Level converter(LevelForm form) {
+		return new Level(form.getName());
+	}
 
 }

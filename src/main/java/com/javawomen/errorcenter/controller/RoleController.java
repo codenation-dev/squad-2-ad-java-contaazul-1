@@ -3,6 +3,7 @@ package com.javawomen.errorcenter.controller;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -34,15 +35,15 @@ public class RoleController {
 
 	@Autowired
 	private RoleService roleService;
-	//@Autowired
-	//private UserRepository userRepository;
+	
 
 	// ------------------ GET ALL -------------------------------
 
 	@GetMapping
 	public List<RoleDto> getAllRole() {
 		List<Role> Roles = roleService.findAll();
-		return RoleDto.converter(Roles);
+		//return RoleDto.converter(Roles);
+		return roleService.converter(Roles);
 	}
 
 	// ------------------ GET BY ID --------------------------------
@@ -52,7 +53,9 @@ public class RoleController {
 		Optional<Role> RoleOptional = roleService.findById(id);
 		if (!RoleOptional.isPresent())
 			throw new ResourceNotFoundException("Role não encontrado.");
-		return RoleDto.converterToRole(RoleOptional);
+		//return RoleDto.converterToRole(RoleOptional);
+		return roleService.converterToRole(RoleOptional);
+
 	}
 
 	// ------------------ POST --------------------------------
@@ -60,7 +63,8 @@ public class RoleController {
 	@PostMapping
 	@Transactional
 	public ResponseEntity<RoleDto> createRole(@RequestBody @Valid RoleForm form, UriComponentsBuilder uriBuilder) {
-		Role Role = form.converter();
+		//Role Role = form.converter();
+		Role Role = roleService.converter(form);
 		roleService.save(Role);
 		URI uri = uriBuilder.path("/roles/{id}").buildAndExpand(Role.getId()).toUri();
 		return ResponseEntity.created(uri).body(new RoleDto(Role));
@@ -75,8 +79,9 @@ public class RoleController {
 		if (!optionalRole.isPresent())
 			throw new ResourceNotFoundException("ID não encontrado.");
 		roleService.deleteById(id);
-		return ResponseEntity.ok(RoleDto.converterToRole(optionalRole));
+		//return ResponseEntity.ok(RoleDto.converterToRole(optionalRole));
+		return ResponseEntity.ok(roleService.converterToRole(optionalRole));
+
 	}
-	
 	
 }

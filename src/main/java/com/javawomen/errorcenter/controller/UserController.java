@@ -1,6 +1,8 @@
 package com.javawomen.errorcenter.controller;
 
 import java.net.URI;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -36,7 +39,10 @@ import com.javawomen.errorcenter.controller.form.RoleForm;
 import com.javawomen.errorcenter.controller.form.UpdateUserForm;
 import com.javawomen.errorcenter.controller.form.UserForm;
 import com.javawomen.errorcenter.config.validation.ResourceNotFoundException;
+import com.javawomen.errorcenter.controller.dto.LogDto;
+import com.javawomen.errorcenter.controller.dto.RoleDto;
 import com.javawomen.errorcenter.controller.dto.UserDto;
+import com.javawomen.errorcenter.model.Log;
 import com.javawomen.errorcenter.model.Role;
 import com.javawomen.errorcenter.model.User;
 import com.javawomen.errorcenter.repository.RoleRepository;
@@ -46,14 +52,10 @@ import com.javawomen.errorcenter.repository.UserRepository;
 @RequestMapping("/users")
 public class UserController {
 
-	//@Autowired
-	//private UserRepository userRepository;
 	@Autowired
 	private UserService userService;
 	@Autowired
 	private RoleService roleService;
-	//@Autowired
-	//private RoleRepository roleRepository;
 
 	// ------------------------- GET ALL --------------------------------
 
@@ -66,7 +68,9 @@ public class UserController {
 	public Page<UserDto> getAllUsers(
 			@PageableDefault(sort = "id", direction = Direction.ASC, page = 0, size = 10) @ApiIgnore Pageable paginacao) {
 		Page<User> users = userService.findAll(paginacao);
-		return UserDto.converter(users);
+		//return UserDto.converter(users);
+		return userService.converter(users);
+
 	}
 
 	// ------------------ GET BY ID --------------------------------
@@ -76,20 +80,11 @@ public class UserController {
 		Optional<User> userOptional = userService.findById(id);
 		if (!userOptional.isPresent())
 			throw new ResourceNotFoundException("ID não encontrado.");
-		return UserDto.converterToUser(userOptional);
-
+		//return UserDto.converterToUser(userOptional);
+		return userService.converterToUser(userOptional);
 	}
 
-	// ------------------ GET BY EMAIL--------------------------------
-	// método no repository usado por: AuthenticationService
-	// http://localhost:8080/users/email ok: traz o user cadastrado no email
-	// @GetMapping("/{email}") //(value = "/{email}")
-	// public UserDto getUserByEmail(@PathVariable(value = "email") String email) {
-	// Optional<User> user = userRepository.findByEmail(email);
-	// return UserDto.converterToUser(user);
-	// }
-
-	// ------------------ POST --------------------------------
+	// --------------------------- POST --------------------------------
 	// o post é RequestBody: spring pega no corpo e nao na url eihn!
 	@PostMapping
 	@Transactional
@@ -125,7 +120,8 @@ public class UserController {
 		if (!userOptional.isPresent())
 			throw new ResourceNotFoundException("ID não encontrado.");
 		userService.deleteById(id);
-		return ResponseEntity.ok(UserDto.converterToUser(userOptional));
+		//return ResponseEntity.ok(UserDto.converterToUser(userOptional));
+		return ResponseEntity.ok(userService.converterToUser(userOptional));
 	}
 
 	// ------------------ Alterar Role USer --------------------------------
@@ -140,12 +136,26 @@ public class UserController {
 			throw new ResourceNotFoundException("ID Role não encontrado.");//
 		if (!userOptional.isPresent())
 			throw new ResourceNotFoundException("ID do usuário não encontrado.");//
-
 		User user = userOptional.get();
 		user.setRoles(roleOptional.get());
 		return ResponseEntity.ok(new UserDto(user));
-
-		// return ResponseEntity.notFound().build();
+	}
+	
+	// ------------------ GET ROLE BY ALL ----------------------------
+	
+	//http://localhost:8080/users/role?nameRole=ROLE_ADMIN -> Long == User id
+	@GetMapping("/role") 
+	public ResponseEntity<Map<Long, List<RoleDto>>> getListRoleByUser(@RequestParam(required = false) String nameRole) {		
+		
+		//Se nao der tempo nao implementamos esse.
+		
+		
+		//if (nameRole == null) {
+		//	return ResponseEntity.ok(userService.findAllRolesByUser());
+		//} else {
+			//return ResponseEntity.ok(userService.findByRoleByUser(nameRole));
+		//}
+		return null;
 	}
 
 }

@@ -88,7 +88,9 @@ public class LogForm {
 
 	//}
 
-	public Log converter(LevelService levelService, EnvironmentService environmentService) {
+	
+	//PASSADO PARA O SERVICE, TESTAR e apagar esse
+	/*public Log converter(LevelService levelService, EnvironmentService environmentService) {
 		Optional<Level> levelOptional = levelService.findByName(nameLevel);
 		Optional<Environment> environmentOptional = environmentService.findByName(nameEnvironment);
 
@@ -97,8 +99,7 @@ public class LogForm {
 
 		return new Log(levelOptional.get(), environmentOptional.get(), origin, description);
 
-	}
-
+	}*/
 
 
 }

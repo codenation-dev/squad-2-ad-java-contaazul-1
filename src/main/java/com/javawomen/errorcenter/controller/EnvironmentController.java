@@ -37,7 +37,8 @@ public class EnvironmentController {
 	@GetMapping
 	public List<EnvironmentDto> getAllEnvironment() {
 		List<Environment> environments = environmentService.findAll();
-		return EnvironmentDto.converter(environments);
+		//return EnvironmentDto.converter(environments);
+		return environmentService.converter(environments);
 	}
 
 	// ------------------ GET BY ID --------------------------------
@@ -46,7 +47,9 @@ public class EnvironmentController {
 	public EnvironmentDto getEnvironmentById(@PathVariable Long id) {// throws NotFoundException {
 		Optional<Environment> environmentOptional = environmentService.findById(id);
 		if(!environmentOptional.isPresent())throw new ResourceNotFoundException("Ambiente não encontrado.");
-		return EnvironmentDto.converterToEnvironment(environmentOptional);
+		//return EnvironmentDto.converterToEnvironment(environmentOptional);
+		return environmentService.converterToEnvironment(environmentOptional);
+
 	}
 
 	// ------------------ POST --------------------------------
@@ -55,7 +58,8 @@ public class EnvironmentController {
 	@Transactional
 	public ResponseEntity<EnvironmentDto> createEnvironment(@RequestBody @Valid EnvironmentForm form,
 			UriComponentsBuilder uriBuilder) {
-		Environment environment = form.converter();
+		//Environment environment = form.converter();
+		Environment environment = environmentService.converter(form);
 		environmentService.save(environment);
 		URI uri = uriBuilder.path("/environments/{id}").buildAndExpand(environment.getId()).toUri();
 		return ResponseEntity.created(uri).body(new EnvironmentDto(environment));
@@ -69,6 +73,8 @@ public class EnvironmentController {
 		Optional<Environment> environmentOptional = environmentService.findById(id);
 		if(!environmentOptional.isPresent())throw new ResourceNotFoundException("ID não encontrado.");
 		environmentService.deleteById(id);		
-		return ResponseEntity.ok(EnvironmentDto.converterToEnvironment(environmentOptional));
+		//return ResponseEntity.ok(EnvironmentDto.converterToEnvironment(environmentOptional));
+		return ResponseEntity.ok(environmentService.converterToEnvironment(environmentOptional));
+
 	}
 }

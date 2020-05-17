@@ -22,8 +22,8 @@ public class RoleForm {
 		this.roleName = name;
 	}
 	
-	public Role converter() {
-		return new Role(roleName);
-	}
+//	public Role converter() {
+//		return new Role(roleName);
+//	}
 
 }

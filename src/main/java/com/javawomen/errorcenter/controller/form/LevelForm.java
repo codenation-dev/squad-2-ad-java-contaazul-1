@@ -25,7 +25,7 @@ public class LevelForm {
 		this.name = name;
 	}
 	
-	public Level converter() {
-		return new Level(name);
-	}
+	//public Level converter() {
+		//return new Level(name);
+	//}
 }

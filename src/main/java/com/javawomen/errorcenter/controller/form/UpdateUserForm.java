@@ -30,7 +30,6 @@ public class UpdateUserForm {
 	@Length(min = 8)
 	private String password;
 
-	//private String roleName;
 	
 	
 	public String getName() {

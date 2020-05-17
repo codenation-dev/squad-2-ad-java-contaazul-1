@@ -65,10 +65,10 @@ public class LogController {
 			, direction = Direction.ASC, page = 0, size = 10) @ApiIgnore Pageable paginacao) {
 		if (nameEnvironment == null) {
 			Page<Log> logs = logService.findAll(paginacao);
-			return LogDto.converter(logs);
+			return logService.converter(logs);
 		} else {
 			Page<Log> logs = logService.findByEnvironment(nameEnvironment, paginacao);
-			return LogDto.converter(logs);
+			return logService.converter(logs);
 		}
 	}
 
@@ -109,7 +109,7 @@ public class LogController {
 		if (!logOptional.isPresent())
 			throw new ResourceNotFoundException("ID não encontrado.");
 
-		return LogDto.converterToLog(logOptional);
+		return logService.converterToLog(logOptional);
 	}
 
 	// ------------------ GET BY LEVEL --------------------------------------
@@ -119,7 +119,7 @@ public class LogController {
 	@GetMapping("/level/{level}") // (params ="levelName") -> (@RequestParam("levelName") String level)
 	public ResponseEntity<List<LogDto>> getLogByLevel(@PathVariable String level) {
 		List<Log> logs = logService.findByLevel(level);// resumir, colocando dentro do return
-		return ResponseEntity.ok(LogDto.converterToLog(logs));
+		return ResponseEntity.ok(logService.converterToLog(logs));
 	}
 
 	// ------------------ GET BY ENVIRONMENT --------------------------------
@@ -128,7 +128,7 @@ public class LogController {
 	@GetMapping("/environment/{environment}")
 	public ResponseEntity<List<LogDto>> getLogByEnvironment(@PathVariable String environment) {
 		List<Log> logs = logService.findByEnvironment(environment);
-		return ResponseEntity.ok(LogDto.converterToLog(logs));
+		return ResponseEntity.ok(logService.converterToLog(logs));
 	}
 
 	// ------------------ GET BY DESCRIPTION (TITTEL)-----------------------------
@@ -137,7 +137,7 @@ public class LogController {
 	@GetMapping("/description/{description}")
 	public ResponseEntity<List<LogDto>> getLogByDescription(@PathVariable String description) {
 		List<Log> logs = logService.findByDescription(description);
-		return ResponseEntity.ok(LogDto.converterToLog(logs));
+		return ResponseEntity.ok(logService.converterToLog(logs));
 	}
 
 	// ------------------ GET BY ORIGIN --------------------------------
@@ -146,7 +146,7 @@ public class LogController {
 	@GetMapping("/origin/{origin}")
 	public ResponseEntity<List<LogDto>> getLogByOrigin(@PathVariable String origin) {
 		List<Log> logs = logService.findByOrigin(origin);
-		return ResponseEntity.ok(LogDto.converterToLog(logs));// .ok(T body)
+		return ResponseEntity.ok(logService.converterToLog(logs));// .ok(T body)
 	}
 	
 	//-----------------   TESTADO ok   --------------------------------
@@ -177,7 +177,8 @@ public class LogController {
 	@PostMapping
 	@Transactional // com void devolve 200, deveria retornar 201// : cadastra o log no bco
 	public ResponseEntity<LogDto> createLog(@RequestBody @Valid LogForm form, UriComponentsBuilder uriBuilder) {
-		Log log = form.converter(levelService, environmentService);
+		//TESTAR E RETIRAR: Log log = form.converter(levelService, environmentService);
+		Log log = logService.converter(levelService, environmentService, form);
 		logService.save(log);
 		URI uri = uriBuilder.path("/logs/{id}").buildAndExpand(log.getId()).toUri();
 		return ResponseEntity.created(uri).body(new LogDto(log));
@@ -192,7 +193,7 @@ public class LogController {
 		if (!logOptional.isPresent())
 			throw new ResourceNotFoundException("ID não encontrado.");
 		logService.deleteById(id);
-		return ResponseEntity.ok(LogDto.converterToLog(logOptional));
+		return ResponseEntity.ok(logService.converterToLog(logOptional));
 	}
 
 }

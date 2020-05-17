@@ -37,7 +37,7 @@ public class LevelController {
 	@GetMapping
 	public List<LevelDto> getAllLevel(){
 		List<Level> levels = levelService.findAll();
-		return LevelDto.converter(levels);
+		return levelService.converter(levels);
 	}
 
 	// ------------------ GET BY ID --------------------------------
@@ -46,7 +46,7 @@ public class LevelController {
 	public LevelDto getLevelById(@PathVariable Long id) {	
 		Optional<Level> levelOptional = levelService.findById(id);
 		if(!levelOptional.isPresent())throw new ResourceNotFoundException("Level não encontrado.");
-		return LevelDto.converterToLevel(levelOptional);
+		return levelService.converterToLevel(levelOptional);
 	}
 
 	// ------------------ POST --------------------------------
@@ -55,7 +55,8 @@ public class LevelController {
 	@Transactional
 	public ResponseEntity<LevelDto> createLevel(@RequestBody @Valid LevelForm form,
 			UriComponentsBuilder uriBuilder) {
-		Level level = form.converter();
+		//Level level = form.converter();
+		Level level = levelService.converter(form);
 		levelService.save(level);
 		URI uri = uriBuilder.path("/levels/{id}").buildAndExpand(level.getId()).toUri();
 		return ResponseEntity.created(uri).body(new LevelDto(level));
@@ -69,6 +70,6 @@ public class LevelController {
 		Optional<Level> optionalLevel = levelService.findById(id);
 		if(!optionalLevel.isPresent())throw new ResourceNotFoundException("ID não encontrado.");
 		levelService.deleteById(id);
-		return ResponseEntity.ok(LevelDto.converterToLevel(optionalLevel));
+		return ResponseEntity.ok(levelService.converterToLevel(optionalLevel));
 	}
 }
