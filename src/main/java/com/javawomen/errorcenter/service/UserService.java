@@ -152,7 +152,8 @@ public class UserService {// implements ServiceInterface<User>{
 		public void validar(String email, String senha) {
 			if (!validarEmail(email))
 				throw new UserDataInvalid(
-						"E-mail inválido." + " O e-mail deve possuir no mínimo 3 caracteres antes do @.");
+						"E-mail inválido. O e-mail deve possuir no mínimo 3 caracteres antes do @,"
+								+ " sem espaço, sem acentuação e sem caracteres especiais.");
 			if (!validarSenha(senha))
 				throw new UserDataInvalid(
 						"Senha inválida. " + " A senha deve possuir no mínimo 8 caracteres, entre letras e números.");
