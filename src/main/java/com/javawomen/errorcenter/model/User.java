@@ -47,6 +47,7 @@ public class User implements UserDetails{
 
     private String password;
     
+    private String description;
   
     @NotNull
     @CreatedDate //testar
@@ -89,6 +90,10 @@ public class User implements UserDetails{
 	public String getEmail() {
 		return email;
 	}
+	
+	public String getDescription() {
+		return description;
+	}
 
 	public LocalDateTime getCreatedAt() {
 		return createdAt;
@@ -104,6 +109,10 @@ public class User implements UserDetails{
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public void setEmail(String email) {
@@ -167,9 +176,5 @@ public class User implements UserDetails{
 	public boolean isEnabled() {
 		return true;
 	}
-
-
-
-	
 
 }
