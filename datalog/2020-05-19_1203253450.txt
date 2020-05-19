@@ -1,0 +1,1 @@
+2020-05-19T12:03:25.345,minha casa,falha na iniciação do sistema,ERROR,DESENVOLVIMENTO
