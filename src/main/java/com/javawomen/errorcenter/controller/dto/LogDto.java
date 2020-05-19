@@ -29,6 +29,9 @@ public class LogDto {
 		this.frequency = 0L;
 	}
 	
+	public LogDto() {//para serializar arquivo
+	}
+
 	public Long getId() {
 		return id;
 	}

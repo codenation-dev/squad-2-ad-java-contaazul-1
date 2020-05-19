@@ -1,5 +1,8 @@
 package com.javawomen.errorcenter.service;
 
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -15,6 +18,7 @@ import org.springframework.stereotype.Service;
 import com.javawomen.errorcenter.config.validation.ResourceNotFoundException;
 import com.javawomen.errorcenter.controller.dto.LogDto;
 import com.javawomen.errorcenter.controller.form.LogForm;
+import com.javawomen.errorcenter.data.Archive;
 import com.javawomen.errorcenter.model.Environment;
 import com.javawomen.errorcenter.model.Level;
 import com.javawomen.errorcenter.model.Log;
@@ -79,7 +83,7 @@ public class LogService {// implements ServiceInterface<Log> {
 	// public long countByAttribute(String levelName, String environmentName, String
 	// originName, String descriptionName) {
 
-	// ---------------- TESTAR ---------------------------------------------
+	// --------------------------- FREQUENCY -----------------------------------
 
 	// pegar um log e devolver o numero de vezes que ele aparece no banco
 	public Long countByAttribute(Long id) {
@@ -204,6 +208,23 @@ public class LogService {// implements ServiceInterface<Log> {
 
 	}
 	
+	public void archiveLog(Long id) throws IOException {
+		Optional<Log> logOptional = logRepository.findById(id);
+		if (!logOptional.isPresent()) throw new ResourceNotFoundException("ID não encontrado.");
+		LogDto dto = converterToLog(logOptional);
+		Archive archive = new Archive();
+		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HHmmssSSSS");
+		String date = dto.getCreatedAt().format(formatter);
+		archive.write(dto, date);
+	}
+	
+	//esse método nao é requisito, implementar no controller se der tempo
+	public LogDto readArchiveLog(Log log, String archiveName) throws Throwable {
+		Archive archive = new Archive();
+		LogDto dto = archive.read(archiveName);
+		return dto;
+	}
 	
 	
 }

@@ -1,5 +1,6 @@
 package com.javawomen.errorcenter.controller;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -184,16 +186,26 @@ public class LogController {
 		return ResponseEntity.created(uri).body(new LogDto(log));
 	}
 
-	// ------------------ DELETE --------------------------------
+	// ---------------------- DELETE -----------------------------
 	// @CacheEvict(value="getAllLogs", allEntries = true)
 	@DeleteMapping("/{id}")
 	@Transactional
-	public ResponseEntity<?> deleteLog(@PathVariable Long id) {
+	public ResponseEntity<?> deleteLog(@PathVariable Long id){
 		Optional<Log> logOptional = logService.findById(id);
 		if (!logOptional.isPresent())
 			throw new ResourceNotFoundException("ID não encontrado.");
 		logService.deleteById(id);
 		return ResponseEntity.ok(logService.converterToLog(logOptional));
 	}
+
+	// ---------------------- ARCHIVE ---------------------------
+	@PostMapping("/{id}")
+	@Transactional
+	public ResponseEntity<?> archiveLog(@PathVariable Long id) throws IOException{
+		logService.archiveLog(id);
+		logService.deleteById(id);
+		return ResponseEntity.ok("Arquivado com sucesso.");
+	}
+	
 
 }

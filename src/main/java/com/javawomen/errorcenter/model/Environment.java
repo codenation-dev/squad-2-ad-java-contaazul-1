@@ -18,8 +18,7 @@ import javax.validation.constraints.Size;
  * serve para criar logs.
  * nao estou usando o : //@EntityListeners(AuditingEntityListener.class)
  */
-@Entity      
-@Table(name = "environment", uniqueConstraints={@UniqueConstraint(columnNames={"name"})})//, name = "name")}) //não são chave-primária, no entanto, precisam possuir valores únicos
+@Entity@Table(name = "environment", uniqueConstraints={@UniqueConstraint(columnNames={"name"})})
 public class Environment {
 	
 	 
