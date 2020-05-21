@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,58 +24,59 @@ import com.javawomen.errorcenter.controller.dto.EnvironmentDto;
 import com.javawomen.errorcenter.controller.form.EnvironmentForm;
 import com.javawomen.errorcenter.model.Environment;
 import com.javawomen.errorcenter.service.EnvironmentService;
-//import com.javawomen.errorcenter.service.EnvironmentService;
+
+import io.swagger.annotations.ApiOperation;
 
 @RestController
-@RequestMapping("/environments")
+@RequestMapping(path = "/environments", produces = MediaType.APPLICATION_JSON_VALUE)
 public class EnvironmentController {
 
 	@Autowired
 	private EnvironmentService environmentService;
  
-	// ------------------ GET ALL -------------------------------
-
+	// -------------------------- GET ALL ---------------------------
+	// http://localhost:8080/environments
+	@ApiOperation(value = "Retorna uma lista de ambientes de log existentes")
 	@GetMapping
 	public List<EnvironmentDto> getAllEnvironment() {
 		List<Environment> environments = environmentService.findAll();
-		//return EnvironmentDto.converter(environments);
 		return environmentService.converter(environments);
 	}
 
-	// ------------------ GET BY ID --------------------------------
-	
+	// ------------------------ GET BY ID ---------------------------
+	// http://localhost:8080/environments/{id}	
+	@ApiOperation(value = "Retorna um ambiente cadastrado")
 	@GetMapping("/{id}")
-	public EnvironmentDto getEnvironmentById(@PathVariable Long id) {// throws NotFoundException {
+	public EnvironmentDto getEnvironmentById(@PathVariable Long id) {
 		Optional<Environment> environmentOptional = environmentService.findById(id);
-		if(!environmentOptional.isPresent())throw new ResourceNotFoundException("Ambiente não encontrado.");
-		//return EnvironmentDto.converterToEnvironment(environmentOptional);
+		if(!environmentOptional.isPresent())
+			throw new ResourceNotFoundException("Ambiente não encontrado.");
 		return environmentService.converterToEnvironment(environmentOptional);
-
 	}
 
-	// ------------------ POST --------------------------------
-
-	@PostMapping
+	// --------------------------- POST -----------------------------
+	// http://localhost:8080/environments/#@RequestBody
+	@ApiOperation(value = "Cria um novo ambiente")
+	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
 	@Transactional
 	public ResponseEntity<EnvironmentDto> createEnvironment(@RequestBody @Valid EnvironmentForm form,
 			UriComponentsBuilder uriBuilder) {
-		//Environment environment = form.converter();
 		Environment environment = environmentService.converter(form);
 		environmentService.save(environment);
 		URI uri = uriBuilder.path("/environments/{id}").buildAndExpand(environment.getId()).toUri();
 		return ResponseEntity.created(uri).body(new EnvironmentDto(environment));
 	}
 
-	// ------------------ DELETE --------------------------------
-	
+	// -------------------------- DELETE ----------------------------
+	// http://localhost:8080/environments/{id}
+	@ApiOperation(value = "Exclui um Ambiente")
 	@DeleteMapping("/{id}")
 	@Transactional
 	public ResponseEntity<?> deleteEnvironment(@PathVariable Long id) {
 		Optional<Environment> environmentOptional = environmentService.findById(id);
-		if(!environmentOptional.isPresent())throw new ResourceNotFoundException("ID não encontrado.");
+		if(!environmentOptional.isPresent())
+			throw new ResourceNotFoundException("Ambiente não encontrado.");
 		environmentService.deleteById(id);		
-		//return ResponseEntity.ok(EnvironmentDto.converterToEnvironment(environmentOptional));
 		return ResponseEntity.ok(environmentService.converterToEnvironment(environmentOptional));
-
 	}
 }

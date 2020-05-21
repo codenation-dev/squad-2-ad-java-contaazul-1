@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 import com.javawomen.errorcenter.config.validation.ResourceNotFoundException;
 import com.javawomen.errorcenter.config.validation.UserDataInvalid;
 import com.javawomen.errorcenter.controller.dto.LogDto;
+import com.javawomen.errorcenter.controller.dto.ResetPasswordDTO;
 import com.javawomen.errorcenter.controller.dto.RoleDto;
 import com.javawomen.errorcenter.controller.dto.UserDto;
 import com.javawomen.errorcenter.controller.form.UserForm;
@@ -66,10 +67,10 @@ public class UserService {// implements ServiceInterface<User>{
 		return userRepository.findByEmail(email);
 	}
 
-	public Map<Long, List<RoleDto>> findAllRolesByUser() {
-		// Falta implementar
-		return null;
+	public List<Role> findAllRolesByUser(Long id) {
+		return userRepository.findRolesByUser(id);
 	}
+
 
 	// --------------------- UPDATE-USERFORM -------------------------
 
@@ -93,6 +94,28 @@ public class UserService {// implements ServiceInterface<User>{
 		return user;
 	}
 
+//----------nat
+	public User updatePassword(ResetPasswordDTO form) {
+
+		Optional<User> userOptional = findByEmail(form.getEmail());
+
+		if (!userOptional.isPresent())
+			throw new ResourceNotFoundException("Email nao achado");
+
+		User user = userOptional.get();
+
+		// validar senha e email
+		new DataValidation(form.getEmail(), form.getPassword());
+
+		user.setPassword(new BCryptPasswordEncoder().encode(form.getPassword()));
+		
+		deleteById(user.getId());
+		save(user);
+
+		return user;
+	}
+//--------------nat
+
 	// usado para mudar o perfil do user
 	public User updateRole(Optional<User> userOptional, Optional<Role> roleOptional) {
 		// Optional<User> userOptional = findById(id);
@@ -115,7 +138,7 @@ public class UserService {// implements ServiceInterface<User>{
 				userForm.getEmail(), roleOptional.get());
 	}
 
-	//--------------- métodos que devolvem um dto ------------
+	// --------------- métodos que devolvem um dto ------------
 
 	// retorna uma lista de Usuários sem a senha
 	// public static List<UserDto> converter(List<User> users) {
@@ -151,9 +174,8 @@ public class UserService {// implements ServiceInterface<User>{
 
 		public void validar(String email, String senha) {
 			if (!validarEmail(email))
-				throw new UserDataInvalid(
-						"E-mail inválido. O e-mail deve possuir no mínimo 3 caracteres antes do @,"
-								+ " sem espaço, sem acentuação e sem caracteres especiais.");
+				throw new UserDataInvalid("E-mail inválido. O e-mail deve possuir no mínimo 3 caracteres antes do @,"
+						+ " sem espaço, sem acentuação e sem caracteres especiais.");
 			if (!validarSenha(senha))
 				throw new UserDataInvalid(
 						"Senha inválida. " + " A senha deve possuir no mínimo 8 caracteres, entre letras e números.");
@@ -173,5 +195,7 @@ public class UserService {// implements ServiceInterface<User>{
 
 	}
 	// ---------- FIM VALIDAR EMAIL E SENHA ---------------
+
+
 
 }
