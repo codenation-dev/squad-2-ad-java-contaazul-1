@@ -1,6 +1,7 @@
 package com.javawomen.errorcenter.config.security;
 
 import java.util.Date;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -56,6 +57,24 @@ public class TokenService {
 		//recuperar os dados do token: use o parser:
 		Claims claims = Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token).getBody();//devolve o corpo, o obj do token em si
 		return Long.parseLong(claims.getSubject());//pega o id do user, eu setei o subject no securityconfig
+	}
+	
+	
+	//----------------------------
+public String generateResetToken(Optional<User> user) {
+		
+		Date dateActual = new Date();
+		Date dateExpiration = new Date(dateActual.getTime()+ Long.parseLong(expiration));// data mais 1 dia em milisegundos
+		
+		// colocar a api do JJWT para gerar o token		
+		return Jwts.builder()
+				.setIssuer("API Central de Erros")
+				.setSubject(user.get().toString())//o user dono do token
+				.setIssuedAt(dateActual) //qual a data de geração deste token
+				.setExpiration(dateExpiration) //data de expiracao do token 1 dia de milisegundos, por exemplo, napratica colocar apenas 30 minutos, ver no properties, estah em segundos
+				.signWith(SignatureAlgorithm.HS256, secret) //algoritimo, senha ; // HS256 = hmac e char56
+				.compact();
+	
 	}
 
 }
