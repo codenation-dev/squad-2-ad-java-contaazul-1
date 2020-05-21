@@ -28,6 +28,9 @@ import com.javawomen.errorcenter.controller.form.LoginForm;
 import com.javawomen.errorcenter.model.User;
 import com.javawomen.errorcenter.service.UserService;
 
+import io.swagger.annotations.Api;
+
+@Api("API REST Authentication")
 @RestController
 @RequestMapping("/auth") // endereço de autenticação que o cliente deve configurar
 public class AuthenticationController {
@@ -60,7 +63,7 @@ public class AuthenticationController {
 			//antes de devolver o OK,devo gerar o TOKEN
 			String token = tokenService.generateToken(authentication);
 			
-			System.out.println("TOKEN GERADO pelo json = webtoken pelo jjwt:  " + token);
+			System.out.println("TOKEN GERADO pelo jjwt:  " + token);
 			//return ResponseEntity.ok().build();
 			//retornar o token para o cliente
 			return ResponseEntity.ok(new TokenDto(token, "Bearer"));

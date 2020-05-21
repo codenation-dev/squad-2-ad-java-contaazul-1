@@ -60,13 +60,15 @@ public class SwaggerConfigurations {
 	                                    .parameterType("header")
 	                                    .required(false)
 	                                    .build()));
-	                                                    
+	                                                  
 	}
 	
 	private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("Central de Erros - REST API")
-                .description("\"O objetivo desta API é centralizar em um único local os registros de erros que surgem de outras camadas de aplicação.\"")
+                .description("Projeto desenvolvido no programa AceleraDev Java Women oferecido pela Codenation com o apoio da Conta Azul."
+                		+ "/n"
+                		+ " O objetivo desta API é centralizar em um único local os registros de erros que surgem de outras camadas de aplicação.")
                 .version("1.0.0")
                 .license("Apache License Version 2.0")
                 .licenseUrl("https://www.apache.org/licenses/LICENSE-2.0\"")
@@ -97,19 +99,20 @@ public class SwaggerConfigurations {
     
     private SecurityContext securityContext() {
         return SecurityContext.builder()
-            .securityReferences(defaultAuth())
-            .forPaths(PathSelectors.ant("/environment/**"))
-            .forPaths(PathSelectors.ant("/environment"))
-            .forPaths((PathSelectors.ant("/**")))
+            //.securityReferences(defaultAuth())
+            //.forPaths(PathSelectors.ant("/environment/**"))
+            //.forPaths(PathSelectors.ant("/environment"))
+            //.forPaths((PathSelectors.ant("/**")))
             .build();
     }
     
     List<SecurityReference> defaultAuth() {
-        AuthorizationScope authorizationScope
-            = new AuthorizationScope("ADMIN", "accessEverything");
+    	
+        AuthorizationScope authorizationScope = new AuthorizationScope("ADMIN", "accessEverything");
         AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
+        
         authorizationScopes[0] = authorizationScope;
-        return Arrays.asList(
-            new SecurityReference("Token Access", authorizationScopes));
+        
+        return Arrays.asList(new SecurityReference("Token Access", authorizationScopes));
     }
 }
