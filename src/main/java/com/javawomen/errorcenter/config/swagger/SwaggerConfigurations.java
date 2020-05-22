@@ -45,12 +45,12 @@ public class SwaggerConfigurations {
 	                .apis(RequestHandlerSelectors.basePackage("com.javawomen.errorcenter"))
 	                .paths(PathSelectors.ant("/**"))
 	                .build()
-	                .ignoredParameterTypes(User.class)
-	                .useDefaultResponseMessages(false)                                   
+	                //.ignoredParameterTypes(User.class)
+	                .useDefaultResponseMessages(false)          //testar isso                         
 	                //.globalResponseMessage(RequestMethod.GET, responseMessageForGET())//new ApiKey("JWT", "Authorization", "header");
 	                //.securitySchemes(Arrays.asList(new ApiKey("JWT Token Access", HttpHeaders.AUTHORIZATION, In.HEADER.name())))
 	                //.securityContexts(Arrays.asList(securityContext()))
-	                .apiInfo(apiInfo())
+	                .apiInfo(metaInfo())
 	                .globalOperationParameters( //desabilita, testa, depois habilita e testa novamente
 	                        Arrays.asList(
 	                                new ParameterBuilder()
@@ -63,11 +63,10 @@ public class SwaggerConfigurations {
 	                                                  
 	}
 	
-	private ApiInfo apiInfo() {
+	private ApiInfo metaInfo() {
         return new ApiInfoBuilder()
                 .title("Central de Erros - REST API")
                 .description("Projeto desenvolvido no programa AceleraDev Java Women oferecido pela Codenation com o apoio da Conta Azul."
-                		+ "/n"
                 		+ " O objetivo desta API é centralizar em um único local os registros de erros que surgem de outras camadas de aplicação.")
                 .version("1.0.0")
                 .license("Apache License Version 2.0")

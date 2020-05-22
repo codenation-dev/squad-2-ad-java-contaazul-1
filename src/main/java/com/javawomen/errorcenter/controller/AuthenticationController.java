@@ -30,7 +30,7 @@ import com.javawomen.errorcenter.service.UserService;
 
 import io.swagger.annotations.Api;
 
-@Api("API REST Authentication")
+@Api("API REST Authentication")//swagger , ainda nao vi onde estah isso
 @RestController
 @RequestMapping("/auth") // endereço de autenticação que o cliente deve configurar
 public class AuthenticationController {

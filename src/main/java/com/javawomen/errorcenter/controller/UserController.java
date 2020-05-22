@@ -15,6 +15,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -34,6 +35,7 @@ import com.javawomen.errorcenter.model.User;
 import com.javawomen.errorcenter.service.RoleService;
 import com.javawomen.errorcenter.service.UserService;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -41,6 +43,8 @@ import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequestMapping(path = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
+//@Api(value = "Usuário") //swagger
+@CrossOrigin(origins = "*")//libera os dominios de acesar a api: http://dominio.com.br
 public class UserController {
 
 	@Autowired

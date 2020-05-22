@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,11 +26,13 @@ import com.javawomen.errorcenter.controller.form.LevelForm;
 import com.javawomen.errorcenter.model.Level;
 import com.javawomen.errorcenter.service.LevelService;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping(path = "/levels", produces = MediaType.APPLICATION_JSON_VALUE)
-
+//@Api(value = "Usuário") //swagger
+@CrossOrigin(origins = "*")//libera os dominios de acesar a api: http://dominio.com.br
 public class LevelController {
 	
 	@Autowired

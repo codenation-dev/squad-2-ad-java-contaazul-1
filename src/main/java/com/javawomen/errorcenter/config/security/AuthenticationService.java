@@ -25,6 +25,8 @@ public class AuthenticationService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		
+		//aki posso inserir um user padrao admin
+		
 		//consultar bc atraves do email
 		Optional<User> user = userRepository.findByEmail(username);
 		

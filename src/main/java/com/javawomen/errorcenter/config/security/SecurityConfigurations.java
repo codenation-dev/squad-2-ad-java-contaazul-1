@@ -11,9 +11,13 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import org.springframework.security.core.userdetails.User;
 
 import com.javawomen.errorcenter.repository.UserRepository;
 
@@ -42,11 +46,23 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter{
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(authenticationService).passwordEncoder(new BCryptPasswordEncoder());
-		//auth.inMemoryAuthentication()//coloquei isso aki para testar o swagger
-		//.withUser("karina@gmail.com.br")
-		//.password("{noop}karina123")
-		//.roles("ADMIN");
+		/*auth.inMemoryAuthentication()//coloquei isso aki para testar o swagger e agora user default
+		.withUser("user@email.com")
+		.password("{noop}user")
+		.roles("ADMIN");*/
 	}
+	//testando 22.05 seguranca com user inmemory
+	/*@Bean
+	@Override
+	public UserDetailsService userDetailsService() {
+		UserDetails user =
+			 User.withDefaultPasswordEncoder()
+				.username("user")
+				.password("user")
+				.roles("USER")
+				.build();
+		return new InMemoryUserDetailsManager(user);
+	}*/
 	 
 	//configurações de Autorização da urls do projeto //colocaraki o endpoint publico
 	@Override
