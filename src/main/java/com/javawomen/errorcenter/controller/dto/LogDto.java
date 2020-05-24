@@ -29,6 +29,9 @@ public class LogDto {
 		this.frequency = 0L;
 	}
 	
+	public LogDto() {//para serializar arquivo
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -85,7 +88,7 @@ public class LogDto {
 		this.frequency = frequency;
 	}
 	// -------------- static ----------------------
-	
+	/*
 	//retorna uma lista em paginas de Logs 
 	public static Page<LogDto> converter(Page<Log> logs) {
 		//return logs.stream().map(LogDto::new).collect(Collectors.toList());
@@ -106,7 +109,7 @@ public class LogDto {
 	public static LogDto converterToLog(Log log) {
 		return new LogDto(log);
 	}
-
+	*/
 
 
 }

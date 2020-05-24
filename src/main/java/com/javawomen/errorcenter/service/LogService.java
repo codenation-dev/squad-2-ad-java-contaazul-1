@@ -1,5 +1,8 @@
 package com.javawomen.errorcenter.service;
 
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -14,6 +17,10 @@ import org.springframework.stereotype.Service;
 
 import com.javawomen.errorcenter.config.validation.ResourceNotFoundException;
 import com.javawomen.errorcenter.controller.dto.LogDto;
+import com.javawomen.errorcenter.controller.form.LogForm;
+import com.javawomen.errorcenter.data.Archive;
+import com.javawomen.errorcenter.model.Environment;
+import com.javawomen.errorcenter.model.Level;
 import com.javawomen.errorcenter.model.Log;
 import com.javawomen.errorcenter.repository.LogRepository;
 
@@ -76,7 +83,7 @@ public class LogService {// implements ServiceInterface<Log> {
 	// public long countByAttribute(String levelName, String environmentName, String
 	// originName, String descriptionName) {
 
-	// ---------------- TESTAR ---------------------------------------------
+	// --------------------------- FREQUENCY -----------------------------------
 
 	// pegar um log e devolver o numero de vezes que ele aparece no banco
 	public Long countByAttribute(Long id) {
@@ -97,11 +104,12 @@ public class LogService {// implements ServiceInterface<Log> {
 		// transforma em DTO
 		for (Log log : logs) {
 			Long count = countByAttribute(log.getId());
-			LogDto dto = LogDto.converterToLog(log);
+			//LogDto dto = LogDto.converterToLog(log);
+			LogDto dto = converterToLog(log);
 			dto.setFrequency(count);
 			frequencyList.add(dto);
 		}
-		// compara a frequency
+		// compara a frequency ESSA CLASSE INTERNA NAO ESTAH MAIS SENDO USADA, RETIRAR E TESTAR SE ESTÁ TD OK
 		class ComparatorDto implements Comparator<LogDto> {
 			public int compare(LogDto p1, LogDto p2) {
 				return p1.getFrequency() < p2.getFrequency() ? -1 : (p1.getFrequency() > p2.getFrequency() ? +1 : 0);
@@ -144,11 +152,12 @@ public class LogService {// implements ServiceInterface<Log> {
 		// transforma em DTO
 		for (Log log : logs) {
 			Long count = countByAttribute(log.getId());
-			LogDto dto = LogDto.converterToLog(log);
+			//LogDto dto = LogDto.converterToLog(log);
+			LogDto dto = converterToLog(log);
 			dto.setFrequency(count);
 			frequencyList.add(dto);
 		}
-		// compara a frequency
+		// compara a frequency ESSA CLASSE INTERNA NAO ESTAH MAIS SENDO USADA, RETIRAR E TESTAR SE ESTÁ TD OK
 		class ComparatorDto implements Comparator<LogDto> {
 			public int compare(LogDto p1, LogDto p2) {
 				return p1.getFrequency() < p2.getFrequency() ? -1 : (p1.getFrequency() > p2.getFrequency() ? +1 : 0);
@@ -163,13 +172,59 @@ public class LogService {// implements ServiceInterface<Log> {
 
 	}
 
-	// falta implementar: -------------------------------------------
+	
+	//------------------- métodos que devolvem um DTO --------------------
+	
+	//retorna uma lista em paginas de Logs 
+	public Page<LogDto> converter(Page<Log> logs) {
+		//return logs.stream().map(LogDto::new).collect(Collectors.toList());
+		return logs.map(LogDto::new);
+	}
+	
+	//retorna um log (para nao devolver uma entidade)
+	public List<LogDto> converterToLog(List<Log> logs) {			
+		//return new LogDto(log);
+		return logs.stream().map(LogDto::new).collect(Collectors.toList());
+	}
 
-	// Page<LogDto> LogDto.converter(Page<Log> logs);
+	public LogDto converterToLog(Optional<Log> logOptional) {
+		//return converterToLog(userOptional.get());
+		return new LogDto(logOptional.get());
+	}
 
-	// List<LogDto> LogDto.converterToLog(List<Log> logs);
+	public LogDto converterToLog(Log log) {
+		return new LogDto(log);
+	}
+	
+	//--------------------------------- métodos que devolvem um FORM -----------------------------------
+	public Log converter(LevelService levelService, EnvironmentService environmentService, LogForm form) {
+		Optional<Level> levelOptional = levelService.findByName(form.getNameLevel());
+		Optional<Environment> environmentOptional = environmentService.findByName(form.getNameEnvironment());
 
-	// Log form.converter(LevelRepository levelRepository, EnvironmentRepository
-	// environmentRepository);
+		if(!levelOptional.isPresent())throw new ResourceNotFoundException("Level não encontrado.");
+		if(!environmentOptional.isPresent())throw new ResourceNotFoundException("Ambiente não encontrado.");
 
+		return new Log(levelOptional.get(), environmentOptional.get(), form.getOrigin(), form.getDescription());
+
+	}
+	
+	public void archiveLog(Long id) throws IOException {
+		Optional<Log> logOptional = logRepository.findById(id);
+		if (!logOptional.isPresent()) throw new ResourceNotFoundException("ID não encontrado.");
+		LogDto dto = converterToLog(logOptional);
+		Archive archive = new Archive();
+		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HHmmssSSSS");
+		String date = dto.getCreatedAt().format(formatter);
+		archive.write(dto, date);
+	}
+	
+	//esse método nao é requisito, implementar no controller se der tempo
+	public LogDto readArchiveLog(Log log, String archiveName) throws Throwable {
+		Archive archive = new Archive();
+		LogDto dto = archive.read(archiveName);
+		return dto;
+	}
+	
+	
 }

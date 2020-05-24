@@ -13,8 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+
 
 import com.javawomen.errorcenter.repository.UserRepository;
 
@@ -43,6 +42,10 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter{
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(authenticationService).passwordEncoder(new BCryptPasswordEncoder());
+		//auth.inMemoryAuthentication()//coloquei isso aki para testar o swagger
+		//.withUser("karina@gmail.com.br")
+		//.password("{noop}karina123")
+		//.roles("ADMIN");
 	}
 	 
 	//configurações de Autorização da urls do projeto //colocaraki o endpoint publico
@@ -52,12 +55,16 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter{
 		.antMatchers("/roles").permitAll()//hasRole("ADMIN")
 		//.antMatchers(HttpMethod.POST, "/roles").permitAll()
 		.antMatchers("/roles/**").permitAll()//hasRole("ADMIN")
+		.antMatchers("/auth").permitAll()//hasRole("ADMIN")
+		//.antMatchers(HttpMethod.POST, "/roles").permitAll()
+		.antMatchers("/auth/**").permitAll()//hasRole("ADMIN")
 		.antMatchers(HttpMethod.DELETE, "/logs/**").hasRole("USER")// Padrão ROLE_
-		.antMatchers(HttpMethod.DELETE, "/users/**").hasRole("USER")
+		.antMatchers(HttpMethod.DELETE, "/users/**").hasRole("ADMIN")
 		.antMatchers(HttpMethod.PUT, "/users/**").hasRole("USER")
 		.antMatchers(HttpMethod.PATCH, "/users/role/**").permitAll()//.hasRole("ADMIN")
 		.antMatchers(HttpMethod.POST, "/logs").hasAnyRole("USER", "SYSTEM", "ADMIN")//.permitAll()//liberar para sistema e admin
 		.antMatchers(HttpMethod.POST, "/auth").permitAll()
+		.antMatchers(HttpMethod.POST, "/auth/**").permitAll()//---- testar
 		.antMatchers(HttpMethod.POST, "/users").permitAll()
 		.antMatchers(HttpMethod.GET, "/actuator/**").permitAll() //após testar retire isso antes de ir a producao
 		.anyRequest().authenticated() //evita q uma url que nao foi configurada seja publica
@@ -78,7 +85,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter{
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring()
-        .antMatchers("/**.html", "/v2/api-docs", "/webjars/**", "/configuration/**", "/swagger-resources/**");
+        .antMatchers("/**.html", "/v2/api-docs", "/webjars/**", "/configuration/**", "/swagger-resources/**", "/swagger-ui.html");
 
 	}
 	

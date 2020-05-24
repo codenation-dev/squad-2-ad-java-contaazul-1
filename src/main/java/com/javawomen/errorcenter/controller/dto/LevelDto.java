@@ -30,8 +30,8 @@ public class LevelDto {
 		this.name = name;
 	}
 	
-	//--------------- static ------------
-	
+	//--------------- static foram passados para o service: retiarar apos testes  ------------
+	/*	
 	public static LevelDto converterToLevel(Optional<Level> levelOptional) {
 		return converterToLevel(levelOptional.get());
 	}
@@ -43,6 +43,6 @@ public class LevelDto {
 	public static List<LevelDto> converter(List<Level> levels) {
 		return levels.stream().map(LevelDto::new).collect(Collectors.toList());
 	}
-	
+	*/
 	
 }

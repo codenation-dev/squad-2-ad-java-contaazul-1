@@ -17,28 +17,21 @@ import org.springframework.data.annotation.CreatedDate;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
  
-@Entity
-@Table(name = "log")
+@Entity@Table(name = "log")
 public class Log {
 
 	 //javax.persistence.Id;
 	@Id @Column(name="log_id") @GeneratedValue(strategy = GenerationType.SEQUENCE) //@GeneratedValue(strategy = GenerationType.SEQUENCE)//uso sequence por conta do bco ser postgresql
 	private Long id;	
 	
-    //@Column(columnDefinition = "timestamp default now()"
     @CreatedDate
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")   
     @Column(name = "created_at")  
     private LocalDateTime createdAt = LocalDateTime.now();
-    //private Timestamp createdAt;   
     
-    //@JoinColumn(name="level")
-    //@JoinColumn(name="level_id")
     @ManyToOne
 	private Level level;
     
-    //@JoinColumn(name="environment")
-    //@JoinColumn(name="environment_id")
     @ManyToOne 
 	private Environment environment;    
     
@@ -48,9 +41,8 @@ public class Log {
     @Length(min = 10, max = 100)
     private String description;
     
-    //@Transient
-    //private Long frequency;
-
+    @Length(min = 10, max = 100)
+    private String Details;
 
     /*
      * datetime: representa uma data como no calendário e a hora como encontrado no relógio.
@@ -58,8 +50,17 @@ public class Log {
      * 
      */
 
+    public String getDetails() {
+		return Details;
+	}
 
-    //construtor para jpa, no curso nao tinha
+
+	public void setDetails(String details) {
+		Details = details;
+	}
+
+
+	//construtor para jpa
 	public Log() {}
 
 	
@@ -68,11 +69,9 @@ public class Log {
 		this.environment = environment;
 		this.origin = origin;
 		this.description = description;
-		//this.frequency = 0L;
 	}
 
 
-	//getter 
 	public Long getId() {
 		return id;
 	}
@@ -97,7 +96,6 @@ public class Log {
 		return level;
 	}
 
-	//setter
 	public void setId(Long id) {
 		this.id = id;
 	}

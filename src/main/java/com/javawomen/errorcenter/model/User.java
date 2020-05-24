@@ -25,7 +25,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-//<<UserDetails>> essa classe é a q tem detalhes do user
 @Entity              
 @Table(name = "TBuser", uniqueConstraints={@UniqueConstraint(columnNames={"email"})}) //não são chave-primária, no entanto, precisam possuir valores únicos
 public class User implements UserDetails{ 
@@ -35,34 +34,32 @@ public class User implements UserDetails{
 	
 	
 	@Id //vem do javax.persistence.Id;
-	@GeneratedValue(strategy = GenerationType.SEQUENCE) //@GeneratedValue(strategy = GenerationType.SEQUENCE)//uso sequence por conta do bco ser postgresql
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)//uso sequence por conta do bco ser postgresql
 	@Column(name="user_id") //O tamanho default das colunas é 255.
 	private Long id;	
 		
     private String name;
 	
-    @Email //testar
+    @Email
     @Column(name = "email") //@Column é opcional, possuindo valores default https://www.devmedia.com.br/mapeamento-hibernate-configurando-tabelas-e-colunas/29526
     private String email;
 
     private String password;
     
+    private String description;
   
     @NotNull
     @CreatedDate //testar
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")    
-    @Column(name = "created_at") //@Column(columnDefinition = "timestamp default now()")
+    @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
-    
     
     @ManyToMany(fetch = FetchType.EAGER)		  //qnd carregar o user, ja carrego a lista de perfil dele
     private List<Role> roles = new ArrayList<>(); //pefil, já inicio para não ficar null
-    
-    
  
-    //construtor vazio para a JPA
+    
+    //construtor vazio para a JPA ou hibernate - ver
 	public User() {}
-
 	
 	public User(String name, String password, String email, Role role) {
 		this.name = name;
@@ -70,9 +67,6 @@ public class User implements UserDetails{
 		this.password = password;
 		setRoles(role);
 	}
-
-
-	//getters e setters para UserDto
 	
 	public Long getId() {
 		return id;
@@ -89,6 +83,10 @@ public class User implements UserDetails{
 	public String getEmail() {
 		return email;
 	}
+	
+	public String getDescription() {
+		return description;
+	}
 
 	public LocalDateTime getCreatedAt() {
 		return createdAt;
@@ -104,6 +102,10 @@ public class User implements UserDetails{
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public void setEmail(String email) {
@@ -128,7 +130,7 @@ public class User implements UserDetails{
 	
 	//-------------------------  USER DETAILS -----------------------------
 	
-	//GrantedAuthority: para o spring secutrity, além da classe user, precisamos de uma classe que tem o perfil do user
+	//GrantedAuthority: para o spring secutrity, pois além da classe user, precisamos de uma classe que tem o perfil do user
 	@Override 
 	public Collection<? extends GrantedAuthority> getAuthorities() { //Coleção herda de GrandetAt...
 		return this.roles;
@@ -167,9 +169,5 @@ public class User implements UserDetails{
 	public boolean isEnabled() {
 		return true;
 	}
-
-
-
-	
 
 }

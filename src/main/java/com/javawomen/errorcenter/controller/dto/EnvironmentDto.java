@@ -29,8 +29,8 @@ public class EnvironmentDto {
 		this.name = name;
 	}
 	
-	//--------------- static ------------
-	
+	//--------------- static passados para o service: Retirar após testes ------------
+	/*
 	public static EnvironmentDto converterToEnvironment(Environment environment) {			
 		return new EnvironmentDto(environment);
 	}
@@ -42,5 +42,5 @@ public class EnvironmentDto {
 	public static EnvironmentDto converterToEnvironment(Optional<Environment> environmentOptional) {
 		return converterToEnvironment(environmentOptional.get());
 	}
-	
+	*/
 }

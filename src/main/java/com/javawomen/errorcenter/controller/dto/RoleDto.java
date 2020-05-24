@@ -34,7 +34,7 @@ public class RoleDto {
 
 	// --------------- static ------------
 
-	public static RoleDto converterToRole(Optional<Role> roleOptional) {
+/*	public static RoleDto converterToRole(Optional<Role> roleOptional) {
 		return converterToRole(roleOptional.get());
 	}
 	
@@ -45,5 +45,5 @@ public class RoleDto {
 	public static List<RoleDto> converter(List<Role> roles) {
 		return roles.stream().map(RoleDto::new).collect(Collectors.toList());
 	}
-
+*/
 }

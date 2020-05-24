@@ -50,7 +50,7 @@ public class UserDto {
 	//	return users.stream().map(UserDto::new).collect(Collectors.toList());
 	//}
 	
-	
+	/*
 	//retorna um Usuário sem a senha
 	public static UserDto converterToUser(User user) {			
 		return new UserDto(user);
@@ -65,6 +65,6 @@ public class UserDto {
 		//User user = userOptional.get();		
 		return converterToUser(userOptional.get());
 	}
-    
+    */
     
 }
