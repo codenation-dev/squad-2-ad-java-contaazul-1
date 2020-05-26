@@ -46,7 +46,8 @@ public interface UserService {
 	public Page<UserDto> converter(Page<User> users);
 	
 	public UserDto converterToUser(Optional<User> userOptional);
+	
+//	public static class DataValidation;
 
-	public static class DataValidation;
 
 }

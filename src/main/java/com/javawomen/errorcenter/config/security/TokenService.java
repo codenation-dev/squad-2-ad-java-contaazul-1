@@ -1,12 +1,16 @@
 package com.javawomen.errorcenter.config.security;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.Optional;
 
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.javawomen.errorcenter.model.User;
 
 import io.jsonwebtoken.Claims;
@@ -61,10 +65,10 @@ public class TokenService {
 	
 	
 	//----------------------------
-public String generateResetToken(Optional<User> user) {
+	public String generateResetToken(Optional<User> user) {
 		
 		Date dateActual = new Date();
-		Date dateExpiration = new Date(dateActual.getTime()+ Long.parseLong(expiration));// data mais 1 dia em milisegundos
+		Date dateExpiration = new Date(dateActual.getTime()+ 60000);// + 1 minuto
 		
 		// colocar a api do JJWT para gerar o token		
 		return Jwts.builder()
@@ -75,6 +79,29 @@ public String generateResetToken(Optional<User> user) {
 				.signWith(SignatureAlgorithm.HS256, secret) //algoritimo, senha ; // HS256 = hmac e char56
 				.compact();
 	
+	}
+	
+	public boolean isTokenExpired(String token) {
+		
+	    String[] splitToken = token.split("\\.");
+	    String base64EncodedBody = splitToken[1];
+	    Base64 base64Url = new Base64();
+
+	    String body = new String(base64Url.decode(base64EncodedBody));
+	    ObjectMapper mapper = new ObjectMapper();
+	    JsonNode actualObj = null;
+		try {
+			actualObj = mapper.readTree(body);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	    String exp = actualObj.get("exp").asText();
+	    long expLong = Long.parseLong(exp) * 1000;
+	    long currentTime = System.currentTimeMillis();
+	    System.out.println("expLong:     "+expLong);
+	    System.out.println("currentTime: "+currentTime);
+	    return expLong <= currentTime;
+	    
 	}
 
 }

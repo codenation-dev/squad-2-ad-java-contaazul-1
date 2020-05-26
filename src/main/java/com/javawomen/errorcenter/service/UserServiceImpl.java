@@ -1,10 +1,10 @@
 package com.javawomen.errorcenter.service;
 
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,24 +12,22 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-//import com.javawomen.errorcenter.config.validation.UserDataInvalid;
-import java.util.stream.Collectors;
-
+import com.javawomen.errorcenter.config.security.TokenService;
 import com.javawomen.errorcenter.config.validation.ResourceNotFoundException;
 import com.javawomen.errorcenter.config.validation.UserDataInvalid;
-import com.javawomen.errorcenter.controller.dto.LogDto;
+import com.javawomen.errorcenter.controller.dto.ResetPasswordDTO;
 import com.javawomen.errorcenter.controller.dto.RoleDto;
 import com.javawomen.errorcenter.controller.dto.UserDto;
 import com.javawomen.errorcenter.controller.form.UserForm;
-import com.javawomen.errorcenter.model.Log;
+import com.javawomen.errorcenter.model.ResetToken;
 import com.javawomen.errorcenter.model.Role;
 
 //import org.springframework.stereotype.Service;
 
 import com.javawomen.errorcenter.model.User;
+import com.javawomen.errorcenter.repository.ResetTokenRepository;
 import com.javawomen.errorcenter.repository.UserRepository;
+//import com.javawomen.errorcenter.service.UserService.DataValidation;
 
 /**
  * @author Karina
@@ -41,6 +39,12 @@ public class UserServiceImpl implements UserService{
 
 	@Autowired
 	UserRepository userRepository;
+	
+	@Autowired
+	ResetTokenRepository resetTokenRepository;
+	
+	@Autowired
+	TokenService tokenService;
 
 	public Page<User> findAll(Pageable paginacao) {
 		return userRepository.findAll(paginacao);
@@ -173,5 +177,38 @@ public class UserServiceImpl implements UserService{
 
 	}
 	// ---------- FIM VALIDAR EMAIL E SENHA ---------------
+	
+	public User updatePassword(ResetPasswordDTO form) {
+		Optional<User> userOptional = findByEmail(form.getEmail());
+		Optional<ResetToken> resetTokenOptional = resetTokenRepository.findByToken(form.getToken());
+		
+		//Verifica se o token digitado existe no banco de dados.
+		if(!resetTokenOptional.isPresent())
+			throw new ResourceNotFoundException("Token digitado não encontrado.");
+		
+		if(!form.getPassword().equals(form.getConfirmPassword()))
+			throw new ResourceNotFoundException("A senha e a confirmação de senha não são iguais. Digite novamente.");
+		
+		//Verifica se o token foi digitado incorretamente.
+		if(resetTokenRepository.findByToken(form.getToken()) == null ||
+				!form.getToken().equals(resetTokenOptional.get().getToken()))
+			throw new ResourceNotFoundException("Token digitado incorretamente.");
+		
+		//Verifica se o token digitado está expirado
+		if(tokenService.isTokenExpired(form.getToken()))
+			throw new ResourceNotFoundException("Token digitado expirou. Informe um novo token.");
+		
+		User user = userOptional.get();
+
+		new DataValidation(form.getEmail(),form.getPassword());
+		
+		user.setPassword(new BCryptPasswordEncoder().encode(form.getPassword()));
+		
+		deleteById(user.getId());
+		
+		save(user);
+
+		return user;
+	}
 
 }
