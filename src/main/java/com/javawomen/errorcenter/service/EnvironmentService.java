@@ -1,7 +1,7 @@
 package com.javawomen.errorcenter.service;
 
 import java.util.List;
-import java.util.Optional; 
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.javawomen.errorcenter.controller.dto.EnvironmentDto;
