@@ -55,16 +55,16 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter{
 		.antMatchers("/roles").permitAll()//hasRole("ADMIN")
 		//.antMatchers(HttpMethod.POST, "/roles").permitAll()
 		.antMatchers("/roles/**").permitAll()//hasRole("ADMIN")
-		.antMatchers("/auth").permitAll()//hasRole("ADMIN")
-		//.antMatchers(HttpMethod.POST, "/roles").permitAll()
-		.antMatchers("/auth/**").permitAll()//hasRole("ADMIN")
+
+
+		
 		.antMatchers(HttpMethod.DELETE, "/logs/**").hasRole("USER")// Padrão ROLE_
-		.antMatchers(HttpMethod.DELETE, "/users/**").hasRole("ADMIN")
-		.antMatchers(HttpMethod.PUT, "/users/**").hasRole("USER")
+		.antMatchers(HttpMethod.DELETE, "/users/**").hasRole("USER")
+		.antMatchers(HttpMethod.PUT, "/users/**").permitAll()//hasRole("USER")
 		.antMatchers(HttpMethod.PATCH, "/users/role/**").permitAll()//.hasRole("ADMIN")
 		.antMatchers(HttpMethod.POST, "/logs").hasAnyRole("USER", "SYSTEM", "ADMIN")//.permitAll()//liberar para sistema e admin
 		.antMatchers(HttpMethod.POST, "/auth").permitAll()
-		.antMatchers(HttpMethod.POST, "/auth/**").permitAll()//---- testar
+		.antMatchers(HttpMethod.POST, "/auth/**").permitAll()
 		.antMatchers(HttpMethod.POST, "/users").permitAll()
 		.antMatchers(HttpMethod.GET, "/actuator/**").permitAll() //após testar retire isso antes de ir a producao
 		.anyRequest().authenticated() //evita q uma url que nao foi configurada seja publica
