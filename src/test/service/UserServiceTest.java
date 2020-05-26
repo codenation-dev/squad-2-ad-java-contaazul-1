@@ -1,4 +1,6 @@
-package com.javawomen.errorcenter.test.service;
+package service;
+
+import static org.junit.Assert.assertEquals;
 
 import java.util.Optional;
 
@@ -22,6 +24,9 @@ public class UserServiceTest {
 	
 	@Test
 	public void findUserById() {
-		return null;
+		Long id = 5L;
+		Optional<User> userOptional = userService.findById(id);
+		assertEquals("aliceborges@outlook.com.br", userOptional.get().getEmail());
 	}
 }
+
