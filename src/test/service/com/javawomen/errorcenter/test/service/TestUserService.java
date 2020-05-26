@@ -1,4 +1,4 @@
-package service;
+package service.com.javawomen.errorcenter.test.service;
 
 import static org.junit.Assert.assertEquals;
 
@@ -15,7 +15,7 @@ import com.javawomen.errorcenter.repository.UserRepository;
 import com.javawomen.errorcenter.service.UserService;
 
 @RunWith(MockitoJUnitRunner.class)
-public class UserServiceTest {
+public class TestUserService {
 	@Mock
 	private UserRepository userRepository;
 	
@@ -29,4 +29,3 @@ public class UserServiceTest {
 		assertEquals("aliceborges@outlook.com.br", userOptional.get().getEmail());
 	}
 }
-
