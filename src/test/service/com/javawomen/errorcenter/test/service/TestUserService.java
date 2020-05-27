@@ -12,7 +12,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import com.javawomen.errorcenter.model.User;
 import com.javawomen.errorcenter.repository.UserRepository;
-import com.javawomen.errorcenter.service.UserServiceImpl;
+import com.javawomen.errorcenter.service.UserService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TestUserService {
@@ -20,12 +20,12 @@ public class TestUserService {
 	private UserRepository userRepository;
 	
 	@InjectMocks
-	private UserServiceImpl userServiceImpl;
+	private UserService userService;
 	
 	@Test
 	public void findUserById() {
 		Long id = 5L;
-		Optional<User> userOptional = userServiceImpl.findById(id);
+		Optional<User> userOptional = userService.findById(id);
 		if (userOptional.isPresent()) {
 			assertEquals("aliceborges@outlook.com.br", userOptional.get().getEmail());
 		}
