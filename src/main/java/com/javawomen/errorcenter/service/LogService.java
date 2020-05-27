@@ -3,7 +3,6 @@ package com.javawomen.errorcenter.service;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -84,7 +83,6 @@ public class LogService implements LogServiceInterface{
 	// originName, String descriptionName) {
 
 	// --------------------------- FREQUENCY -----------------------------------
-
 	// pegar um log e devolver o numero de vezes que ele aparece no banco
 	public Long countByAttribute(Long id) {
 		Optional<Log> logOptional = logRepository.findById(id);
@@ -109,32 +107,10 @@ public class LogService implements LogServiceInterface{
 			dto.setFrequency(count);
 			frequencyList.add(dto);
 		}
-		// compara a frequency ESSA CLASSE INTERNA NAO ESTAH MAIS SENDO USADA, RETIRAR E TESTAR SE ESTÁ TD OK
-		//class ComparatorDto implements Comparator<LogDto> {
-		//	public int compare(LogDto p1, LogDto p2) {
-		//		return p1.getFrequency() < p2.getFrequency() ? -1 : (p1.getFrequency() > p2.getFrequency() ? +1 : 0);
-		//	}
-		//}
-		// realiza ordenação
-		// Comparator<LogDto> crescente = new ComparatorDto();
-		// Comparator<LogDto> decrescente = Collections.reverseOrder(crescente);
-		// ordena a lista em ordem desc
-		// Collections.sort(frequencyList, decrescente);
 
 		// A chave é a frequencia
 		Map<Long, List<LogDto>> frequencyMap = frequencyList.stream()
 				.collect(Collectors.groupingBy(LogDto::getFrequency));
-
-		// --- inicio ------ ordenação decrescente por chave
-		// class MyComparator implements Comparator<Object> { Map map;
-		// public MyComparator(Map map) { this.map = map; }
-		// public int compare(Object o1, Object o2) {
-		// return ((Integer) map.get(o2)).compareTo((Integer) map.get(o1)); } }
-		//
-		// MyComparator comp = new MyComparator(myMap);
-		// Map newMap = new TreeMap(Collections.reverseOrder());
-		// newMap.putAll(myMap);
-		// --- fim
 
 		return frequencyMap;
 	}
@@ -152,18 +128,10 @@ public class LogService implements LogServiceInterface{
 		// transforma em DTO
 		for (Log log : logs) {
 			Long count = countByAttribute(log.getId());
-			//LogDto dto = LogDto.converterToLog(log);
 			LogDto dto = converterToLog(log);
 			dto.setFrequency(count);
 			frequencyList.add(dto);
 		}
-		// compara a frequency ESSA CLASSE INTERNA NAO ESTAH MAIS SENDO USADA, RETIRAR E TESTAR SE ESTÁ TD OK
-		//class ComparatorDto implements Comparator<LogDto> {
-			//public int compare(LogDto p1, LogDto p2) {
-				//return p1.getFrequency() < p2.getFrequency() ? -1 : (p1.getFrequency() > p2.getFrequency() ? +1 : 0);
-			//}
-		//}
-
 		// A chave é a frequencia
 		Map<Long, List<LogDto>> frequencyMap = frequencyList.stream()
 				.collect(Collectors.groupingBy(LogDto::getFrequency));
@@ -173,22 +141,19 @@ public class LogService implements LogServiceInterface{
 	}
 
 	
-	//------------------- métodos que devolvem um DTO --------------------
+	//------------------------ MÉTODO COM DTO  ----------------------
 	
 	//retorna uma lista em paginas de Logs 
 	public Page<LogDto> converter(Page<Log> logs) {
-		//return logs.stream().map(LogDto::new).collect(Collectors.toList());
 		return logs.map(LogDto::new);
 	}
 	
 	//retorna um log (para nao devolver uma entidade)
-	public List<LogDto> converterToLog(List<Log> logs) {			
-		//return new LogDto(log);
+	public List<LogDto> converterToLog(List<Log> logs) {
 		return logs.stream().map(LogDto::new).collect(Collectors.toList());
 	}
 
 	public LogDto converterToLog(Optional<Log> logOptional) {
-		//return converterToLog(userOptional.get());
 		return new LogDto(logOptional.get());
 	}
 
@@ -196,7 +161,7 @@ public class LogService implements LogServiceInterface{
 		return new LogDto(log);
 	}
 	
-	//--------------------------------- métodos que devolvem um FORM -----------------------------------
+	//----------------------- MÉTODO COM FORM  ----------------------
 	public Log converter(LevelService levelService, EnvironmentService environmentService, LogForm form) {
 		Optional<Level> levelOptional = levelService.findByName(form.getNameLevel().toUpperCase());
 		Optional<Environment> environmentOptional = environmentService.findByName(form.getNameEnvironment().toUpperCase());
@@ -208,6 +173,7 @@ public class LogService implements LogServiceInterface{
 
 	}
 	
+	//---------------------  ARQUIVA LOG EM TXT ---------------------
 	public void archiveLog(Long id) throws IOException {
 		Optional<Log> logOptional = logRepository.findById(id);
 		if (!logOptional.isPresent()) throw new ResourceNotFoundException("ID não encontrado.");

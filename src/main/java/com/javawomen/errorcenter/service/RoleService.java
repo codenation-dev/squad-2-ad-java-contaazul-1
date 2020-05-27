@@ -20,8 +20,7 @@ public class RoleService implements RoleServiceInterface{
 
 	@Autowired
 	RoleRepository roleRepository;
-	
-	
+
 	public List<Role> findAll() {
 		return roleRepository.findAll();
 	}
@@ -29,41 +28,6 @@ public class RoleService implements RoleServiceInterface{
 	public long count() {//usado no primeiro acesso para cadastrar roles
 		return roleRepository.count();
 	}	
-	
-	// ---------------  DELETAR  ----------------
-	
-	public Optional<Role> findById(Long id) {
-		return roleRepository.findById(id);
-	}
-	
-	//deletar antes da apresentação
-	public Role save(Role object) {
-		return roleRepository.save(object);
-	}
-	
-	//deletar antes da apresentação
-	public void deleteById(Long id) {
-		roleRepository.deleteById(id);		
-	}
-	//deletar antes da apresentação
-	public Optional<Role> findByName(String roleName) {
-		return roleRepository.findByRoleName(roleName);
-	}
-	// ---------------  DELETAR  ----------------
-
-
-	
-
-	//--------------- métodos que devolvem um dto ------------
-	/*
-	public RoleDto converterToRole(Optional<Role> roleOptional) {
-		return converterToRole(roleOptional.get());
-	}
-	
-	public RoleDto converterToRole(Role role) {
-		return new RoleDto(role);
-	}
-	 */
 	
 	//usado para criar os roles no inicio do systema
 	public Role converter(String roleName) {
@@ -74,10 +38,15 @@ public class RoleService implements RoleServiceInterface{
 		return roles.stream().map(RoleDto::new).collect(Collectors.toList());
 	}
 
-
-	//------------------- métodos que devolvem um FORM --------------------
-	//deletar antes da apresentação, o form é apenas para criar e nao vamos criar novos
-	//public Role converter(RoleForm form) {
-	//	return new Role(form.getRoleName());
-	//}
+	public Optional<Role> findByName(String roleName) {
+		return roleRepository.findByRoleName(roleName);
+	}
+	
+	public Role save(Role object) {
+		return roleRepository.save(object);
+	}
+	
+	public Optional<Role> findById(Long id) {
+		return roleRepository.findById(id);
+	}
 }

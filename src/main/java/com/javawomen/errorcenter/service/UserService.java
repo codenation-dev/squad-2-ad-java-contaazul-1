@@ -24,10 +24,6 @@ import com.javawomen.errorcenter.repository.ResetTokenRepository;
 import com.javawomen.errorcenter.repository.UserRepository;
 import com.javawomen.errorcenter.service.interfaces.UserServiceInterface;
 
-/**
- * @author Karina
- *
- */
 
 @Service
 public class UserService  implements UserServiceInterface{
@@ -92,28 +88,27 @@ public class UserService  implements UserServiceInterface{
 		return user;
 	}
 
-//----------nat
+	// ---------------------  RESET-PASSWORD  -------------------------
 	public User updatePassword(ResetPasswordDTO form) {
 
 		Optional<User> userOptional = findByEmail(form.getEmail());
 		if (!userOptional.isPresent())throw new ResourceNotFoundException("Email não encontrado");
 		
-		//////////////////
 		Optional<ResetToken> resetTokenOptional = resetTokenRepository.findByToken(form.getToken());
 		//Verifica se o token digitado existe no banco de dados.
 		if(!resetTokenOptional.isPresent())throw new ResourceNotFoundException("Token digitado não encontrado.");
+		
 		if(!form.getPassword().equals(form.getConfirmPassword()))
 			throw new ResourceNotFoundException("A senha e a confirmação de senha não são iguais. Digite novamente.");
+		
 		//Verifica se o token foi digitado incorretamente.
 		if(resetTokenRepository.findByToken(form.getToken()) == null ||
 				!form.getToken().equals(resetTokenOptional.get().getToken()))
-			throw new ResourceNotFoundException("Token digitado incorretamente.");
+			throw new ResourceNotFoundException("Token não encontrado.");
 		
 		//Verifica se o token digitado está expirado
 		if(tokenService.isTokenExpired(form.getToken()))
-			throw new ResourceNotFoundException("Token digitado expirou. Informe um novo token.");
-		/////////////////
-		
+			throw new ResourceNotFoundException("Token digitado expirou. Informe um novo token.");		
 
 		User user = userOptional.get();
 
@@ -128,10 +123,6 @@ public class UserService  implements UserServiceInterface{
 		return user;
 	}
 	
-	
-//--------------nat
-
-
 
 	// -------------------- USERFORM - NEW USER ---------------------
 
@@ -143,11 +134,6 @@ public class UserService  implements UserServiceInterface{
 	}
 
 	// -------------------------- USERDTO  --------------------------
-
-	// retorna uma lista de Usuários sem a senha
-	// public static List<UserDto> converter(List<User> users) {
-	// return users.stream().map(UserDto::new).collect(Collectors.toList());
-	// }
 
 	// retorna um Usuário sem a senha
 	public UserDto converterToUser(User user) {

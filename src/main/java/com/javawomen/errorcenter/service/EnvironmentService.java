@@ -40,7 +40,7 @@ public class EnvironmentService implements ServiceInterface<Environment, Environ
 		return environmentRepository.findByName(nameEnvironment);
 	}
 	
-	//--------------- métodos que devolvem um dto ------------
+	//------------------- MÉTODO COM DTO  -------------------	
 	
 	public EnvironmentDto converterToDto(Environment environment) {			
 		return new EnvironmentDto(environment);
@@ -50,11 +50,7 @@ public class EnvironmentService implements ServiceInterface<Environment, Environ
 		return environments.stream().map(EnvironmentDto::new).collect(Collectors.toList());
 	}
 
-	//public EnvironmentDto converterToEnvironment(Optional<Environment> environmentOptional) {
-	//	return converterToEnvironment(environmentOptional.get());
-	//}
-
-	//------------------- métodos que devolvem um FORM --------------------
+	//------------------- MÉTODO COM FORM  ------------------
 	
 	public Environment converter(EnvironmentForm form) {
 			return new Environment(form.getName().toUpperCase());
