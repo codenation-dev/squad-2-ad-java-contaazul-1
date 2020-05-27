@@ -13,7 +13,6 @@ import com.javawomen.errorcenter.model.Role;
 import com.javawomen.errorcenter.model.User;
 import com.javawomen.errorcenter.service.RoleService;
 
-
 public interface UserServiceInterface {
 	
 	Page<User> findAll(Pageable paginacao);

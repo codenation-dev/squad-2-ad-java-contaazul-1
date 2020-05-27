@@ -14,7 +14,6 @@ import com.javawomen.errorcenter.model.Log;
 import com.javawomen.errorcenter.service.EnvironmentService;
 import com.javawomen.errorcenter.service.LevelService;
 
-
 public interface LogServiceInterface {
 	
 	Page<Log> findAll(Pageable paginacao);

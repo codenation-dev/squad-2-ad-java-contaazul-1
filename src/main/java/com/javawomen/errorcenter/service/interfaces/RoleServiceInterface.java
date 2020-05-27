@@ -14,4 +14,5 @@ public interface RoleServiceInterface {
 	Role converter(String roleName);
 	
 	List<RoleDto> converter(List<Role> roles);
+	
 }
