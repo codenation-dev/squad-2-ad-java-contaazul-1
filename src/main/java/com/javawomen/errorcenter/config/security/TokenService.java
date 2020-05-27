@@ -33,17 +33,12 @@ public class TokenService {
 
 		User userLoggedIn = (User) authentication.getPrincipal(); // pega o user que está logado
 		Date dateActual = new Date();
-		Date dateExpiration = new Date(dateActual.getTime() + Long.parseLong(expiration));// data mais 1 dia em
-																							// milisegundos
+		Date dateExpiration = new Date(dateActual.getTime() + Long.parseLong(expiration));
 
-		// colocar a api do JJWT para gerar o token
-		return Jwts.builder().setIssuer("API Central de Erros").setSubject(userLoggedIn.getId().toString())// o user
-																											// dono do
-																											// token
-				.setIssuedAt(dateActual) // qual a data de geração deste token
-				.setExpiration(dateExpiration) // data de expiracao do token 1 dia de milisegundos, por exemplo,
-												// napratica colocar apenas 30 minutos, ver no properties, estah em
-												// segundos
+		// colocar a api do JJWT para gerar o token // o user dono do token
+		return Jwts.builder().setIssuer("API Central de Erros").setSubject(userLoggedIn.getId().toString())
+				.setIssuedAt(dateActual)
+				.setExpiration(dateExpiration) 
 				.signWith(SignatureAlgorithm.HS256, secret) // algoritimo, senha ; // HS256 = hmac e char56
 				.compact();
 
@@ -67,35 +62,23 @@ public class TokenService {
 
 	public Long getIdUser(String token) {
 		// recuperar os dados do token: use o parser:
-		Claims claims = Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token).getBody();// devolve o corpo, o
-																									// obj do token em
-																									// si
+		Claims claims = Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token).getBody();
+		// devolve o corpo, o obj do token em si
 		return Long.parseLong(claims.getSubject());// pega o id do user, eu setei o subject no securityconfig
 	}
 
 	
-	
-	
-	
-	// ---------------------------- nat
 	public String generateResetToken(Optional<User> user) {
-
 		Date dateActual = new Date();
-		Date dateExpiration = new Date(dateActual.getTime() + Long.parseLong(expiration));// data mais 1 dia em
-																							// milisegundos
-
-		// colocar a api do JJWT para gerar o token
-		return Jwts.builder().setIssuer("API Central de Erros").setSubject(user.get().toString())// o user dono do token
-				.setIssuedAt(dateActual) // qual a data de geração deste token
-				.setExpiration(dateExpiration) // data de expiracao do token 1 dia de milisegundos, por exemplo,
-												// napratica colocar apenas 30 minutos, ver no properties, estah em
-												// segundos
-				.signWith(SignatureAlgorithm.HS256, secret) // algoritimo, senha ; // HS256 = hmac e char56
+		Date dateExpiration = new Date(dateActual.getTime() + Long.parseLong(expiration));
+		return Jwts.builder().setIssuer("API Central de Erros").setSubject(user.get().toString())
+				.setIssuedAt(dateActual)
+				.setExpiration(dateExpiration)
+				.signWith(SignatureAlgorithm.HS256, secret)
 				.compact();
-
 	}
 
-	// ----- USADO EM: TOKEN SERVICE:  public User updatePassword(ResetPasswordDTO form)
+	// ----- USADO EM: TOKEN SERVICE
 	public boolean isTokenExpired(String token) {
 
 		String[] splitToken = token.split("\\.");
@@ -113,8 +96,8 @@ public class TokenService {
 		String exp = actualObj.get("exp").asText();
 		long expLong = Long.parseLong(exp) * 1000;
 		long currentTime = System.currentTimeMillis();
-		System.out.println("expLong:     " + expLong);
-		System.out.println("currentTime: " + currentTime);
+		//System.out.println("expLong:     " + expLong);
+		//System.out.println("currentTime: " + currentTime);
 		return expLong <= currentTime;
 
 	}
