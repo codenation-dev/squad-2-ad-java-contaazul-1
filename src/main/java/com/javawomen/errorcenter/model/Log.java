@@ -1,6 +1,5 @@
 package com.javawomen.errorcenter.model;
 
-//import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -10,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.CreatedDate;
@@ -17,17 +17,19 @@ import org.springframework.data.annotation.CreatedDate;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
  
-@Entity@Table(name = "log")
+@Entity
+@Table(name = "log")
 public class Log {
 
-	 //javax.persistence.Id;
-	@Id @Column(name="log_id") @GeneratedValue(strategy = GenerationType.SEQUENCE) //@GeneratedValue(strategy = GenerationType.SEQUENCE)//uso sequence por conta do bco ser postgresql
+	@Id 
+	@Column(name="log_id") 
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long id;	
 	
     @CreatedDate
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")   
     @Column(name = "created_at")  
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt;
     
     @ManyToOne
 	private Level level;
@@ -35,14 +37,17 @@ public class Log {
     @ManyToOne 
 	private Environment environment;    
     
+    @NotBlank(message = "{origin.not.blank}")
     @Length(min = 5, max = 50)
     private String origin;
     
+    @NotBlank(message = "{description.not.blank}")
     @Length(min = 10, max = 100)
     private String description;
     
-    @Length(min = 10, max = 100)
-    private String Details;
+    @NotBlank(message = "{details.not.blank}")
+    @Length(min = 10, max = 255)
+    private String details;
 
     /*
      * datetime: representa uma data como no calendário e a hora como encontrado no relógio.
@@ -50,27 +55,16 @@ public class Log {
      * 
      */
 
-    public String getDetails() {
-		return Details;
-	}
-
-
-	public void setDetails(String details) {
-		Details = details;
-	}
-
-
-	//construtor para jpa
 	public Log() {}
 
-	
-	public Log(Level level, Environment environment, String origin, String description) {
+	public Log(Level level, Environment environment, String origin, String description, String details) {
 		this.level = level;
 		this.environment = environment;
 		this.origin = origin;
 		this.description = description;
+		this.createdAt = LocalDateTime.now();
+		this.details = details;
 	}
-
 
 	public Long getId() {
 		return id;
@@ -96,6 +90,14 @@ public class Log {
 		return level;
 	}
 
+    public String getDetails() {
+		return details;
+	}
+
+	public void setDetails(String details) {
+		this.details = details;
+	}
+	
 	public void setId(Long id) {
 		this.id = id;
 	}

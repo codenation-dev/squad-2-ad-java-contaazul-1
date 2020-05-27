@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,10 +26,16 @@ import com.javawomen.errorcenter.controller.form.EnvironmentForm;
 import com.javawomen.errorcenter.model.Environment;
 import com.javawomen.errorcenter.service.EnvironmentService;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+/**
+ * Ambiente
+ */
+@Api(tags = "4. Ambiente de Log - ")
 @RestController
 @RequestMapping(path = "/environments", produces = MediaType.APPLICATION_JSON_VALUE)
+@CrossOrigin(origins = "*")//libera os dominios de acesar a api: http://dominio.com.br
 public class EnvironmentController {
 
 	@Autowired
@@ -51,7 +58,7 @@ public class EnvironmentController {
 		Optional<Environment> environmentOptional = environmentService.findById(id);
 		if(!environmentOptional.isPresent())
 			throw new ResourceNotFoundException("Ambiente não encontrado.");
-		return environmentService.converterToEnvironment(environmentOptional);
+		return environmentService.converterToDto(environmentOptional.get());
 	}
 
 	// --------------------------- POST -----------------------------
@@ -59,13 +66,15 @@ public class EnvironmentController {
 	@ApiOperation(value = "Cria um novo ambiente")
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
 	@Transactional
-	public ResponseEntity<EnvironmentDto> createEnvironment(@RequestBody @Valid EnvironmentForm form,
+	public ResponseEntity<EnvironmentDto> createEnvironment(@RequestBody @Valid EnvironmentForm ambienteName,
 			UriComponentsBuilder uriBuilder) {
-		Environment environment = environmentService.converter(form);
+		Environment environment = environmentService.converter(ambienteName);
 		environmentService.save(environment);
 		URI uri = uriBuilder.path("/environments/{id}").buildAndExpand(environment.getId()).toUri();
 		return ResponseEntity.created(uri).body(new EnvironmentDto(environment));
 	}
+	
+	//ver onde cria essa url / uri
 
 	// -------------------------- DELETE ----------------------------
 	// http://localhost:8080/environments/{id}
@@ -74,9 +83,8 @@ public class EnvironmentController {
 	@Transactional
 	public ResponseEntity<?> deleteEnvironment(@PathVariable Long id) {
 		Optional<Environment> environmentOptional = environmentService.findById(id);
-		if(!environmentOptional.isPresent())
-			throw new ResourceNotFoundException("Ambiente não encontrado.");
+		if(!environmentOptional.isPresent()) throw new ResourceNotFoundException("Ambiente não encontrado.");
 		environmentService.deleteById(id);		
-		return ResponseEntity.ok(environmentService.converterToEnvironment(environmentOptional));
+		return ResponseEntity.ok(environmentService.converterToDto(environmentOptional.get()));
 	}
 }

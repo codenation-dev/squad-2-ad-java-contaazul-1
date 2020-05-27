@@ -1,19 +1,13 @@
 package com.javawomen.errorcenter.controller.form;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
-import org.hibernate.validator.constraints.Length;
-
-import com.javawomen.errorcenter.model.Environment;
 
 public class EnvironmentForm {
 	
-	@NotNull(message = "{nameEnvironment.not.null}")
-	@NotEmpty(message = "{nameEnvironment.not.empty}")
 	@NotBlank(message = "{nameEnvironment.not.blank}")
-	@Length(min = 3, max = 25)
+	@Size(min = 3, max = 100)
     private String name;
 	
 	
@@ -25,7 +19,4 @@ public class EnvironmentForm {
 		this.name = name;
 	}
 	
-//	public Environment converter() {
-	//	return new Environment(name);
-	//}
 }

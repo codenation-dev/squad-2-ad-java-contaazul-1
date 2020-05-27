@@ -34,7 +34,7 @@ public class AuthenticationByTokenFilter extends OncePerRequestFilter{
 		// pega o token do cabeçalho
 		String token = takeToken(request);
 		// verifica se estah ok
-		System.out.println("Token :  " + token);
+		System.out.println("Token vem de Class AuthenticationByTokenFilter:  " + token);
 		// se estiver ok autentica no spring
 		boolean valido = tokenService.isTokenValido(token);
 		//testando se valido token true==logado ou/e false==nao logado 
@@ -77,11 +77,11 @@ public class AuthenticationByTokenFilter extends OncePerRequestFilter{
 		// precisa de um cabeçalho chamado authorization
 		String token = request.getHeader("Authorization");
 		//verificar se o cabeçalho estah correto
-		if(token == null || token.isEmpty() || !token.startsWith("Bearer ")) { //!!!deixar espaço após Bearer: ("Bearer ")
+		if(token == null || token.isEmpty() || !token.startsWith("Bearer ")) {
 			return null;
 		}
 		//somente o token, sem o "Bearer "...
-		return token.substring(7, token.length()); // 7, pois Bearer + o espaço  == 7, ele pega a partir do espço ateh o final da string
+		return token.substring(7, token.length());//Bearer + o espaço  == 7
 	}
 
 }

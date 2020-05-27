@@ -6,27 +6,27 @@ public class LoginForm {
 
 	private String email;
 	
-	private String passCode;
+	private String senha;
 	
 
 	public void setEmail(String email) {
 		this.email = email;
 	}
 
-	public void setPassCode(String passCode) {
-		this.passCode = passCode;
+	public void setSenha(String password) {
+		this.senha = password;
 	}
 
 	public String getEmail() {
 		return email;
 	}
 
-	public String getPassCode() {
-		return passCode;
+	public String getSenha() {
+		return senha;
 	}
 
 	public UsernamePasswordAuthenticationToken convert() {//metodo para o autentication manager
-		return new UsernamePasswordAuthenticationToken(this.email, this.passCode);
+		return new UsernamePasswordAuthenticationToken(this.email, this.senha);
 	}
 	
 	

@@ -45,14 +45,9 @@ public class SwaggerConfigurations {
 	                .apis(RequestHandlerSelectors.basePackage("com.javawomen.errorcenter"))
 	                .paths(PathSelectors.ant("/**"))
 	                .build()
-	                .ignoredParameterTypes(User.class)
-	                .useDefaultResponseMessages(false)                                   
-	                //.globalResponseMessage(RequestMethod.GET, responseMessageForGET())//new ApiKey("JWT", "Authorization", "header");
-	                //.securitySchemes(Arrays.asList(new ApiKey("JWT Token Access", HttpHeaders.AUTHORIZATION, In.HEADER.name())))
-	                //.securityContexts(Arrays.asList(securityContext()))
-	                .apiInfo(apiInfo())
-	                .globalOperationParameters( //desabilita, testa, depois habilita e testa novamente
-	                        Arrays.asList(
+	                .useDefaultResponseMessages(true).apiInfo(metaInfo())
+	                .globalOperationParameters( 
+	                		Arrays.asList(
 	                                new ParameterBuilder()
 	                                    .name("Authorization")
 	                                    .description("Header para Token JWT")
@@ -60,56 +55,19 @@ public class SwaggerConfigurations {
 	                                    .parameterType("header")
 	                                    .required(false)
 	                                    .build()));
-	                                                    
+	                                                  
 	}
 	
-	private ApiInfo apiInfo() {
+	private ApiInfo metaInfo() {
         return new ApiInfoBuilder()
                 .title("Central de Erros - REST API")
-                .description("\"O objetivo desta API é centralizar em um único local os registros de erros que surgem de outras camadas de aplicação.\"")
+                .description("Projeto desenvolvido no programa AceleraDev Java Women oferecido pela Codenation com o apoio da Conta Azul."
+                		+ " O objetivo desta API é centralizar em um único local os registros de erros que surgem de outras camadas de aplicação.")
                 .version("1.0.0")
                 .license("Apache License Version 2.0")
                 .licenseUrl("https://www.apache.org/licenses/LICENSE-2.0\"")
-                .contact(new Contact("HelloSquad", "https://github.com/codenation-dev/squad-2-ad-java-contaazul-1/", "hellosquad@gmail.com"))
+                .contact(new Contact("HelloSquad ", " https://github.com/codenation-dev/squad-2-ad-java-contaazul-1/", null))
                 .build();
     }
-	
-	//nao se aplica
-	
-	
-    private List<ResponseMessage> responseMessageForGET()
-    {
-        return new ArrayList<ResponseMessage>() {
-            private static final long serialVersionUID = 1L;
 
-            {
-            add(new ResponseMessageBuilder()   
-                .code(500)
-                .message("500 message")
-                .responseModel(new ModelRef("Error"))
-                .build());
-            add(new ResponseMessageBuilder() 
-                .code(403)
-                .message("Forbidden!")
-                .build());
-        }};
-    }
-    
-    private SecurityContext securityContext() {
-        return SecurityContext.builder()
-            .securityReferences(defaultAuth())
-            .forPaths(PathSelectors.ant("/environment/**"))
-            .forPaths(PathSelectors.ant("/environment"))
-            .forPaths((PathSelectors.ant("/**")))
-            .build();
-    }
-    
-    List<SecurityReference> defaultAuth() {
-        AuthorizationScope authorizationScope
-            = new AuthorizationScope("ADMIN", "accessEverything");
-        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
-        authorizationScopes[0] = authorizationScope;
-        return Arrays.asList(
-            new SecurityReference("Token Access", authorizationScopes));
-    }
 }

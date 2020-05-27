@@ -4,27 +4,49 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.javawomen.errorcenter.controller.dto.RoleDto;
-import com.javawomen.errorcenter.controller.form.RoleForm;
 import com.javawomen.errorcenter.model.Role;
+import com.javawomen.errorcenter.repository.RoleRepository;
+import com.javawomen.errorcenter.service.interfaces.RoleServiceInterface;
 
-public interface RoleService {
-		
-	public List<Role> findAll();
+// só tem sentido criar novo role e deleta role se mudar a premissão em security
+// como o security é um método interno, para mudar tem que entrar no código e mudar a regre de negocio
 
-	public Optional<Role> findById(Long id);
+@Service
+public class RoleService implements RoleServiceInterface{
 
-	public Role save(Role object);
+	@Autowired
+	RoleRepository roleRepository;
 
-	public void deleteById(Long id);
+	public List<Role> findAll() {
+		return roleRepository.findAll();
+	}
 
-	public Optional<Role> findByName(String roleName);
+	public long count() {//usado no primeiro acesso para cadastrar roles
+		return roleRepository.count();
+	}	
 	
-	public RoleDto converterToRole(Optional<Role> roleOptional);
+	//usado para criar os roles no inicio do systema
+	public Role converter(String roleName) {
+		return new Role(roleName);
+	}
 	
-	public RoleDto converterToRole(Role role);
+	public List<RoleDto> converter(List<Role> roles) {
+		return roles.stream().map(RoleDto::new).collect(Collectors.toList());
+	}
 
-	public List<RoleDto> converter(List<Role> roles);
-
-	public Role converter(RoleForm form);
+	public Optional<Role> findByName(String roleName) {
+		return roleRepository.findByRoleName(roleName);
+	}
+	
+	public Role save(Role object) {
+		return roleRepository.save(object);
+	}
+	
+	public Optional<Role> findById(Long id) {
+		return roleRepository.findById(id);
+	}
 }
