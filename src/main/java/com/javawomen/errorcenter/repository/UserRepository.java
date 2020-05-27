@@ -12,8 +12,6 @@ import org.springframework.stereotype.Repository;
 import com.javawomen.errorcenter.model.Role;
 import com.javawomen.errorcenter.model.User;
 
-
-//JpaRepository extends o crudRepository
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>{	
 	
