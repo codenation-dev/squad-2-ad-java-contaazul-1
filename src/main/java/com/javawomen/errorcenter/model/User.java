@@ -63,8 +63,8 @@ public class User implements UserDetails{
     @Column(name = "created_at")
     private LocalDateTime createdAt;
     
-    @ManyToMany(fetch = FetchType.EAGER)		  //qnd carregar o user, ja carrego a lista de perfil dele
-    private List<Role> roles = new ArrayList<>(); //pefil, já inicio para não ficar null
+    @ManyToMany(fetch = FetchType.EAGER)		  
+    private List<Role> roles = new ArrayList<>(); 
  
     
     //construtor vazio para a JPA ou hibernate - ver

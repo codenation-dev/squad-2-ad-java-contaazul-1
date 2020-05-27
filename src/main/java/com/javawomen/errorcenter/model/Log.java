@@ -55,10 +55,8 @@ public class Log {
      * 
      */
 
-	//construtor para jpa
 	public Log() {}
 
-	
 	public Log(Level level, Environment environment, String origin, String description, String details) {
 		this.level = level;
 		this.environment = environment;
@@ -67,7 +65,6 @@ public class Log {
 		this.createdAt = LocalDateTime.now();
 		this.details = details;
 	}
-
 
 	public Long getId() {
 		return id;

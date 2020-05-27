@@ -29,10 +29,8 @@ public class Level {
 		this.name = name;
 	}
 
-	//deprecate
 	public Level(){
 	}
-	
 	
 	public Long getId() {
 		return id;
@@ -49,11 +47,5 @@ public class Level {
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	//-----  Relacionamentos
-	//verificar se isso estah correto
-	//@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	//private List<Log> logList;
-	
 
 }

@@ -21,7 +21,7 @@ public class Role implements GrantedAuthority {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long id;
 	
-	@NotBlank
+	@NotBlank(message = "{name.not.blank}")
 	@Size(min = 3, max = 100)
 	private String roleName; //Tem que seguir este padrão: ROLE_USER, ROLE_ADMIN
 
@@ -32,7 +32,6 @@ public class Role implements GrantedAuthority {
 	public Role(String roleName) {
 		this.roleName = roleName;
 	}
-
 
 	public Long getId() {
 		return id;

@@ -7,7 +7,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "ResetToken")
@@ -17,10 +16,10 @@ public class ResetToken {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long id;
 	
-	@NotNull @NotBlank
+	@NotBlank(message = "{email.not.blank}")
 	private String email;
 	
-	@NotNull @NotBlank
+	@NotBlank(message = "{token.not.blank}")
 	@Column(length=1024)
 	private String token;
  
@@ -32,7 +31,6 @@ public class ResetToken {
 		this.token = token;
 	}
 
-	
 	public Long getId() {
 		return id;
 	}

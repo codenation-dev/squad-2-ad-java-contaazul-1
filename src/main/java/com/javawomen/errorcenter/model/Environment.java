@@ -15,7 +15,6 @@ import javax.validation.constraints.Size;
 @Table(name = "environment", uniqueConstraints={@UniqueConstraint(columnNames={"name"})})
 public class Environment {
 	
-	 
 	@Id 
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long id;
@@ -24,7 +23,6 @@ public class Environment {
 	@Size(min = 3, max = 100) 
 	@Column(name = "name")
 	private String name;	
-	
 	
 	public Environment() {
 	}
