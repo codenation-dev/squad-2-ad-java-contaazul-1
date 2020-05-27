@@ -4,13 +4,11 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Writer;
 import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.Scanner;
 
 import com.javawomen.errorcenter.controller.dto.LogDto;
-import com.javawomen.errorcenter.model.Log;
 
 public class Archive {
 

@@ -83,30 +83,6 @@ public class LogController {
 			return logService.converter(logs);
 		}
 	}
-
-	
-	//este estah funcionando
-	// ------------------ GET ALL --------------------------------
-	// @CrossOrigin(origins = "http://localhost:8080")
-	// @Cacheable(value="getAllLogs")
-	// testado ok: traz uma lista de logs cadastrados
-	// @GetMapping(value = "/{environment}"), produces="application/json")
-	// @RequestMapping("/logs") ASC ou DESC
-
-	// endpoint: http://localhost:8080/logs
-	//@GetMapping
-	//public Page<LogDto> getLogs(@RequestParam(required = false) String nameEnvironment,
-	//		@PageableDefault(sort = "createdAt", direction = Direction.ASC, page = 0, size = 10) Pageable paginacao) {
-	//	if (nameEnvironment == null) {
-	//		Page<Log> logs = logService.findAll(paginacao);
-	//		return LogDto.converter(logs);
-	//	} else {
-	//		Page<Log> logs = logService.findByEnvironment(nameEnvironment, paginacao);
-	//		return LogDto.converter(logs);
-	//	}
-	//}
-	
-	
 	
 	// ------------------------ GET BY ID ---------------------------
 	// http://localhost:8080/logs/{id}
