@@ -29,11 +29,14 @@ import com.javawomen.errorcenter.service.LevelService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+/**
+ * Nível do Log
+ */
+@Api(tags = "3. Nível de log - ")
 @RestController
 @RequestMapping(path = "/levels", produces = MediaType.APPLICATION_JSON_VALUE)
-//@Api(value = "Usuário") //swagger
 @CrossOrigin(origins = "*")//libera os dominios de acesar a api: http://dominio.com.br
-public class LevelController {
+public class LevelController{
 	
 	@Autowired
 	private LevelService levelService;
@@ -43,30 +46,30 @@ public class LevelController {
 	// http://localhost:8080/levels
 	@ApiOperation(value = "Retorna uma lista de níveis de log existentes")
 	@GetMapping
-	public List<LevelDto> getAllLevel(){
+	public ResponseEntity<List<LevelDto>> getAllLevel(){
 		List<Level> levels = levelService.findAll();
-		return levelService.converter(levels);
+		return ResponseEntity.ok(levelService.converter(levels));
 	}
 
 	// ------------------------ GET BY ID ---------------------------
 	// http://localhost:8080/levels/{id}
 	@ApiOperation(value = "Retorna um nível cadastrado")
 	@GetMapping("/{id}")
-	public LevelDto getLevelById(@PathVariable Long id) {	
+	public ResponseEntity<LevelDto> getLevelById(@PathVariable Long id) {	
 		Optional<Level> levelOptional = levelService.findById(id);
 		if(!levelOptional.isPresent())
 			throw new ResourceNotFoundException("Level não encontrado.");
-		return levelService.converterToLevel(levelOptional);
+		return  ResponseEntity.ok(levelService.converterToDto(levelOptional.get()));
 	}
 
 	// --------------------------- POST -----------------------------
-	// http://localhost:8080/leves/#@RequestBody
+	// http://localhost:8080/levels/#@RequestBody
 	@ApiOperation(value = "Cria um novo nível")
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
 	@Transactional
-	public ResponseEntity<LevelDto> createLevel(@RequestBody @Valid LevelForm form,
+	public ResponseEntity<LevelDto> createLevel(@RequestBody @Valid LevelForm levelName,
 			UriComponentsBuilder uriBuilder) {
-		Level level = levelService.converter(form);
+		Level level = levelService.converter(levelName);//testar
 		levelService.save(level);
 		URI uri = uriBuilder.path("/levels/{id}").buildAndExpand(level.getId()).toUri();
 		return ResponseEntity.created(uri).body(new LevelDto(level));
@@ -79,9 +82,8 @@ public class LevelController {
 	@Transactional
 	public ResponseEntity<?> deleteLevel(@PathVariable Long id) {
 		Optional<Level> optionalLevel = levelService.findById(id);
-		if(!optionalLevel.isPresent())
-			throw new ResourceNotFoundException("Level não encontrado.");
+		if(!optionalLevel.isPresent())throw new ResourceNotFoundException("Level não encontrado.");
 		levelService.deleteById(id);
-		return ResponseEntity.ok(levelService.converterToLevel(optionalLevel));
+		return ResponseEntity.ok(levelService.converterToDto(optionalLevel.get()));
 	}
 }

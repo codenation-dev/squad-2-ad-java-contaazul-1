@@ -22,23 +22,24 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.javawomen.errorcenter.config.validation.ResourceNotFoundException;
 import com.javawomen.errorcenter.controller.dto.RoleDto;
-import com.javawomen.errorcenter.controller.form.RoleForm;
 import com.javawomen.errorcenter.model.Role;
 import com.javawomen.errorcenter.service.RoleService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+/**
+ * Perfil de Usuário
+ */
+@Api(tags = "6. Perfil de Usuário - ")
 @RestController
 @RequestMapping(path = "/roles", produces = MediaType.APPLICATION_JSON_VALUE)
-//@Api(value = "Usuário") //swagger
 @CrossOrigin(origins = "*")//libera os dominios de acesar a api: http://dominio.com.br
 public class RoleController {
 
 	@Autowired
 	private RoleService roleService;
 	
-
 	// -------------------------- GET ALL ---------------------------
 	// http://localhost:8080/roles
 	@ApiOperation(value = "Retorna uma lista de perfis de usuário existentes")
@@ -48,6 +49,7 @@ public class RoleController {
 		return roleService.converter(Roles);
 	}
 
+	/*
 	// ------------------------ GET BY ID ---------------------------
 	// http://localhost:8080/roles/{id}
 	@ApiOperation(value = "Retorna um perfil cadastrado")
@@ -86,5 +88,6 @@ public class RoleController {
 		roleService.deleteById(id);
 		return ResponseEntity.ok(roleService.converterToRole(optionalRole));
 	}
+	*/
 	
 }

@@ -1,7 +1,6 @@
 package com.javawomen.errorcenter.service;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -23,6 +22,7 @@ import com.javawomen.errorcenter.model.Environment;
 import com.javawomen.errorcenter.model.Level;
 import com.javawomen.errorcenter.model.Log;
 import com.javawomen.errorcenter.repository.LogRepository;
+import com.javawomen.errorcenter.service.interfaces.LogServiceInterface;
 
 /**
  * @author Letícia
@@ -30,7 +30,7 @@ import com.javawomen.errorcenter.repository.LogRepository;
  */
 
 @Service
-public class LogService {// implements ServiceInterface<Log> {
+public class LogService implements LogServiceInterface{
 
 	@Autowired
 	LogRepository logRepository;
@@ -44,7 +44,7 @@ public class LogService {// implements ServiceInterface<Log> {
 	}
 
 	public Page<Log> findByEnvironment(String nameEnvironment, Pageable paginacao) {
-		return logRepository.findByEnvironmentName(nameEnvironment, paginacao);
+		return logRepository.findByEnvironmentName(nameEnvironment.toUpperCase(), paginacao);
 	}
 
 	public Optional<Log> findById(Long id) {
@@ -52,11 +52,11 @@ public class LogService {// implements ServiceInterface<Log> {
 	}
 
 	public List<Log> findByLevel(String nameLevel) {
-		return logRepository.findByLevelName(nameLevel);
+		return logRepository.findByLevelName(nameLevel.toUpperCase());
 	}
 
 	public List<Log> findByEnvironment(String nameEnvironment) {
-		return logRepository.findByEnvironmentName(nameEnvironment);
+		return logRepository.findByEnvironmentName(nameEnvironment.toUpperCase());
 	}
 
 	public List<Log> findByDescription(String description) {
@@ -110,11 +110,11 @@ public class LogService {// implements ServiceInterface<Log> {
 			frequencyList.add(dto);
 		}
 		// compara a frequency ESSA CLASSE INTERNA NAO ESTAH MAIS SENDO USADA, RETIRAR E TESTAR SE ESTÁ TD OK
-		class ComparatorDto implements Comparator<LogDto> {
-			public int compare(LogDto p1, LogDto p2) {
-				return p1.getFrequency() < p2.getFrequency() ? -1 : (p1.getFrequency() > p2.getFrequency() ? +1 : 0);
-			}
-		}
+		//class ComparatorDto implements Comparator<LogDto> {
+		//	public int compare(LogDto p1, LogDto p2) {
+		//		return p1.getFrequency() < p2.getFrequency() ? -1 : (p1.getFrequency() > p2.getFrequency() ? +1 : 0);
+		//	}
+		//}
 		// realiza ordenação
 		// Comparator<LogDto> crescente = new ComparatorDto();
 		// Comparator<LogDto> decrescente = Collections.reverseOrder(crescente);
@@ -143,7 +143,7 @@ public class LogService {// implements ServiceInterface<Log> {
 	public Map<Long, List<LogDto>> countByEnvironmentList(String nameEnvironment) {
 
 		List<LogDto> frequencyList = new ArrayList<>();
-		List<Log> logs = logRepository.findByEnvironmentName(nameEnvironment);
+		List<Log> logs = logRepository.findByEnvironmentName(nameEnvironment.toUpperCase());
 		
 		if(logs.isEmpty()) {
 			throw new ResourceNotFoundException("Ambiente não encontrado.");
@@ -158,11 +158,11 @@ public class LogService {// implements ServiceInterface<Log> {
 			frequencyList.add(dto);
 		}
 		// compara a frequency ESSA CLASSE INTERNA NAO ESTAH MAIS SENDO USADA, RETIRAR E TESTAR SE ESTÁ TD OK
-		class ComparatorDto implements Comparator<LogDto> {
-			public int compare(LogDto p1, LogDto p2) {
-				return p1.getFrequency() < p2.getFrequency() ? -1 : (p1.getFrequency() > p2.getFrequency() ? +1 : 0);
-			}
-		}
+		//class ComparatorDto implements Comparator<LogDto> {
+			//public int compare(LogDto p1, LogDto p2) {
+				//return p1.getFrequency() < p2.getFrequency() ? -1 : (p1.getFrequency() > p2.getFrequency() ? +1 : 0);
+			//}
+		//}
 
 		// A chave é a frequencia
 		Map<Long, List<LogDto>> frequencyMap = frequencyList.stream()
@@ -198,13 +198,13 @@ public class LogService {// implements ServiceInterface<Log> {
 	
 	//--------------------------------- métodos que devolvem um FORM -----------------------------------
 	public Log converter(LevelService levelService, EnvironmentService environmentService, LogForm form) {
-		Optional<Level> levelOptional = levelService.findByName(form.getNameLevel());
-		Optional<Environment> environmentOptional = environmentService.findByName(form.getNameEnvironment());
+		Optional<Level> levelOptional = levelService.findByName(form.getNameLevel().toUpperCase());
+		Optional<Environment> environmentOptional = environmentService.findByName(form.getNameEnvironment().toUpperCase());
 
 		if(!levelOptional.isPresent())throw new ResourceNotFoundException("Level não encontrado.");
 		if(!environmentOptional.isPresent())throw new ResourceNotFoundException("Ambiente não encontrado.");
 
-		return new Log(levelOptional.get(), environmentOptional.get(), form.getOrigin(), form.getDescription());
+		return new Log(levelOptional.get(), environmentOptional.get(), form.getOrigin(), form.getDescription(), form.getDetails());
 
 	}
 	
@@ -225,6 +225,5 @@ public class LogService {// implements ServiceInterface<Log> {
 		LogDto dto = archive.read(archiveName);
 		return dto;
 	}
-	
 	
 }

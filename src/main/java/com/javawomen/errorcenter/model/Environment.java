@@ -9,24 +9,20 @@ import javax.persistence.Table;
 
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-/*
- * o Spring Data usa os métodos EntityListeners e de retorno de chamada do JPA 
- * para atualizar automaticamente as propriedades 
- * CreatedBy, CreatedDate, LastModifiedBy, LastModifiedDate.
- * serve para criar logs.
- * nao estou usando o : //@EntityListeners(AuditingEntityListener.class)
- */
-@Entity@Table(name = "environment", uniqueConstraints={@UniqueConstraint(columnNames={"name"})})
+
+@Entity
+@Table(name = "environment", uniqueConstraints={@UniqueConstraint(columnNames={"name"})})
 public class Environment {
 	
 	 
-	@Id @GeneratedValue(strategy = GenerationType.SEQUENCE) //@GeneratedValue(strategy = GenerationType.SEQUENCE)//uso sequence por conta do bco ser postgresql
-	private Long id;	//se colocar agora tem que mudar muitas outras coisas @Column(name="environment_id")
+	@Id 
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	private Long id;
 	
-	@NotNull @NotBlank @Size(min = 3, max = 25) //-> nos outros é validado no formController
-	@Column(name = "name")//, unique = true)
+	@NotBlank(message = "{nameEnvironment.not.blank}") 
+	@Size(min = 3, max = 100) 
+	@Column(name = "name")
 	private String name;	
 	
 	

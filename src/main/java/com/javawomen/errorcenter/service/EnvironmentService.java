@@ -11,9 +11,10 @@ import com.javawomen.errorcenter.controller.dto.EnvironmentDto;
 import com.javawomen.errorcenter.controller.form.EnvironmentForm;
 import com.javawomen.errorcenter.model.Environment;
 import com.javawomen.errorcenter.repository.EnvironmentRepository;
+import com.javawomen.errorcenter.service.interfaces.ServiceInterface;
 
 @Service
-public class EnvironmentService{// implements ServiceInterface<Environment>{
+public class EnvironmentService implements ServiceInterface<Environment, EnvironmentDto, EnvironmentForm>{
 
 	@Autowired
 	private EnvironmentRepository environmentRepository;
@@ -34,13 +35,14 @@ public class EnvironmentService{// implements ServiceInterface<Environment>{
 		environmentRepository.deleteById(id);		
 	}
 
+	//usado no logservice
 	public Optional<Environment> findByName(String nameEnvironment) {
 		return environmentRepository.findByName(nameEnvironment);
 	}
 	
 	//--------------- métodos que devolvem um dto ------------
 	
-	public EnvironmentDto converterToEnvironment(Environment environment) {			
+	public EnvironmentDto converterToDto(Environment environment) {			
 		return new EnvironmentDto(environment);
 	}
 	
@@ -48,13 +50,14 @@ public class EnvironmentService{// implements ServiceInterface<Environment>{
 		return environments.stream().map(EnvironmentDto::new).collect(Collectors.toList());
 	}
 
-	public EnvironmentDto converterToEnvironment(Optional<Environment> environmentOptional) {
-		return converterToEnvironment(environmentOptional.get());
-	}
+	//public EnvironmentDto converterToEnvironment(Optional<Environment> environmentOptional) {
+	//	return converterToEnvironment(environmentOptional.get());
+	//}
 
 	//------------------- métodos que devolvem um FORM --------------------
 	
 	public Environment converter(EnvironmentForm form) {
-			return new Environment(form.getName());
+			return new Environment(form.getName().toUpperCase());
 	}
+
 }

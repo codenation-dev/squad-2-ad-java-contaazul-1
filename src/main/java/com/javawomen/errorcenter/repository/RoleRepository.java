@@ -11,7 +11,9 @@ import com.javawomen.errorcenter.model.Role;
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Long>{
 
-	//ver se tem que fazer uma query aki
-	Optional<Role> findByRoleName(String roleName);	
+	Optional<Role> findByRoleName(String roleName);
+
+	long count();
+	
 
 }

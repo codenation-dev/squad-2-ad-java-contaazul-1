@@ -4,16 +4,22 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.javawomen.errorcenter.controller.dto.EnvironmentDto;
 import com.javawomen.errorcenter.controller.dto.LevelDto;
+import com.javawomen.errorcenter.controller.form.EnvironmentForm;
 import com.javawomen.errorcenter.controller.form.LevelForm;
+import com.javawomen.errorcenter.model.Environment;
 import com.javawomen.errorcenter.model.Level;
 import com.javawomen.errorcenter.repository.LevelRepository;
+import com.javawomen.errorcenter.service.interfaces.ServiceInterface;
 
 @Service
-public class LevelService{// implements ServiceInterface<Level>{
+public class LevelService implements ServiceInterface<Level, LevelDto, LevelForm>{
 
 	@Autowired
 	private LevelRepository levelRepository;
@@ -38,12 +44,12 @@ public class LevelService{// implements ServiceInterface<Level>{
 		return levelRepository.findByName(nameLevel);
 	}
 	
-	//--------------- métodos que devolvem um dto ------------
-	public LevelDto converterToLevel(Optional<Level> levelOptional) {
-		return converterToLevel(levelOptional.get());
-	}
+	//------------------- MÉTODO COM DTO  -------------------
+	//public LevelDto converterToLevelDto(Optional<Level> levelOptional) {
+		//return converterToLevel(levelOptional.get());
+	//}
 	
-	public LevelDto converterToLevel(Level level) {			
+	public LevelDto converterToDto(Level level) {			
 		return new LevelDto(level);
 	}
 	
@@ -51,9 +57,8 @@ public class LevelService{// implements ServiceInterface<Level>{
 		return levels.stream().map(LevelDto::new).collect(Collectors.toList());
 	}
 	
-	//------------------- métodos que devolvem um FORM --------------------
+	//------------------- MÉTODO COM FORM  ------------------
 	public Level converter(LevelForm form) {
-		return new Level(form.getName());
+		return new Level(form.getName().toUpperCase());
 	}
-
 }

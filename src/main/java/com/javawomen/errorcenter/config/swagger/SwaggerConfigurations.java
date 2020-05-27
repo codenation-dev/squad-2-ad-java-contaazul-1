@@ -46,9 +46,9 @@ public class SwaggerConfigurations {
 	                .paths(PathSelectors.ant("/**"))
 	                .build()
 	                //.ignoredParameterTypes(User.class)
-	                .useDefaultResponseMessages(false)          //testar isso                         
+	                .useDefaultResponseMessages(true)          //testar isso                         
 	                //.globalResponseMessage(RequestMethod.GET, responseMessageForGET())//new ApiKey("JWT", "Authorization", "header");
-	                //.securitySchemes(Arrays.asList(new ApiKey("JWT Token Access", HttpHeaders.AUTHORIZATION, In.HEADER.name())))
+	                //.securitySchemes(Arrays.asList(new ApiKey("JWT Token Access", "Authorization", "header")))//HttpHeaders.AUTHORIZATION, In.HEADER.name())))
 	                //.securityContexts(Arrays.asList(securityContext()))
 	                .apiInfo(metaInfo())
 	                .globalOperationParameters( //desabilita, testa, depois habilita e testa novamente
@@ -71,47 +71,58 @@ public class SwaggerConfigurations {
                 .version("1.0.0")
                 .license("Apache License Version 2.0")
                 .licenseUrl("https://www.apache.org/licenses/LICENSE-2.0\"")
-                .contact(new Contact("HelloSquad", "https://github.com/codenation-dev/squad-2-ad-java-contaazul-1/", "hellosquad@gmail.com"))
+                .contact(new Contact("HelloSquad ", " https://github.com/codenation-dev/squad-2-ad-java-contaazul-1/", null))
                 .build();
     }
-	
+	/*
+	 *         
+	 
 	//nao se aplica
-	
-	
     private List<ResponseMessage> responseMessageForGET()
     {
         return new ArrayList<ResponseMessage>() {
             private static final long serialVersionUID = 1L;
 
             {
+        	add(new ResponseMessageBuilder() 
+                .code(200)
+                .message("Consulta efetuada com sucesso")
+                .build());
+        	add(new ResponseMessageBuilder() 
+                .code(400)
+                .message("Requisição inválida")
+                .build());
+        	add(new ResponseMessageBuilder() 
+                .code(401)
+                .message("Requisição não autorizada")
+                .build());        	
+            add(new ResponseMessageBuilder() 
+                .code(403)
+                .message("Usuário não tem permissão de acesso")
+                .build());
+        	add(new ResponseMessageBuilder() 
+                .code(404)
+                .message("Recurso não encontrado")
+                .build());  
             add(new ResponseMessageBuilder()   
                 .code(500)
                 .message("500 message")
-                .responseModel(new ModelRef("Error"))
-                .build());
-            add(new ResponseMessageBuilder() 
-                .code(403)
-                .message("Forbidden!")
+                .responseModel(new ModelRef("Internal Server Error"))
                 .build());
         }};
     }
     
     private SecurityContext securityContext() {
         return SecurityContext.builder()
-            //.securityReferences(defaultAuth())
-            //.forPaths(PathSelectors.ant("/environment/**"))
-            //.forPaths(PathSelectors.ant("/environment"))
-            //.forPaths((PathSelectors.ant("/**")))
+            .securityReferences(defaultAuth())
             .build();
     }
     
     List<SecurityReference> defaultAuth() {
-    	
-        AuthorizationScope authorizationScope = new AuthorizationScope("ADMIN", "accessEverything");
+        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
         AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
-        
         authorizationScopes[0] = authorizationScope;
-        
-        return Arrays.asList(new SecurityReference("Token Access", authorizationScopes));
+        return Arrays.asList(new SecurityReference("ApiKey", authorizationScopes));
     }
+    */
 }

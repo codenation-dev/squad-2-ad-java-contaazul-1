@@ -15,9 +15,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-//import javax.validation.constraints.Size;
-//import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.Size;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.security.core.GrantedAuthority;
@@ -25,34 +25,43 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+/*
+ * o Spring Data usa os métodos EntityListeners e de retorno de chamada do JPA 
+ * para atualizar automaticamente as propriedades 
+ * CreatedBy, CreatedDate, LastModifiedBy, LastModifiedDate.
+ * serve para criar logs.
+ * nao estou usando o : //@EntityListeners(AuditingEntityListener.class)
+ */
+
 @Entity              
 @Table(name = "TBuser", uniqueConstraints={@UniqueConstraint(columnNames={"email"})}) //não são chave-primária, no entanto, precisam possuir valores únicos
 public class User implements UserDetails{ 
 	
-	
 	private static final long serialVersionUID = 1L;
 	
-	
 	@Id //vem do javax.persistence.Id;
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)//uso sequence por conta do bco ser postgresql
-	@Column(name="user_id") //O tamanho default das colunas é 255.
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@Column(name="user_id")
 	private Long id;	
 		
+	@NotBlank(message = "{name.not.blank}")
+	@Size(min = 3, max = 100)
     private String name;
 	
-    @Email
-    @Column(name = "email") //@Column é opcional, possuindo valores default https://www.devmedia.com.br/mapeamento-hibernate-configurando-tabelas-e-colunas/29526
+	@NotBlank(message = "{email.not.blank}")
+    @Email(message = "{email.not.valid}")
+    @Column(name = "email")
     private String email;
 
+	@NotBlank(message = "{password.not.blank}")
+	@Size(min = 8, max = 255)		
     private String password;
-    
-    private String description;
-  
+      
     @NotNull
     @CreatedDate //testar
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")    
     @Column(name = "created_at")
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt;
     
     @ManyToMany(fetch = FetchType.EAGER)		  //qnd carregar o user, ja carrego a lista de perfil dele
     private List<Role> roles = new ArrayList<>(); //pefil, já inicio para não ficar null
@@ -65,7 +74,8 @@ public class User implements UserDetails{
 		this.name = name;
 		this.email = email;
 		this.password = password;
-		setRoles(role);
+		this.setRoles(role);
+		this.createdAt = LocalDateTime.now();
 	}
 	
 	public Long getId() {
@@ -84,10 +94,6 @@ public class User implements UserDetails{
 		return email;
 	}
 	
-	public String getDescription() {
-		return description;
-	}
-
 	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}
@@ -102,10 +108,6 @@ public class User implements UserDetails{
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-	
-	public void setDescription(String description) {
-		this.description = description;
 	}
 
 	public void setEmail(String email) {
@@ -146,28 +148,23 @@ public class User implements UserDetails{
 		return this.email;
 	}
 
-
 	@Override
 	public boolean isAccountNonExpired() {
 		return true;
 	}
-
 
 	@Override
 	public boolean isAccountNonLocked() {
 		return true;
 	}
 
-
 	@Override
 	public boolean isCredentialsNonExpired() {
 		return true;
 	}
 
-
 	@Override
 	public boolean isEnabled() {
 		return true;
 	}
-
 }

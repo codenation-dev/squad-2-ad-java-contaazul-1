@@ -1,10 +1,9 @@
 package com.javawomen.errorcenter.service;
 
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,25 +11,18 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-//import com.javawomen.errorcenter.config.validation.UserDataInvalid;
-import java.util.stream.Collectors;
-
+import com.javawomen.errorcenter.config.security.TokenService;
 import com.javawomen.errorcenter.config.validation.ResourceNotFoundException;
 import com.javawomen.errorcenter.config.validation.UserDataInvalid;
-import com.javawomen.errorcenter.controller.dto.LogDto;
 import com.javawomen.errorcenter.controller.dto.ResetPasswordDTO;
-import com.javawomen.errorcenter.controller.dto.RoleDto;
 import com.javawomen.errorcenter.controller.dto.UserDto;
 import com.javawomen.errorcenter.controller.form.UserForm;
-import com.javawomen.errorcenter.model.Log;
+import com.javawomen.errorcenter.model.ResetToken;
 import com.javawomen.errorcenter.model.Role;
-
-//import org.springframework.stereotype.Service;
-
 import com.javawomen.errorcenter.model.User;
+import com.javawomen.errorcenter.repository.ResetTokenRepository;
 import com.javawomen.errorcenter.repository.UserRepository;
+import com.javawomen.errorcenter.service.interfaces.UserServiceInterface;
 
 /**
  * @author Karina
@@ -38,10 +30,16 @@ import com.javawomen.errorcenter.repository.UserRepository;
  */
 
 @Service
-public class UserService {// implements ServiceInterface<User>{
+public class UserService  implements UserServiceInterface{
 
 	@Autowired
 	UserRepository userRepository;
+	
+	@Autowired
+	TokenService tokenService;
+	
+	@Autowired
+	ResetTokenRepository resetTokenRepository;
 
 	public Page<User> findAll(Pageable paginacao) {
 		return userRepository.findAll(paginacao);
@@ -71,26 +69,26 @@ public class UserService {// implements ServiceInterface<User>{
 		return userRepository.findRolesByUser(id);
 	}
 
-
+	public User updateRole(Optional<User> userOptional, Optional<Role> roleOptional) {
+		User user = userOptional.get();
+		user.setRoles(roleOptional.get());
+		return user;
+	}
 	// --------------------- UPDATE-USERFORM -------------------------
 
 	// usado para mudar a senha, email, nome do user
 	public User update(Optional<User> userOptional, UserForm userForm) {
-
-		// Optional<User> userOptional = findById(id);
-		// if(!userOptional.isPresent())throw new ResourceNotFoundException("Usuário não
-		// encontrado.");
 		User user = userOptional.get();
-
 		String email = userForm.getEmail();
-		String pass = userForm.getPassword();
-
+		String password = userForm.getPassword();
+		
 		// validar senha e email
-		new DataValidation(email, pass);
-
+		new DataValidation(email, password);
+		
 		user.setName(userForm.getName());
-		user.setEmail(userForm.getEmail());
-		user.setPassword(new BCryptPasswordEncoder().encode(userForm.getPassword()));
+		user.setEmail(email);
+		//user.setEmail(userForm.getEmail());
+		user.setPassword(new BCryptPasswordEncoder().encode(password));
 		return user;
 	}
 
@@ -98,9 +96,24 @@ public class UserService {// implements ServiceInterface<User>{
 	public User updatePassword(ResetPasswordDTO form) {
 
 		Optional<User> userOptional = findByEmail(form.getEmail());
-
-		if (!userOptional.isPresent())
-			throw new ResourceNotFoundException("Email nao achado");
+		if (!userOptional.isPresent())throw new ResourceNotFoundException("Email não encontrado");
+		
+		//////////////////
+		Optional<ResetToken> resetTokenOptional = resetTokenRepository.findByToken(form.getToken());
+		//Verifica se o token digitado existe no banco de dados.
+		if(!resetTokenOptional.isPresent())throw new ResourceNotFoundException("Token digitado não encontrado.");
+		if(!form.getPassword().equals(form.getConfirmPassword()))
+			throw new ResourceNotFoundException("A senha e a confirmação de senha não são iguais. Digite novamente.");
+		//Verifica se o token foi digitado incorretamente.
+		if(resetTokenRepository.findByToken(form.getToken()) == null ||
+				!form.getToken().equals(resetTokenOptional.get().getToken()))
+			throw new ResourceNotFoundException("Token digitado incorretamente.");
+		
+		//Verifica se o token digitado está expirado
+		if(tokenService.isTokenExpired(form.getToken()))
+			throw new ResourceNotFoundException("Token digitado expirou. Informe um novo token.");
+		/////////////////
+		
 
 		User user = userOptional.get();
 
@@ -114,31 +127,22 @@ public class UserService {// implements ServiceInterface<User>{
 
 		return user;
 	}
+	
+	
 //--------------nat
 
-	// usado para mudar o perfil do user
-	public User updateRole(Optional<User> userOptional, Optional<Role> roleOptional) {
-		// Optional<User> userOptional = findById(id);
-		// if(!userOptional.isPresent())throw new ResourceNotFoundException("Usuário não
-		// encontrado.");
-		User user = userOptional.get();
-		user.setRoles(roleOptional.get());
-		return user;
-	}
 
-	// ---------------------- USERFORM - NEW USER -------------------------
 
-	// User Userform.converter();
+	// -------------------- USERFORM - NEW USER ---------------------
+
 	public User converter(RoleService roleService, UserForm userForm) {
-		// public User converter(RoleService roleService) {
 		Optional<Role> roleOptional = roleService.findByName("ROLE_USER");
-		if (!roleOptional.isPresent())
-			throw new ResourceNotFoundException("Role não encontrado.");
+		if (!roleOptional.isPresent())throw new ResourceNotFoundException("Role não encontrado.");
 		return new User(userForm.getName(), new BCryptPasswordEncoder().encode(userForm.getPassword()),
 				userForm.getEmail(), roleOptional.get());
 	}
 
-	// --------------- métodos que devolvem um dto ------------
+	// -------------------------- USERDTO  --------------------------
 
 	// retorna uma lista de Usuários sem a senha
 	// public static List<UserDto> converter(List<User> users) {
@@ -195,7 +199,5 @@ public class UserService {// implements ServiceInterface<User>{
 
 	}
 	// ---------- FIM VALIDAR EMAIL E SENHA ---------------
-
-
 
 }

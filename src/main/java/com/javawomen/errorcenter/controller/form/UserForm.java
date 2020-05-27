@@ -2,27 +2,19 @@ package com.javawomen.errorcenter.controller.form;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
 public class UserForm {
 
-	@NotNull(message = "{name.not.null}")
-	@NotEmpty(message = "{name.not.empty}")
 	@NotBlank(message = "{name.not.blank}")
-	@Length(min = 3, max = 50)
+	@Length(min = 3, max = 100)
 	private String name;
 
 	@NotBlank(message = "{email.not.blank}")
-	@NotNull(message = "{email.not.null}")
-	@NotEmpty(message = "{email.not.empty}")
 	@Email(message = "{email.not.valid}")	
 	private String email;
 
-	@NotNull(message = "{password.not.null}")
-	@NotEmpty(message = "{password.not.empty}")
 	@NotBlank(message = "{password.not.blank}")
 	@Length(min = 8)
 	private String password;

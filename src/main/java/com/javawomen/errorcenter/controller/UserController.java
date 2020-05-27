@@ -41,9 +41,12 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import springfox.documentation.annotations.ApiIgnore;
 
+/**
+ * Usuário
+ */
+@Api(tags = "5. Usuário da API - ")
 @RestController
 @RequestMapping(path = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
-//@Api(value = "Usuário") //swagger
 @CrossOrigin(origins = "*")//libera os dominios de acesar a api: http://dominio.com.br
 public class UserController {
 
