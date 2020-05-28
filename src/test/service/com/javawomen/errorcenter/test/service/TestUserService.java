@@ -42,6 +42,24 @@ public class TestUserService {
 	}
 	
 	@Test
+	public void authenticate() {
+		
+	}
+	
+	@Test
+	public void getAllUsers() {
+	}
+	
+	@Test
+	public void updateUser() {
+	}
+	
+	@Test
+	public void deleteUser() {
+		
+	}
+	
+	@Test
 	public void findUserById() {
 		Long id = 5L;
 		Optional<User> userOptional = userService.findById(id);
