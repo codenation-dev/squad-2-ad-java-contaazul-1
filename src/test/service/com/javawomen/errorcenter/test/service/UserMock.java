@@ -6,13 +6,18 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import com.javawomen.errorcenter.controller.form.UpdateUserForm;
 import com.javawomen.errorcenter.controller.form.UserForm;
 import com.javawomen.errorcenter.model.User;
 
 @Component
 public class UserMock {
-	List<UserForm> listaForm = new ArrayList<UserForm>();
+	List<UserForm> listaForm = new ArrayList<>();
+	List<UpdateUserForm> updateForm = new ArrayList<>();
+	List<User> lista = new ArrayList<>();
+	
 	UserForm form = new UserForm();
+	UpdateUserForm formUpdate = new UpdateUserForm();
 
 	public void createForm() {
 		form.setName("Leticia Buss");
@@ -41,12 +46,28 @@ public class UserMock {
 		listaForm.add(form);
 	}
 	
+	public void updateUserForm() {
+		formUpdate.setName("Maria Henrique");
+		formUpdate.setEmail("maria.henrique@gmail.com");
+		formUpdate.setPassword("Maria8547");
+		updateForm.add(formUpdate);
+	}
+	
 	public UserMock() {
 		createForm();
+		updateUserForm();
 	}
 
 	public List<UserForm> getListaForm() {
 		return listaForm;
+	}
+	
+	public List<UpdateUserForm> getUpdateForm() {
+		return updateForm;
+	}
+	
+	public List<User> getLista() {
+		return lista;
 	}
 	
 	public User createUser(int id) {
@@ -59,5 +80,26 @@ public class UserMock {
 		user.setPassword(form.getPassword());
 		
 		return user;
+	}
+	
+	public User updateUser() {
+		User user = listaUsers().get(1);
+		List<UpdateUserForm> updateForm = getUpdateForm();
+		user.setName(updateForm.get(0).getName());
+		user.setEmail(updateForm.get(0).getEmail());
+		user.setPassword(updateForm.get(0).getPassword());
+		
+		lista.set(0, user);
+		return user;
+	}
+	
+	public List<User> listaUsers() {
+		
+		for (int j = 0; j < listaForm.size(); j++) {
+			User user = createUser(j);
+			lista.add(user);
+		}
+		
+		return lista;
 	}
 }
