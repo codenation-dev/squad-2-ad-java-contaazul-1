@@ -32,31 +32,33 @@ public class LogMock {
 		form.setNameLevel("error");
 		form.setNameEnvironment("desenvolvimento");
 		form.setOrigin("127.0.0.1");
-		form.setDescription("deion do log");
-		form.setDetails("details do log");
-		listaForm.add(form);
-		
-
-		form.setNameLevel("debug");
-		form.setNameEnvironment("desenvolvimento");
-		form.setOrigin("127.0.0.1");
-		form.setDescription("deion do log");
+		form.setDescription("Description do log");
 		form.setDetails("details do log");
 		listaForm.add(form);
 
-		form.setNameLevel("warn");
-		form.setNameEnvironment("homologacao");
-		form.setOrigin("127.0.0.1");
-		form.setDescription("deion do log");
-		form.setDetails("details do log");
-		listaForm.add(form);
+		LogForm form2 = new LogForm();
+		form2.setNameLevel("debug");
+		form2.setNameEnvironment("desenvolvimento");
+		form2.setOrigin("127.0.0.1");
+		form2.setDescription("Description do log");
+		form2.setDetails("details do log");
+		listaForm.add(form2);
 
-		form.setNameLevel("error");
-		form.setNameEnvironment("producao");
-		form.setOrigin("127.0.0.1");
-		form.setDescription("deion do log");
-		form.setDetails("details do log");
-		listaForm.add(form);
+		LogForm form3 = new LogForm();
+		form3.setNameLevel("warn");
+		form3.setNameEnvironment("homologacao");
+		form3.setOrigin("127.0.0.1");
+		form3.setDescription("Description do log");
+		form3.setDetails("details do log");
+		listaForm.add(form3);
+
+		LogForm form4 = new LogForm();
+		form4.setNameLevel("error");
+		form4.setNameEnvironment("desenvolvimento");
+		form4.setOrigin("127.0.0.1");
+		form4.setDescription("Description do log");
+		form4.setDetails("details do log");
+		listaForm.add(form4);
 
 		// }
 	}
@@ -171,5 +173,19 @@ public class LogMock {
 
 	public void salvar(LogForm form) {
 		listaForm.add(form);
+	}
+	
+	public int count(Log log) {
+		int counter = 0;
+		for(int j = 0; j < listaForm.size(); j++){
+			if(log.getOrigin().equals(listaForm.get(j).getOrigin()) &&
+					log.getEnvironment().getName().equals(listaForm.get(j).getNameEnvironment()) &&
+					log.getLevel().getName().equals(listaForm.get(j).getNameLevel()) &&
+					log.getDescription().equals(listaForm.get(j).getDescription())) {
+				counter ++;
+				
+			}
+		}
+		return counter;
 	}
 }
