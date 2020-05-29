@@ -1,5 +1,6 @@
 package service.com.javawomen.errorcenter.test.service;
 
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -14,6 +15,10 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import com.javawomen.errorcenter.controller.dto.LogDto;
 import com.javawomen.errorcenter.controller.form.LogForm;
@@ -76,18 +81,6 @@ public class TestLogService {
 		List<Log> listaImpl = logServiceImpl.findAll();
 		Assert.assertEquals(listaImpl.size(),logs.size());
 	}
-
-	@Test
-	public void findByEnvironment() {
-		mock.createForm();
-		String name = "producao";
-		List<Log> lista = mock.listaEnvironment(name);
-		Mockito.lenient().when(logRepositoryMock.findByEnvironmentName(name)).thenReturn((lista));
-		when(logServiceImpl.findByEnvironment(name)).thenReturn((lista));
-		List<Log> listaImpl = logServiceImpl.findByEnvironment(name);
-		Assert.assertSame(listaImpl.get(1), lista.get(1));
-		Assert.assertEquals(listaImpl.size(), lista.size());
-	}
 	
 	@Test
 	public void findByLevel() {
@@ -116,7 +109,7 @@ public class TestLogService {
 	@Test
 	public void findByDescription() {
 		mock.createForm();
-		String name = "description do log";
+		String name = "Description do log";
 		List<Log> lista = mock.listaDescription(name);
 		when(logRepositoryMock.findByDescription(name)).thenReturn((lista));
 		when(logServiceImpl.findByDescription(name)).thenReturn((lista));
@@ -144,6 +137,41 @@ public class TestLogService {
 		List<Log> listaImpl = logServiceImpl.findByDescription(name);
 		Assert.assertSame(listaImpl.get(0), lista.get(0));
 		Assert.assertEquals(listaImpl.size(), 1);
+	}
+	
+	@Test
+	public void countByAttribute() {
+		mock.createForm();
+		Long counter = 0L;
+		Long id = 1L;
+		List<Log> logs = mock.listaLog();
+		
+		Log log = logs.get(1);
+		
+		counter = (long) mock.count(log);
+		
+		when(logRepositoryMock.findById(id)).thenReturn(Optional.of(log));
+		when(logRepositoryMock.countByAllAttribute(log.getLevel().getName(), log.getEnvironment().getName(),
+				log.getOrigin(), log.getDescription())).thenReturn(0L);
+		
+		when(logServiceImpl.countByAttribute(id)).thenReturn(1L);
+		Long y = logServiceImpl.countByAttribute(id);
+		assertTrue(counter == y);
+		
+	}
+	
+	@Test
+	public void findByEnvironmentName() {
+		mock.createForm();
+		Pageable pageable = PageRequest.of(0, 10);
+		String name = "producao";
+		List<Log> lista = mock.listaEnvironment(name);
+		Page<Log> logPage = new PageImpl<>(lista, pageable, 0);
+		when(logRepositoryMock.findByEnvironmentName(name, pageable)).thenReturn(logPage);
+		Page<Log> logPageble = logRepositoryMock.findByEnvironmentName(name, pageable);
+		Assert.assertEquals(logPage.getTotalPages(), logPageble.getTotalPages());
+		Assert.assertEquals(logPage.getNumberOfElements(), logPageble.getNumberOfElements());
+		Assert.assertEquals(lista.size(), logPageble.getNumberOfElements());
 	}
 
 }
