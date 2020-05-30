@@ -1,6 +1,6 @@
 # Error-Center API
-Error-Center é uma API que centraliza e gerencia os logs de erros de microserviços. <br>
-*Projeto desenvolvido no programa AceleraDev Java Women oferecido pela Codenation com o apoio da Conta Azul.* <br> 
+Error-Center é uma API que centraliza e gerencia os logs de erros de microserviços. <br><br>
+*Projeto desenvolvido no programa AceleraDev Java Women oferecido pela Codenation com o apoio da Conta Azul.* <br><br> 
 [LIVE DEMO](https://error-center-api.herokuapp.com/swagger-ui.html#/) <br> 
 
 ## Tecnologias
@@ -74,5 +74,5 @@ Password: admin
   [Natalia Suzuki](https://www.linkedin.com/in/natalia-suzuki-210349108/) <br>
 
 ## Agradecimentos
-  [Codenation](https://www.codenation.dev/)
+  [Codenation](https://www.codenation.dev/)<br>
   [ContaAzul](https://contaazul.com/)
