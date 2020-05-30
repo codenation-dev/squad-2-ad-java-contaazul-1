@@ -4,10 +4,14 @@ Error-Center é uma API que centraliza e gerencia os logs de erros de microservi
 _Projeto desenvolvido no programa AceleraDev Java Women oferecido pela Codenation com o apoio da Conta Azul._
 
 ## Time
-[Alice Borges dos Santos](https://www.linkedin.com/in/alice-borges/) 
+[Alice Borges dos Santos](https://www.linkedin.com/in/alice-borges/)
+
 [Leticia de Souza Buss](https://www.linkedin.com/in/leticia-d-942652134/)
+
 [Karina Aparecida de Souza Padilha](https://www.linkedin.com/in/karina-aparecida-de-souza-padilha-143951106/)
+
 [Marlei Borchardt](https://www.linkedin.com/in/marlei-borchardt)
+
 [Natalia Suzuki](https://www.linkedin.com/in/natalia-suzuki-210349108/)
 
 ## Tecnologias
