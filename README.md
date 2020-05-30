@@ -1,7 +1,8 @@
 # Error-Center API
 Error-Center é uma API que centraliza e gerencia os logs de erros de microserviços.
 
-*Projeto desenvolvido no programa AceleraDev Java Women oferecido pela Codenation com o apoio da Conta Azul.*
+*Projeto desenvolvido no programa AceleraDev Java Women oferecido pela Codenation com o apoio da Conta Azul.* <br>
+[LIVE DEMO](https://error-center-api.herokuapp.com/swagger-ui.html#/) <br>
 
 ## Tecnologias
     Eclipse (4.14.0)
@@ -19,8 +20,8 @@ Error-Center é uma API que centraliza e gerencia os logs de erros de microservi
 ## Instalação
 
 ### Instalando Maven
-  Download [aqui](https://maven.apache.org/download.cgi) <br>
-  Instalação [aqui](https://maven.apache.org/install.html)
+  [Download](https://maven.apache.org/download.cgi) <br>
+  [Instalação](https://maven.apache.org/install.html)
 
   Para testar a instalação do Maven, no prompt de comando digite mvn:
 ```bash
