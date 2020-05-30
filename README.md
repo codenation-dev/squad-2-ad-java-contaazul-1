@@ -4,14 +4,10 @@ Error-Center é uma API que centraliza e gerencia os logs de erros de microservi
 _Projeto desenvolvido no programa AceleraDev Java Women oferecido pela Codenation com o apoio da Conta Azul._
 
 ## Time
-[Alice Borges dos Santos](https://www.linkedin.com/in/alice-borges/)
-
-[Leticia de Souza Buss](https://www.linkedin.com/in/leticia-d-942652134/)
-
-[Karina Aparecida de Souza Padilha](https://www.linkedin.com/in/karina-aparecida-de-souza-padilha-143951106/)
-
-[Marlei Borchardt](https://www.linkedin.com/in/marlei-borchardt)
-
+[Alice Borges dos Santos](https://www.linkedin.com/in/alice-borges/)<br>
+[Leticia de Souza Buss](https://www.linkedin.com/in/leticia-d-942652134/)<br>
+[Karina Aparecida de Souza Padilha](https://www.linkedin.com/in/karina-aparecida-de-souza-padilha-143951106/)<br>
+[Marlei Borchardt](https://www.linkedin.com/in/marlei-borchardt)<br>
 [Natalia Suzuki](https://www.linkedin.com/in/natalia-suzuki-210349108/)
 
 ## Tecnologias
@@ -30,7 +26,7 @@ _Projeto desenvolvido no programa AceleraDev Java Women oferecido pela Codenatio
 ## Instalação
 
 ### Instalando Maven
-Download [aqui](https://maven.apache.org/download.cgi)
+Download [aqui](https://maven.apache.org/download.cgi)<br>
 Instalação [aqui](https://maven.apache.org/install.html)
 
 Para testar a instalação do Maven, no prompt de comando digite mvn:
@@ -42,22 +38,23 @@ $ git clone https://github.com/codenation-dev/squad-2-ad-java-contaazul-1.git
 
 ### Compilando e empacotando a aplicação
 
-$ cd squad-2-ad-java-contaazul-1
-$ mvn compile
+$ cd squad-2-ad-java-contaazul-1<br>
+$ mvn compile<br>
 $ mvn package
 
 ### Testando a aplicação
 
-$ cd squad-2-ad-java-contaazul-1
+$ cd squad-2-ad-java-contaazul-1<br>
 $ mvn test
 
 ### Executando a aplicação
 
-$ cd  squad-2-ad-java-contaazul-1
+$ cd  squad-2-ad-java-contaazul-1<br>
 $ mvn spring-boot:run
 
 ### Acessando Endpoints
-Após executar a aplicação, teste os endpoints no Swagger:  http://localhost:8080/swagger-ui.html`
+Após executar a aplicação, teste os endpoints no Swagger:<br> 
+http://localhost:8080/swagger-ui.html`
 
 #### Login
 
