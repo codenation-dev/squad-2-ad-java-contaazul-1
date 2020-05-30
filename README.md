@@ -19,8 +19,7 @@ Error-Center é uma API que centraliza e gerencia os logs de erros de microservi
 ## Instalação
 
 ### Instalando Maven
-  Download [aqui](https://maven.apache.org/download.cgi)
-  
+  Download [aqui](https://maven.apache.org/download.cgi) <br>
   Instalação [aqui](https://maven.apache.org/install.html)
 
   Para testar a instalação do Maven, no prompt de comando digite mvn:
@@ -68,11 +67,11 @@ Password: admin
   Heroku [link](https://error-center-api.herokuapp.com/swagger-ui.html#/)
   
 ## Autores
-  [Alice Borges dos Santos](https://www.linkedin.com/in/alice-borges/)
-  [Leticia de Souza Buss](https://www.linkedin.com/in/leticia-d-942652134/)
-  [Karina Aparecida de Souza Padilha](https://www.linkedin.com/in/karina-aparecida-de-souza-padilha-143951106/)
-  [Marlei Borchardt](https://www.linkedin.com/in/marlei-borchardt)
-  [Natalia Suzuki](https://www.linkedin.com/in/natalia-suzuki-210349108/)
+  [Alice Borges dos Santos](https://www.linkedin.com/in/alice-borges/) <br>
+  [Leticia de Souza Buss](https://www.linkedin.com/in/leticia-d-942652134/) <br>
+  [Karina Aparecida de Souza Padilha](https://www.linkedin.com/in/karina-aparecida-de-souza-padilha-143951106/) <br>
+  [Marlei Borchardt](https://www.linkedin.com/in/marlei-borchardt)  <br>
+  [Natalia Suzuki](https://www.linkedin.com/in/natalia-suzuki-210349108/) <br>
 
 ## Agradecimentos
   [Codenation](https://www.codenation.dev/)
