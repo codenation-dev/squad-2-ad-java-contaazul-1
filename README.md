@@ -19,7 +19,7 @@ _Projeto desenvolvido no programa AceleraDev Java Women oferecido pela Codenatio
   -   Spring Data JPA 2.1.6
   -   Postgresql 10
   -   Mockito 2.23.4
-  -   Junit 5 
+  -   JUnit 5 
   -   Swagger 2.9.2 
   -   Heroku
 
