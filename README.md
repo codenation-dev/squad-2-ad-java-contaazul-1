@@ -11,50 +11,56 @@ _Projeto desenvolvido no programa AceleraDev Java Women oferecido pela Codenatio
 [Natalia Suzuki](https://www.linkedin.com/in/natalia-suzuki-210349108/)
 
 ## Tecnologias
--   Eclipse  4.14.0
--   Java 1.8
--   Spring Boot 2.1.6
--   Maven 3.5.1
--   Apache Tomcat 9.0.2
--   Spring Data JPA 2.1.6
--   Postgresql 10
--   Mockito 2.23.4
--   Junit 5 
--   Swagger 2.9.2 
--   Heroku
+  -   Eclipse  4.14.0
+  -   Java 1.8
+  -   Spring Boot 2.1.6
+  -   Maven 3.5.1
+  -   Apache Tomcat 9.0.2
+  -   Spring Data JPA 2.1.6
+  -   Postgresql 10
+  -   Mockito 2.23.4
+  -   Junit 5 
+  -   Swagger 2.9.2 
+  -   Heroku
 
 ## Instalação
 
 ### Instalando Maven
-Download [aqui](https://maven.apache.org/download.cgi)<br>
-Instalação [aqui](https://maven.apache.org/install.html)
+  Download [aqui](https://maven.apache.org/download.cgi)<br>
+  Instalação [aqui](https://maven.apache.org/install.html)
 
 Para testar a instalação do Maven, no prompt de comando digite mvn:
 ```bash
 $ mvn -v
 ```
+
 ### Clonando o repositório
+```bash
 $ git clone https://github.com/codenation-dev/squad-2-ad-java-contaazul-1.git
+```
 
 ### Compilando e empacotando a aplicação
-
+```bash
 $ cd squad-2-ad-java-contaazul-1<br>
 $ mvn compile<br>
 $ mvn package
+```
 
 ### Testando a aplicação
-
+```bash
 $ cd squad-2-ad-java-contaazul-1<br>
 $ mvn test
+```
 
 ### Executando a aplicação
-
+```bash
 $ cd  squad-2-ad-java-contaazul-1<br>
 $ mvn spring-boot:run
+```
 
 ### Acessando Endpoints
-Após executar a aplicação, teste os endpoints no Swagger:<br> 
-http://localhost:8080/swagger-ui.html`
+  Após executar a aplicação, teste os endpoints no Swagger:<br> 
+  http://localhost:8080/swagger-ui.html`
 
 #### Login
 
@@ -65,4 +71,4 @@ Password: admin
 
 ### Deploy
 
-Heroku [link](https://error-center-api.herokuapp.com/swagger-ui.html#/)
+  Heroku [link](https://error-center-api.herokuapp.com/swagger-ui.html#/)
