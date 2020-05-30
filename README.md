@@ -53,7 +53,7 @@ $ mvn spring-boot:run
 
 ### Acessando Endpoints
   Após executar a aplicação, teste os endpoints no Swagger:
-  http://localhost:8080/swagger-ui.html`
+  http://localhost:8080/swagger-ui.html
 
 #### Login
 
