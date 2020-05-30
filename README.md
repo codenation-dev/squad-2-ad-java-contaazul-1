@@ -1,4 +1,4 @@
-# Error-Center
+# Error-Center API
 Error-Center é uma API que centraliza e gerencia os logs de erros de microserviços.
 
 _Projeto desenvolvido no programa AceleraDev Java Women oferecido pela Codenation com o apoio da Conta Azul._
