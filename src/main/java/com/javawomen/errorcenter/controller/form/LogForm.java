@@ -27,6 +27,9 @@ public class LogForm {
     private String details;
 
 	
+	public LogForm() {
+	}
+
 	public String getNameLevel() {
 		return nameLevel;
 	}

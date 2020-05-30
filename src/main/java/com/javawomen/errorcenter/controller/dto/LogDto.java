@@ -1,10 +1,6 @@
 package com.javawomen.errorcenter.controller.dto;
  
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import org.springframework.data.domain.Page;
 
 import com.javawomen.errorcenter.model.Log;
 
@@ -16,6 +12,7 @@ public class LogDto {
 	private String environmentName;//Environment environment;
 	private String origin;
 	private String description;
+	private String detail;
 	private Long frequency;
 	
 	//ver se precisa de metodos set dentro dos dto
@@ -26,6 +23,7 @@ public class LogDto {
 		this.environmentName = log.getEnvironment().getName();
 		this.origin = log.getOrigin();
 		this.description = log.getDescription();
+		this.detail = log.getDetails();
 		this.frequency = 0L;
 	}
 	
@@ -87,29 +85,13 @@ public class LogDto {
 	public void setFrequency(Long frequency) {
 		this.frequency = frequency;
 	}
-	// -------------- static ----------------------
-	/*
-	//retorna uma lista em paginas de Logs 
-	public static Page<LogDto> converter(Page<Log> logs) {
-		//return logs.stream().map(LogDto::new).collect(Collectors.toList());
-		return logs.map(LogDto::new);
-	}
-	
-	//retorna um log (para nao devolver uma entidade)
-	public static List<LogDto> converterToLog(List<Log> logs) {			
-		//return new LogDto(log);
-		return logs.stream().map(LogDto::new).collect(Collectors.toList());
+
+	public String getDetail() {
+		return detail;
 	}
 
-	public static LogDto converterToLog(Optional<Log> logOptional) {
-		//return converterToLog(userOptional.get());
-		return new LogDto(logOptional.get());
+	public void setDetail(String detail) {
+		this.detail = detail;
 	}
-
-	public static LogDto converterToLog(Log log) {
-		return new LogDto(log);
-	}
-	*/
-
 
 }
