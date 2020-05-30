@@ -19,7 +19,7 @@ _Projeto desenvolvido no programa AceleraDev Java Women oferecido pela Codenatio
 ## Instalação
 
 ### Instalando Maven
-  Download [aqui](https://maven.apache.org/download.cgi)<br>
+  Download [aqui](https://maven.apache.org/download.cgi)
   Instalação [aqui](https://maven.apache.org/install.html)
 
   Para testar a instalação do Maven, no prompt de comando digite mvn:
