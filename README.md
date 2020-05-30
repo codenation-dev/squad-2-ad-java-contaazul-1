@@ -64,7 +64,7 @@ Password: admin
 
 ### Deploy
 
-  Heroku [link](https://error-center-api.herokuapp.com/swagger-ui.html#/)
+  [Heroku](https://error-center-api.herokuapp.com/swagger-ui.html#/)
   
 ## Autores
   [Alice Borges dos Santos](https://www.linkedin.com/in/alice-borges/) <br>
