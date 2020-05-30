@@ -73,6 +73,6 @@ Password: admin
   [Marlei Borchardt](https://www.linkedin.com/in/marlei-borchardt)<br>
   [Natalia Suzuki](https://www.linkedin.com/in/natalia-suzuki-210349108/)
 
-## Agradecimento
+## Agradecimentos
   [Codenation](https://www.codenation.dev/)<br>
   [ContaAzul](https://contaazul.com/)
