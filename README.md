@@ -63,6 +63,6 @@ User: admin@email.com
 Password: admin
 ```
 
-### Deploy
+## Deploy
 
 Heroku [link](https://error-center-api.herokuapp.com/swagger-ui.html#/)
