@@ -51,7 +51,7 @@ $ cd  squad-2-ad-java-contaazul-1
 $ mvn spring-boot:run
 ```
 
-### Acessando Endpoints
+### Acessando endpoints
   Após executar a aplicação, teste os endpoints no Swagger:
   http://localhost:8080/swagger-ui.html
 
