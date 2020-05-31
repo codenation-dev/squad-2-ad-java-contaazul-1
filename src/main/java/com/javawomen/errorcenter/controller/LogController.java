@@ -137,15 +137,14 @@ public class LogController {
 	//-------------------- GET ONE BY FREQUENCY ---------------------
 	// http://localhost:8080/logs/frequency/{id}
 	@ApiOperation(value = "Retorna o número de logs que existe à partir dos parâmetros de um log")
-	//@GetMapping("/frequency/{id}")
-	//public ResponseEntity<Long> countLog(@PathVariable Long id) {
-	//	Long qtd = logService.countByAttribute(id);
-	//	return ResponseEntity.ok(qtd);
-	//}
 	@GetMapping("/frequency/{id}")
-	Long countLog(Long id) {
-		return logService.countByAttribute(id);
+	public ResponseEntity<Long> countLog(@PathVariable Long id) {
+		return ResponseEntity.ok(logService.countByAttribute(id));
 	}
+	//@GetMapping("/frequency/{id}")
+	//Long countLog(Long id) {
+	//	return logService.countByAttribute(id);
+	//}
 
 	//-------------------- GET ALL BY FREQUENCY ---------------------
 	// devolver ordenado por frequency: o getAll e getByEnvironment 
