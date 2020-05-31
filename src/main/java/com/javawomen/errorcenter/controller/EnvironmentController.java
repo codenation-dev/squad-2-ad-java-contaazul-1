@@ -35,7 +35,7 @@ import io.swagger.annotations.ApiOperation;
 @Api(tags = "4. Ambiente de Log - ")
 @RestController
 @RequestMapping(path = "/environments", produces = MediaType.APPLICATION_JSON_VALUE)
-@CrossOrigin(origins = "*")//libera os dominios de acesar a api: http://dominio.com.br
+@CrossOrigin(origins = "*")
 public class EnvironmentController {
 
 	@Autowired
@@ -73,8 +73,6 @@ public class EnvironmentController {
 		URI uri = uriBuilder.path("/environments/{id}").buildAndExpand(environment.getId()).toUri();
 		return ResponseEntity.created(uri).body(new EnvironmentDto(environment));
 	}
-	
-	//ver onde cria essa url / uri
 
 	// -------------------------- DELETE ----------------------------
 	// http://localhost:8080/environments/{id}

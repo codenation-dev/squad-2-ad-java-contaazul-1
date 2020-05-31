@@ -25,7 +25,7 @@ public class LoginForm {
 		return senha;
 	}
 
-	public UsernamePasswordAuthenticationToken convert() {//metodo para o autentication manager
+	public UsernamePasswordAuthenticationToken convert() {
 		return new UsernamePasswordAuthenticationToken(this.email, this.senha);
 	}
 	

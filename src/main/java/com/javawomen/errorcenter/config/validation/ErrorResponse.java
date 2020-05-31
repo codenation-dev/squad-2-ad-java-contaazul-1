@@ -10,7 +10,6 @@ public class ErrorResponse {
     private final String objectName;
     private final List<ObjectError> errors;
     
-    //nao pode usar o metodo setter
 	public ErrorResponse(String message, int code, String status, String objectName, List<ObjectError> errors) {
 		this.message = message;
 		this.code = code;
@@ -19,7 +18,6 @@ public class ErrorResponse {
 		this.errors = errors;
 	}
 	
-
 	public String getMessage() {
 		return message;
 	}

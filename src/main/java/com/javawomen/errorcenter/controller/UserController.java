@@ -47,7 +47,7 @@ import springfox.documentation.annotations.ApiIgnore;
 @Api(tags = "5. Usuário da API - ")
 @RestController
 @RequestMapping(path = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
-@CrossOrigin(origins = "*")//libera os dominios de acesar a api: http://dominio.com.br
+@CrossOrigin(origins = "*")
 public class UserController {
 
 	@Autowired
@@ -60,7 +60,7 @@ public class UserController {
 	// http://localhost:8080/users
 	@ApiOperation(value = "Retorna uma lista de usuários existentes")
 	@GetMapping
-	@Cacheable("listOfUser") // @Cacheable do spring
+	@Cacheable("listOfUser")
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "page", dataType = "integer", paramType = "query", 
 					value = "Pagina à ser carregada", defaultValue = "0"),
@@ -91,12 +91,11 @@ public class UserController {
 	// http://localhost:8080/users/role?nameRole=ROLE_ADMIN -> Long == User id
 	@ApiOperation(value = "Retorna as permissões de perfil do usuário")
 	@GetMapping("/role/{id}")
-	public ResponseEntity<List<Role>> getRoleByUser(@PathVariable Long id) {// @RequestParam ou @PathVariable
+	public ResponseEntity<List<Role>> getRoleByUser(@PathVariable Long id) {
 		return ResponseEntity.ok(userService.findAllRolesByUser(id));
 	}
 
 	// --------------------------- POST -----------------------------
-	// o post é RequestBody: spring pega no corpo e nao na url
 	// http://localhost:8080/users/#@RequestBody
 	@ApiOperation(value = "Cria um novo usuário")
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)

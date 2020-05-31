@@ -22,7 +22,7 @@ import io.swagger.annotations.ApiOperation;
 @Api(tags = "6. Perfil de Usuário - ")
 @RestController
 @RequestMapping(path = "/roles", produces = MediaType.APPLICATION_JSON_VALUE)
-@CrossOrigin(origins = "*")//libera os dominios de acesar a api: http://dominio.com.br
+@CrossOrigin(origins = "*")
 public class RoleController {
 
 	@Autowired

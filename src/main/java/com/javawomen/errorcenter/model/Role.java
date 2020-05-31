@@ -12,7 +12,7 @@ import javax.validation.constraints.Size;
 import org.springframework.security.core.GrantedAuthority;
 
 @Entity
-@Table(name = "role", uniqueConstraints={@UniqueConstraint(columnNames={"roleName"})}) //não são chave-primária, no entanto, precisam possuir valores únicos)
+@Table(name = "role", uniqueConstraints={@UniqueConstraint(columnNames={"roleName"})})
 public class Role implements GrantedAuthority { 
 	
 	private static final long serialVersionUID = 1L;
@@ -23,9 +23,9 @@ public class Role implements GrantedAuthority {
 	
 	@NotBlank(message = "{name.not.blank}")
 	@Size(min = 3, max = 100)
-	private String roleName; //Tem que seguir este padrão: ROLE_USER, ROLE_ADMIN
+	private String roleName;
 
-	
+	@Deprecated
 	public Role() {
 	}
 	

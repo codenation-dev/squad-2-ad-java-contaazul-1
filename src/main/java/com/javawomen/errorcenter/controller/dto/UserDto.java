@@ -1,14 +1,10 @@
 package com.javawomen.errorcenter.controller.dto;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
-
-import org.springframework.data.domain.Page;
 
 import com.javawomen.errorcenter.model.User;
 
 
-//dados que irá para o cliente
 public class UserDto {
 	
 	private Long id;	
@@ -16,7 +12,6 @@ public class UserDto {
     private String email;
     private LocalDateTime createdAt;
     
-    //construtor que recebe um user completo
 	public UserDto(User user) {
 		this.id = user.getId();
 		this.name = user.getName();
@@ -24,7 +19,6 @@ public class UserDto {
 		this.createdAt = user.getCreatedAt();
 	}
 	
-
 	public Long getId() {
 		return id;
 	}

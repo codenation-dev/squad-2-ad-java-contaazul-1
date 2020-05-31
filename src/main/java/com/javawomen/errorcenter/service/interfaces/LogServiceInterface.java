@@ -54,6 +54,6 @@ public interface LogServiceInterface {
 	
 	void archiveLog(Long id) throws IOException;
 	
-	LogDto readArchiveLog(Log log, String archiveName) throws Throwable;
+	//List<LogDto> readArchiveLog(String archiveName) throws Throwable;
 	
 }

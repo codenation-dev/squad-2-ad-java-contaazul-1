@@ -1,8 +1,5 @@
 package com.javawomen.errorcenter.controller.dto;
  
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 import com.javawomen.errorcenter.model.Role;
 
@@ -32,18 +29,4 @@ public class RoleDto {
 		this.roleName = roleName;
 	}
 
-	// --------------- static ------------
-
-/*	public static RoleDto converterToRole(Optional<Role> roleOptional) {
-		return converterToRole(roleOptional.get());
-	}
-	
-	public static RoleDto converterToRole(Role role) {
-		return new RoleDto(role);
-	}
-
-	public static List<RoleDto> converter(List<Role> roles) {
-		return roles.stream().map(RoleDto::new).collect(Collectors.toList());
-	}
-*/
 }

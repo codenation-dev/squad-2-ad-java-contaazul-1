@@ -1,29 +1,28 @@
 package com.javawomen.errorcenter.controller.form;
 
 import javax.validation.constraints.NotBlank;
-
-import org.hibernate.validator.constraints.Length;
+import javax.validation.constraints.Size;
 
 public class LogForm {
 
 	@NotBlank(message = "{nameLevel.not.blank}")
-	@Length(min = 3, max = 100)
+	@Size(min = 3, max = 100)
 	private String nameLevel;
 
 	@NotBlank(message = "{nameEnvironment.not.blank}")
-	@Length(min = 3, max = 100)
+	@Size(min = 3, max = 100)
 	private String nameEnvironment;
 
 	@NotBlank(message = "{origin.not.blank}")
-	@Length(min = 3, max = 100)
+	@Size(min = 3, max = 100)
 	private String origin;
 
 	@NotBlank(message = "{description.not.blank}")
-	@Length(min = 10, max = 100)
+	@Size(min = 10, max = 100)
 	private String description;
 	
 	@NotBlank(message = "{details.not.blank}")
-    @Length(min = 10, max = 255)
+	@Size(min = 10, max = 255)
     private String details;
 
 	

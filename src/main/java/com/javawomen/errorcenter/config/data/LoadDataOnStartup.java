@@ -22,13 +22,13 @@ public class LoadDataOnStartup{
 	
 	boolean loaded = false;
 	
-	@EventListener(ApplicationReadyEvent.class)//Observa a ContextRefreshEvent
+	@EventListener(ApplicationReadyEvent.class)
 	public void loadData(){
 		System.out.println("Application is sucecssfully Started");
 		if (loaded)
 		      return;
 		long roles = roleService.count();
-		if(!(roles > 0)){ //System.out.println("loadData  quantidade " + roles);
+		if(!(roles > 0)){
 		 
 		//seta os roles
 		Role roleAdmin = roleService.converter("ROLE_ADMIN");

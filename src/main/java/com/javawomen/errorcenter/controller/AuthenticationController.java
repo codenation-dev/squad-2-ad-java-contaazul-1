@@ -37,22 +37,17 @@ import io.swagger.annotations.ApiOperation;
 /**
  * Autentica usuário e gera Token JWT
  */
-@Api(tags = "1. Autenticação de Usuário - ")//swagger , ainda nao vi onde estah isso
+@Api(tags = "1. Autenticação de Usuário - ")
 @RestController
-@RequestMapping("/auth") // endereço de autenticação que o cliente deve configurar
+@RequestMapping("/auth")
 @CrossOrigin(origins = "*")
 public class AuthenticationController {
-	// qnd no formulario do cliente o user clicar em logar, aqui é onde ele será
-	// autenticado
 
 	@Autowired
 	private AuthenticationManager authManager;
-	// essa classe é do spring mas não faz injecao de dependencias
-	// automaticamente, temos que fz manualmente na classe security
-	// configuration
 
 	@Autowired
-	private TokenService tokenService; // import com.javawomen.errorcenter.config.security.TokenService;
+	private TokenService tokenService;
 
 	@Autowired
 	private UserService userService;
@@ -62,27 +57,16 @@ public class AuthenticationController {
 
 	//---------------------------- LOGIN ----------------------------
 	@ApiOperation(value = "Login")
-	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE) //testar isso
+	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<TokenDto> authenticate(@RequestBody @Valid LoginForm login){
-		//tirar
-		System.out.println("class AuthenticationController: " + login.getEmail());
-		System.out.println("class AuthenticationController: " + login.getSenha());
-		
 		UsernamePasswordAuthenticationToken loginData = login.convert();
-		
 		try {
-			//essa linha vai para o authentication service, passa pelo repository
-			Authentication authentication = authManager.authenticate(loginData);//email e senha q vem do obj a cima				
-			
-			//antes de devolver o OK,devo gerar o TOKEN
+			Authentication authentication = authManager.authenticate(loginData);					
+			//gerar o token
 			String token = tokenService.generateToken(authentication);
-			
-			System.out.println("TOKEN GERADO pelo jjwt:  " + token);
-			//return ResponseEntity.ok().build();
-			//retornar o token para o cliente
 			return ResponseEntity.ok(new TokenDto(token, "Bearer"));
 		} catch (AuthenticationException e) {
-			return ResponseEntity.badRequest().build();//para nao devolver erro 500 e sim badrequest
+			return ResponseEntity.badRequest().build();
 		}
 		
 	}
@@ -92,28 +76,21 @@ public class AuthenticationController {
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 		public ResponseEntity<TokenDto> forgotPassword(@RequestParam String email) {
 			Optional<User> user = userService.findByEmail(email);
-			if (!user.isPresent())throw new ResourceNotFoundException("XXXXXXXXXXXXXXE-mail não encontrado. Verifique se você digitou corretamente.");
+			if (!user.isPresent())throw new ResourceNotFoundException("E-mail não encontrado. Verifique se você digitou corretamente.");
 			String token = tokenService.generateResetToken(user);
-			
-			ResetToken resetToken = new ResetToken();///1
+			ResetToken resetToken = new ResetToken();
 			resetToken.setToken(token);
 			resetToken.setEmail(email);
-			
 			resetTokenService.save(resetToken);
-			
 			return ResponseEntity.ok(new TokenDto(token, "Bearer"));
-		}//alterar xxxx
+		}
 		
 	//----------------------- ALTERAR SENHA -------------------------
 	//@PutMapping(path="/resetPassword")
 	@ApiOperation(value = "Altera a senha de usuário com uso de token")
 	@PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<UserDto> resetPassword(@RequestBody ResetPasswordDTO resetPassword) {
-		User user = userService.updatePassword(resetPassword);
-		
-		System.out.println("email: "+user.getEmail());
-		System.out.println("password: "+user.getPassword());
-		
+		User user = userService.updatePassword(resetPassword);		
 		return ResponseEntity.ok(new UserDto(user));
 	}	
 	

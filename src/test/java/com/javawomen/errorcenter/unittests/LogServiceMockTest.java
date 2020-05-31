@@ -162,19 +162,13 @@ public class LogServiceMockTest {
 		Long counter = 0L;
 		Long id = 2L;
 		List<Log> logs = mock.listaLog();
-
 		Log log = logs.get(2);
-
 		counter = (long) mock.count(log);
-
 		when(logRepositoryMock.findById(id)).thenReturn(Optional.of(log));
 		when(logRepositoryMock.countByAllAttribute(log.getLevel().getName(), log.getEnvironment().getName(),
 				log.getOrigin(), log.getDescription())).thenReturn(2l);
-
 		when(logServiceImpl.countByAttribute(id)).thenReturn(1L);
 		Long y = logServiceImpl.countByAttribute(id);
-
 		assertTrue(counter == y);
-
 	}
 }

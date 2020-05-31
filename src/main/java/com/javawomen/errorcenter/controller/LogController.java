@@ -48,14 +48,16 @@ import springfox.documentation.annotations.ApiIgnore;
  */
 @Api(tags = "2. Log de Erros - ")
 @RestController
-@RequestMapping(path = "/logs")//, produces = MediaType.APPLICATION_JSON_VALUE)
-@CrossOrigin(origins = "*")//libera os dominios de acesar a api: http://dominio.com.br
+@RequestMapping(path = "/logs")
+@CrossOrigin(origins = "*")
 public class LogController {
  
 	@Autowired
 	private LogService logService;
+	
 	@Autowired
 	private EnvironmentService environmentService;
+	
 	@Autowired
 	private LevelService levelService;
 
@@ -132,22 +134,24 @@ public class LogController {
 		return ResponseEntity.ok(logService.converterToLog(logs));
 	}
 	
-	//-------------------- GET ONE BY FREQUENCY ---------------------   TESTAR ResponseEntity
-	// pegar um log e devolver o numero de vezes que ele aparece no banco
-	// esse metodo preenche o requisito de frequencia para a ultima tela, ele
-	// corresponde apenas ao Log que está sendo apresentado
+	//-------------------- GET ONE BY FREQUENCY ---------------------
 	// http://localhost:8080/logs/frequency/{id}
 	@ApiOperation(value = "Retorna o número de logs que existe à partir dos parâmetros de um log")
-	@GetMapping(path="/frequency/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Long> countLog(@PathVariable Long id) {
-		return ResponseEntity.ok(logService.countByAttribute(id));
+	//@GetMapping("/frequency/{id}")
+	//public ResponseEntity<Long> countLog(@PathVariable Long id) {
+	//	Long qtd = logService.countByAttribute(id);
+	//	return ResponseEntity.ok(qtd);
+	//}
+	@GetMapping("/frequency/{id}")
+	Long countLog(Long id) {
+		return logService.countByAttribute(id);
 	}
 
 	//-------------------- GET ALL BY FREQUENCY ---------------------
 	// devolver ordenado por frequency: o getAll e getByEnvironment 
 	//http://localhost:8080/logs/frequency?nameEnvironment=producao
 	@ApiOperation(value = "Retorna uma coleção com a frequência e uma lista de logs correspondentes")
-	@GetMapping(path="/frequency", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping("/frequency")
 	public ResponseEntity<Map<Long, List<LogDto>>> getLogsFrequency(
 			@RequestParam(required = false)String nameEnvironment) {		
 		if (nameEnvironment == null) {
@@ -158,22 +162,20 @@ public class LogController {
 	}
 	
 	// --------------------------- POST -----------------------------
-	// @CacheEvict(value="getAllLogs", allEntries = true)
 	// http://localhost:8080/logs/#@RequestBody
 	@ApiOperation(value = "Cria um novo log")
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@Transactional
-	public ResponseEntity<LogDto> createLog(@RequestBody @Valid LogForm form, 
+	public ResponseEntity<LogDto> createLog(@RequestBody @Valid LogForm log, 
 			UriComponentsBuilder uriBuilder) {
-		Log log = logService.converter(levelService, environmentService, form);
-		logService.save(log);
-		URI uri = uriBuilder.path("/logs/{id}").buildAndExpand(log.getId()).toUri();
-		return ResponseEntity.created(uri).body(new LogDto(log));
+		Log logObj = logService.converter(levelService, environmentService, log);
+		logService.save(logObj);
+		URI uri = uriBuilder.path("/logs/{id}").buildAndExpand(logObj.getId()).toUri();
+		return ResponseEntity.created(uri).body(new LogDto(logObj));
 	}
 
 	// -------------------------- DELETE ----------------------------
 	// http://localhost:8080/logs/{id}
-	// @CacheEvict(value="getAllLogs", allEntries = true)
 	@ApiOperation(value = "Exclui um log")
 	@DeleteMapping(path="/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@Transactional
@@ -186,7 +188,7 @@ public class LogController {
 	}
 
 	// --------------------=---- ARCHIVE ----------------------------
-	// http://localhost:8080/logs/{id}
+	// http://localhost:8080/logs/{id} 
 	@ApiOperation(value = "Arquiva um log")
 	@PostMapping("/{id}")
 	@Transactional
@@ -197,5 +199,4 @@ public class LogController {
 		return ResponseEntity.ok("Log arquivado com sucesso.");
 	}
 	
-
 }

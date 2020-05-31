@@ -23,6 +23,7 @@ public class ResetToken {
 	@Column(length=1024)
 	private String token;
  
+	@Deprecated
 	public ResetToken() {
 	}
 	

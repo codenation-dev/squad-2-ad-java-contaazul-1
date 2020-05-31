@@ -35,7 +35,6 @@ public class EnvironmentService implements ServiceInterface<Environment, Environ
 		environmentRepository.deleteById(id);		
 	}
 
-	//usado no logservice
 	public Optional<Environment> findByName(String nameEnvironment) {
 		return environmentRepository.findByName(nameEnvironment);
 	}

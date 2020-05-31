@@ -35,7 +35,7 @@ import io.swagger.annotations.ApiOperation;
 @Api(tags = "3. Nível de log - ")
 @RestController
 @RequestMapping(path = "/levels", produces = MediaType.APPLICATION_JSON_VALUE)
-@CrossOrigin(origins = "*")//libera os dominios de acesar a api: http://dominio.com.br
+@CrossOrigin(origins = "*")
 public class LevelController{
 	
 	@Autowired

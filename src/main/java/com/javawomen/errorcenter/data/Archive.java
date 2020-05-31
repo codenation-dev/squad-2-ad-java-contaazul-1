@@ -23,8 +23,8 @@ public class Archive {
 			FileWriter fw = new FileWriter(diretorio + archiveName + ".txt");
 			BufferedWriter bw = new BufferedWriter(fw);
 
-			// DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy MM dd");
-			bw.write(dto.getCreatedAt().toString());// format(formatter));
+			// DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy MM dd"); // format(formatter));
+			bw.write(dto.getCreatedAt().toString());
 			bw.write(",");
 			bw.write(dto.getOrigin());
 			bw.write(",");
@@ -37,21 +37,20 @@ public class Archive {
 			bw.close();
 
 		} catch (Exception ex) {
-			System.out.println("erro: write");
-			throw new IOException("Falha ao tentar executar o método write", ex);
+			throw new IOException("Falha ao tentar executar o método write de Arquive.class", ex);
 		}
 	}
 
 	public LogDto read(String archiveName) throws Throwable {
 		String diretorio = "datalog/";
-		Scanner scanner = new Scanner(new File(diretorio + archiveName + ".txt"), "UTF-8");
+		Scanner scanner = new Scanner(new File(diretorio + archiveName + "*.txt"), "UTF-8");
 		LogDto logDto = new LogDto();
 		try {
 			while (scanner.hasNextLine()) {
 				String linha = scanner.nextLine();
 
 				Scanner linhaScanner = new Scanner(linha);
-				linhaScanner.useLocale(Locale.US);// aplicar regras local de US para valor 0.0
+				linhaScanner.useLocale(Locale.US);// regras para valor 0.0
 				linhaScanner.useDelimiter(",");// regex
 
 				String date = linhaScanner.next();
@@ -72,9 +71,9 @@ public class Archive {
 			}
 			scanner.close();
 		} catch (Exception ex) {
-			System.out.println("erro: read");
-			throw new IOException("Falha ao tentar executar o método read", ex);
+			throw new IOException("Falha ao tentar executar o método read de Arquive.class", ex);
 		}
 		return logDto;
 	}
+
 }

@@ -11,5 +11,5 @@ import com.javawomen.errorcenter.model.Environment;
 @Repository
 public interface EnvironmentRepository extends JpaRepository<Environment, Long>{
 
-	Optional<Environment> findByName(String name);//usado em logform
+	Optional<Environment> findByName(String name);
 }

@@ -10,8 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
-import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.CreatedDate;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -38,24 +38,20 @@ public class Log {
 	private Environment environment;    
     
     @NotBlank(message = "{origin.not.blank}")
-    @Length(min = 5, max = 50)
+    @Size(min = 5, max = 50)
     private String origin;
     
     @NotBlank(message = "{description.not.blank}")
-    @Length(min = 10, max = 100)
+    @Size(min = 10, max = 100)
     private String description;
     
     @NotBlank(message = "{details.not.blank}")
-    @Length(min = 10, max = 255)
+    @Size(min = 10, max = 255)
     private String details;
 
-    /*
-     * datetime: representa uma data como no calendário e a hora como encontrado no relógio.
-		timestamp: representa um ponto específico na linha do tempo e leva em consideração o fuso horário em questão (UTC). 
-     * 
-     */
-
-	public Log() {}
+    @Deprecated
+	public Log(){
+	}
 
 	public Log(Level level, Environment environment, String origin, String description, String details) {
 		this.level = level;

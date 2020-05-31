@@ -24,6 +24,7 @@ public class Environment {
 	@Column(name = "name")
 	private String name;	
 	
+	@Deprecated
 	public Environment() {
 	}
 	

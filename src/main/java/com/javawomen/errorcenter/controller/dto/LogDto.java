@@ -15,7 +15,6 @@ public class LogDto {
 	private String detail;
 	private Long frequency;
 	
-	//ver se precisa de metodos set dentro dos dto
 	public LogDto(Log log) {
 		this.id = log.getId();
 		this.createdAt = log.getCreatedAt();
@@ -27,7 +26,7 @@ public class LogDto {
 		this.frequency = 0L;
 	}
 	
-	public LogDto() {//para serializar arquivo
+	public LogDto() {
 	}
 
 	public Long getId() {

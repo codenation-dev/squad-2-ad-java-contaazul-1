@@ -1,6 +1,7 @@
 package com.javawomen.errorcenter.controller.dto;
 
 public class ResetPasswordDTO {
+	
 	private String email;
 	private String password;
 	private String confirmPassword;

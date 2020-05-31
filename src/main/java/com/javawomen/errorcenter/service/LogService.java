@@ -23,11 +23,6 @@ import com.javawomen.errorcenter.model.Log;
 import com.javawomen.errorcenter.repository.LogRepository;
 import com.javawomen.errorcenter.service.interfaces.LogServiceInterface;
 
-/**
- * @author Letícia
- *
- */
-
 @Service
 public class LogService implements LogServiceInterface{
 
@@ -74,16 +69,8 @@ public class LogService implements LogServiceInterface{
 		logRepository.deleteById(id);
 	}
 
-	// receber uma lista retornar uma lista ordenada com frequencia ASC
-	// esse seria o endpoint de eventos, para a última tela, o clietne teria que
-	// trabalhar com dois endpoints: buscar o log, e buscar a frequencia
-	// public long countByAttribute(String levelName, String environmentName, String
-	// originName, String descriptionName){
-	// public long countByAttribute(String levelName, String environmentName, String
-	// originName, String descriptionName) {
-
 	// --------------------------- FREQUENCY -----------------------------------
-	// pegar um log e devolver o numero de vezes que ele aparece no banco
+	// devolve o numero de vezes que um log aparece no banco
 	public Long countByAttribute(Long id) {
 		Optional<Log> logOptional = logRepository.findById(id);
 		if (!logOptional.isPresent())
@@ -93,38 +80,31 @@ public class LogService implements LogServiceInterface{
 				log.getOrigin(), log.getDescription());
 	}
 
-	// pegar todos os logs e devolver ordenado pela frequencia
+	// ordena logs pela frequencia
 	public Map<Long, List<LogDto>> countByAttributeList() {
-
 		List<LogDto> frequencyList = new ArrayList<>();
 		List<Log> logs = findAll();
-
+		
 		// transforma em DTO
 		for (Log log : logs) {
 			Long count = countByAttribute(log.getId());
-			//LogDto dto = LogDto.converterToLog(log);
 			LogDto dto = converterToLog(log);
 			dto.setFrequency(count);
 			frequencyList.add(dto);
 		}
-
 		// A chave é a frequencia
 		Map<Long, List<LogDto>> frequencyMap = frequencyList.stream()
 				.collect(Collectors.groupingBy(LogDto::getFrequency));
-
 		return frequencyMap;
 	}
 
-	// pegar todos os logs e devolver ordenado pela frequencia
+	// devolve log de um ambiente ordenado pela frequencia
 	public Map<Long, List<LogDto>> countByEnvironmentList(String nameEnvironment) {
-
 		List<LogDto> frequencyList = new ArrayList<>();
 		List<Log> logs = logRepository.findByEnvironmentName(nameEnvironment.toUpperCase());
-		
 		if(logs.isEmpty()) {
 			throw new ResourceNotFoundException("Ambiente não encontrado.");
 		}
-
 		// transforma em DTO
 		for (Log log : logs) {
 			Long count = countByAttribute(log.getId());
@@ -142,13 +122,11 @@ public class LogService implements LogServiceInterface{
 
 	
 	//------------------------ MÉTODO COM DTO  ----------------------
-	
-	//retorna uma lista em paginas de Logs 
+
 	public Page<LogDto> converter(Page<Log> logs) {
 		return logs.map(LogDto::new);
 	}
-	
-	//retorna um log (para nao devolver uma entidade)
+
 	public List<LogDto> converterToLog(List<Log> logs) {
 		return logs.stream().map(LogDto::new).collect(Collectors.toList());
 	}
@@ -185,11 +163,5 @@ public class LogService implements LogServiceInterface{
 		archive.write(dto, date);
 	}
 	
-	//esse método nao é requisito, implementar no controller se der tempo
-	public LogDto readArchiveLog(Log log, String archiveName) throws Throwable {
-		Archive archive = new Archive();
-		LogDto dto = archive.read(archiveName);
-		return dto;
-	}
 	
 }

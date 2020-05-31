@@ -12,9 +12,6 @@ import com.javawomen.errorcenter.model.Role;
 import com.javawomen.errorcenter.repository.RoleRepository;
 import com.javawomen.errorcenter.service.interfaces.RoleServiceInterface;
 
-// só tem sentido criar novo role e deleta role se mudar a premissão em security
-// como o security é um método interno, para mudar tem que entrar no código e mudar a regre de negocio
-
 @Service
 public class RoleService implements RoleServiceInterface{
 
@@ -25,11 +22,10 @@ public class RoleService implements RoleServiceInterface{
 		return roleRepository.findAll();
 	}
 
-	public long count() {//usado no primeiro acesso para cadastrar roles
+	public long count() {
 		return roleRepository.count();
 	}	
 	
-	//usado para criar os roles no inicio do systema
 	public Role converter(String roleName) {
 		return new Role(roleName);
 	}

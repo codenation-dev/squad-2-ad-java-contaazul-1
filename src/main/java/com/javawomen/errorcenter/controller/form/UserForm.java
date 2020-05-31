@@ -2,13 +2,13 @@ package com.javawomen.errorcenter.controller.form;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
-import org.hibernate.validator.constraints.Length;
 
 public class UserForm {
 
 	@NotBlank(message = "{name.not.blank}")
-	@Length(min = 3, max = 100)
+	@Size(min = 3, max = 100)
 	private String name;
 
 	@NotBlank(message = "{email.not.blank}")
@@ -16,7 +16,7 @@ public class UserForm {
 	private String email;
 
 	@NotBlank(message = "{password.not.blank}")
-	@Length(min = 8)
+	@Size(min = 8)
 	private String password;
 		
 	

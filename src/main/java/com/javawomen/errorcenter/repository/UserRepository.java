@@ -15,14 +15,14 @@ import com.javawomen.errorcenter.model.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>{	
 	
-	//Não mudar é usado em: AuthenticationService
+	// usado em: AuthenticationService
 	Optional<User> findByEmail(@Param("email") String email);
 	
 	@Query
-	("select u from User u where u.email = :emailUser")//esse atributo é da classe do user e nao da tabela
+	("select u from User u where u.email = :emailUser")
 	User findUserByEmail(String emailUser);
 
 	@Query
-	("select roles from User u where u.id = :id")//esse atributo é da classe do user e nao da tabela
+	("select roles from User u where u.id = :id")
 	List<Role> findRolesByUser(Long id);
 }

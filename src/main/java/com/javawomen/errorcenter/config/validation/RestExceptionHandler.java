@@ -13,13 +13,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
  
-//troquei o nome, https://medium.com/@msealvial/validando-requisi%C3%A7%C3%B5es-e-tratando-exce%C3%A7%C3%B5es-no-spring-boot-1750ddb1e1cc
-//MethodArgumentNotValidException  para @Valida com falha
-
-@RestControllerAdvice // responsável por capturar e tratar erros; @ tornar visivel ao spring
+//responsável por capturar e tratar erros
+@RestControllerAdvice 
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
-	@Override // @ExceptionHandler(handleMethodArgumentNotValid.class)
+	@Override 
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
 		List<ObjectError> errors = getErrors(ex);
@@ -39,7 +37,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 				.collect(Collectors.toList());
 	}
 
-	//para code 500 - internal server, e 404 - not found
+	//404 - not found
 	@ExceptionHandler(ResourceNotFoundException.class)
 	public ResponseEntity<?> handleResourceNotFound(ResourceNotFoundException ex) {
 		ResourceNotFoundDetails resourceDetails = new ResourceNotFoundDetails("Resource not found.", 

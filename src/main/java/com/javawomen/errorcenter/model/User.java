@@ -25,21 +25,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-/*
- * o Spring Data usa os métodos EntityListeners e de retorno de chamada do JPA 
- * para atualizar automaticamente as propriedades 
- * CreatedBy, CreatedDate, LastModifiedBy, LastModifiedDate.
- * serve para criar logs.
- * nao estou usando o : //@EntityListeners(AuditingEntityListener.class)
- */
 
 @Entity              
-@Table(name = "TBuser", uniqueConstraints={@UniqueConstraint(columnNames={"email"})}) //não são chave-primária, no entanto, precisam possuir valores únicos
+@Table(name = "TBuser", uniqueConstraints={@UniqueConstraint(columnNames={"email"})})
 public class User implements UserDetails{ 
 	
 	private static final long serialVersionUID = 1L;
 	
-	@Id //vem do javax.persistence.Id;
+	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@Column(name="user_id")
 	private Long id;	
@@ -58,7 +51,7 @@ public class User implements UserDetails{
     private String password;
       
     @NotNull
-    @CreatedDate //testar
+    @CreatedDate
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")    
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -66,9 +59,9 @@ public class User implements UserDetails{
     @ManyToMany(fetch = FetchType.EAGER)		  
     private List<Role> roles = new ArrayList<>(); 
  
-    
-    //construtor vazio para a JPA ou hibernate - ver
-	public User() {}
+    @Deprecated
+	public User(){
+    }
 	
 	public User(String name, String password, String email, Role role) {
 		this.name = name;
@@ -132,9 +125,8 @@ public class User implements UserDetails{
 	
 	//-------------------------  USER DETAILS -----------------------------
 	
-	//GrantedAuthority: para o spring secutrity, pois além da classe user, precisamos de uma classe que tem o perfil do user
 	@Override 
-	public Collection<? extends GrantedAuthority> getAuthorities() { //Coleção herda de GrandetAt...
+	public Collection<? extends GrantedAuthority> getAuthorities(){
 		return this.roles;
 	}
 

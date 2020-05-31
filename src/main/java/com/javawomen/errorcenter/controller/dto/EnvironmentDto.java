@@ -1,8 +1,5 @@
 package com.javawomen.errorcenter.controller.dto;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 import com.javawomen.errorcenter.model.Environment;
  
@@ -29,18 +26,4 @@ public class EnvironmentDto {
 		this.name = name;
 	}
 	
-	//--------------- static passados para o service: Retirar após testes ------------
-	/*
-	public static EnvironmentDto converterToEnvironment(Environment environment) {			
-		return new EnvironmentDto(environment);
-	}
-	
-	public static List<EnvironmentDto> converter(List<Environment> environments) {
-		return environments.stream().map(EnvironmentDto::new).collect(Collectors.toList());
-	}
-
-	public static EnvironmentDto converterToEnvironment(Optional<Environment> environmentOptional) {
-		return converterToEnvironment(environmentOptional.get());
-	}
-	*/
 }

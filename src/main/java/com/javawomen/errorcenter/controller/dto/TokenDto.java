@@ -3,7 +3,7 @@ package com.javawomen.errorcenter.controller.dto;
 public class TokenDto {
 	
 	private String token;
-	private String type; // =="Bearer"
+	private String type; //"Bearer"
 	
 	public TokenDto(String token, String type) {
 		this.token = token;

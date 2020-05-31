@@ -72,18 +72,15 @@ public class UserService  implements UserServiceInterface{
 	}
 	// --------------------- UPDATE-USERFORM -------------------------
 
-	// usado para mudar a senha, email, nome do user
 	public User update(Optional<User> userOptional, UserForm userForm) {
 		User user = userOptional.get();
 		String email = userForm.getEmail();
 		String password = userForm.getPassword();
 		
-		// validar senha e email
 		new DataValidation(email, password);
 		
 		user.setName(userForm.getName());
 		user.setEmail(email);
-		//user.setEmail(userForm.getEmail());
 		user.setPassword(new BCryptPasswordEncoder().encode(password));
 		return user;
 	}
@@ -92,31 +89,28 @@ public class UserService  implements UserServiceInterface{
 	public User updatePassword(ResetPasswordDTO form) {
 
 		Optional<User> userOptional = findByEmail(form.getEmail());
-		if (!userOptional.isPresent())throw new ResourceNotFoundException("Email não encontrado");
+		if (!userOptional.isPresent()
+				)throw new ResourceNotFoundException("Email não encontrado");
 		
 		Optional<ResetToken> resetTokenOptional = resetTokenRepository.findByToken(form.getToken());
-		//Verifica se o token digitado existe no banco de dados.
-		if(!resetTokenOptional.isPresent())throw new ResourceNotFoundException("Token digitado não encontrado.");
+		if(!resetTokenOptional.isPresent())
+			throw new ResourceNotFoundException("Token digitado não encontrado.");
 		
 		if(!form.getPassword().equals(form.getConfirmPassword()))
 			throw new ResourceNotFoundException("A senha e a confirmação de senha não são iguais. Digite novamente.");
 		
-		//Verifica se o token foi digitado incorretamente.
 		if(resetTokenRepository.findByToken(form.getToken()) == null ||
 				!form.getToken().equals(resetTokenOptional.get().getToken()))
 			throw new ResourceNotFoundException("Token não encontrado.");
 		
-		//Verifica se o token digitado está expirado
 		if(tokenService.isTokenExpired(form.getToken()))
 			throw new ResourceNotFoundException("Token digitado expirou. Informe um novo token.");		
 
 		User user = userOptional.get();
 
-		// validar senha e email
 		new DataValidation(form.getEmail(), form.getPassword());
 
 		user.setPassword(new BCryptPasswordEncoder().encode(form.getPassword()));
-		
 		deleteById(user.getId());
 		save(user);
 
@@ -135,12 +129,10 @@ public class UserService  implements UserServiceInterface{
 
 	// -------------------------- USERDTO  --------------------------
 
-	// retorna um Usuário sem a senha
 	public UserDto converterToUser(User user) {
 		return new UserDto(user);
 	}
 
-	// retorna uma lista de Usuários sem a senha
 	public Page<UserDto> converter(Page<User> users) {
 		return users.map(UserDto::new);
 	}

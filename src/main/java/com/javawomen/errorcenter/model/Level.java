@@ -24,11 +24,12 @@ public class Level {
 	@Column(name="name")
 	private String name;
 	
-	// uso no new level
+
 	public Level(String name) {
 		this.name = name;
 	}
-
+	
+	@Deprecated
 	public Level(){
 	}
 	

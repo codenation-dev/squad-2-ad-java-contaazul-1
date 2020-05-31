@@ -2,138 +2,84 @@
 <class-diagram version="1.2.4" icons="true" automaticImage="JPEG" always-add-relationships="false" 
   generalizations="true" realizations="true" associations="true" dependencies="false" nesting-relationships="true" 
   router="FAN">  
-  <class id="1" language="java" name="com.javawomen.errorcenter.service.UserService" project="error-center" 
-    file="/error-center/src/main/java/com/javawomen/errorcenter/service/UserService.java" binary="false" 
+  <class id="1" language="java" name="com.javawomen.errorcenter.model.ResetToken" project="error-center" 
+    file="/error-center/src/main/java/com/javawomen/errorcenter/model/ResetToken.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="526" y="1064"/>    
+    <position height="261" width="154" x="112" y="-7"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="2" language="java" name="com.javawomen.errorcenter.config.security.AuthenticationByTokenFilter" 
-    project="error-center" 
-    file="/error-center/src/main/java/com/javawomen/errorcenter/config/security/AuthenticationByTokenFilter.java" 
-    binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="644" y="587"/>    
+  <class id="2" language="java" name="com.javawomen.errorcenter.model.Level" project="error-center" 
+    file="/error-center/src/main/java/com/javawomen/errorcenter/model/Level.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="207" width="154" x="191" y="582"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="3" language="java" name="com.javawomen.errorcenter.config.security.TokenService" project="error-center" 
-    file="/error-center/src/main/java/com/javawomen/errorcenter/config/security/TokenService.java" binary="false" 
+  <class id="3" language="java" name="com.javawomen.errorcenter.model.Log" project="error-center" 
+    file="/error-center/src/main/java/com/javawomen/errorcenter/model/Log.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="441" width="233" x="306" y="-7"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="com.javawomen.errorcenter.model.Role" project="error-center" 
+    file="/error-center/src/main/java/com/javawomen/errorcenter/model/Role.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="243" width="154" x="579" y="582"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="com.javawomen.errorcenter.model.Environment" project="error-center" 
+    file="/error-center/src/main/java/com/javawomen/errorcenter/model/Environment.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="801" y="376"/>    
+    <position height="207" width="154" x="385" y="582"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="4" language="java" name="com.javawomen.errorcenter.service.UserService.DataValidation" 
-    project="error-center" file="/error-center/src/main/java/com/javawomen/errorcenter/service/UserService.java" 
-    binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="826" y="1063"/>    
+  <class id="6" language="java" name="com.javawomen.errorcenter.model.User" project="error-center" 
+    file="/error-center/src/main/java/com/javawomen/errorcenter/model/User.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="549" width="296" x="579" y="-7"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="5" language="java" name="com.javawomen.errorcenter.config.security.AuthenticationService" 
-    project="error-center" 
-    file="/error-center/src/main/java/com/javawomen/errorcenter/config/security/AuthenticationService.java" 
-    binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1009" y="812"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="6" language="java" name="com.javawomen.errorcenter.config.security.SecurityConfigurations" 
-    project="error-center" 
-    file="/error-center/src/main/java/com/javawomen/errorcenter/config/security/SecurityConfigurations.java" 
-    binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1008" y="595"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <interface id="7" language="java" name="com.javawomen.errorcenter.repository.UserRepository" project="error-center" 
-    file="/error-center/src/main/java/com/javawomen/errorcenter/repository/UserRepository.java" binary="false" 
-    corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="557" y="804"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </interface>  
-  <association id="8">    
-    <bendpoint x="739" y="655"/>    
-    <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="9" name="userRepository"/>      
-      <multiplicity id="10" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="7" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <nesting id="11">    
-    <end type="SOURCE" refId="1"/>    
-    <end type="TARGET" refId="4"/>  
-  </nesting>  
-  <association id="12">    
+  <association id="7">    
     <end type="SOURCE" refId="6" navigable="false">      
-      <attribute id="13" name="tokenService"/>      
-      <multiplicity id="14" minimum="0" maximum="1"/>    
+      <attribute id="8" name="roles"/>      
+      <multiplicity id="9" minimum="0" maximum="2147483647"/>    
     </end>    
-    <end type="TARGET" refId="3" navigable="true"/>    
+    <end type="TARGET" refId="4" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="15">    
-    <end type="SOURCE" refId="6" navigable="false">      
-      <attribute id="16" name="userRepository"/>      
-      <multiplicity id="17" minimum="0" maximum="1"/>    
+  <association id="10">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="11" name="level"/>      
+      <multiplicity id="12" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="7" navigable="true"/>    
+    <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="18">    
-    <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="19" name="userRepository"/>      
-      <multiplicity id="20" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="7" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="21">    
-    <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="22" name="userRepository"/>      
-      <multiplicity id="23" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="7" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="24">    
-    <end type="SOURCE" refId="6" navigable="false">      
-      <attribute id="25" name="authenticationService"/>      
-      <multiplicity id="26" minimum="0" maximum="1"/>    
+  <association id="13">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="14" name="environment"/>      
+      <multiplicity id="15" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="5" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="27">    
-    <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="28" name="tokenService"/>      
-      <multiplicity id="29" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="3" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 

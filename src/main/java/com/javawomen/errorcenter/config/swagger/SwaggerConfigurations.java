@@ -1,45 +1,27 @@
 package com.javawomen.errorcenter.config.swagger;
 
 import java.util.Arrays;
-import java.util.List;
-import java.util.ArrayList;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpHeaders;
-import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.javawomen.errorcenter.model.User;
-
+import springfox.documentation.builders.ApiInfoBuilder;
 //import io.jsonwebtoken.lang.Arrays;
 import springfox.documentation.builders.ParameterBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.schema.ModelRef;
+import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.ResponseMessageBuilder;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.ApiKey;
-import springfox.documentation.service.AuthorizationScope;
-import springfox.documentation.service.Contact;
-import springfox.documentation.service.ResponseMessage;
-import springfox.documentation.service.SecurityReference;
-import springfox.documentation.spi.service.contexts.SecurityContext;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
-
-import io.swagger.models.auth.In;
 
 //@EnableSwagger2
 @Configuration
 public class SwaggerConfigurations {
  
-	//definir um bean para o spring e devolver o obj tipo docket do swagger
 	@Bean
-	public Docket centralErrosApi() {
-		//estanciar o obj docket e settar as infos que o springfox precisa p config o nosso projeto
-		
+	public Docket centralErrosApi() {		
 		  return new Docket(DocumentationType.SWAGGER_2)
 	                .select()
 	                .apis(RequestHandlerSelectors.basePackage("com.javawomen.errorcenter"))

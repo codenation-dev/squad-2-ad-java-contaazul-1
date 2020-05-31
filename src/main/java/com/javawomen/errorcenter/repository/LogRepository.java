@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.javawomen.errorcenter.model.Log;
@@ -23,13 +24,13 @@ public interface LogRepository extends JpaRepository<Log, Long> {
 
 	List<Log> findByDescription(String description);
 	
-	//pegar um log e devolver o numero de vezes que ele aparece no banco
+	// Devolve o numero de vezes que um log aparece no banco
 	@Query
 	("select count(p) from Log p "
 			+ "join p.level le "
 			+ "join p.environment en "
 			+ "where le.name = :levelName and en.name =:environmentName "
 			+ "and p.origin = :originName and p.description = :descriptionName")
-	Long countByAllAttribute(String levelName, String environmentName, String originName, String descriptionName);
+	Long countByAllAttribute(@Param("levelName")String levelName, @Param("environmentName")String environmentName, @Param("originName")String originName, @Param("descriptionName")String descriptionName);
 	
 }

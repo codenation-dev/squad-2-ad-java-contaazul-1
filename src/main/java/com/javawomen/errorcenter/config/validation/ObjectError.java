@@ -1,6 +1,6 @@
 package com.javawomen.errorcenter.config.validation;
 
-public class ObjectError {//ErroDeFormularioDto 
+public class ObjectError {
 	
     private final String message;
     private final String field;
