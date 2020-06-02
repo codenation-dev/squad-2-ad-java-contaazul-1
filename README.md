@@ -123,11 +123,16 @@ Password: admin
 
   [Heroku](https://error-center-api.herokuapp.com/swagger-ui.html#/)
   
+### Doc
+[ClassDiagram](https://github.com/codenation-dev/squad-2-ad-java-contaazul-1/blob/master/doc/ClassDiagram.jpg) <br>
+[MER](https://github.com/codenation-dev/squad-2-ad-java-contaazul-1/blob/master/doc/MER.JPG) <br>
+[Manual](https://github.com/codenation-dev/squad-2-ad-java-contaazul-1/blob/master/doc/Como%20testar%20a%20API.pdf) <br>
+  
 ## Autores
   [Alice Borges dos Santos](https://www.linkedin.com/in/alice-borges/) <br>
   [Leticia de Souza Buss](https://www.linkedin.com/in/leticia-d-942652134/) <br>
   [Karina Aparecida de Souza Padilha](https://www.linkedin.com/in/karina-aparecida-de-souza-padilha-143951106/) <br>
-  [Marlei Borchardt](https://www.linkedin.com/in/marlei-borchardt)  <br>
+  [Marlei Borchardt](https://www.linkedin.com/in/marlei-borchardt) <br>
   [Natalia Suzuki](https://www.linkedin.com/in/natalia-suzuki-210349108/) <br>
 
 ## Agradecimentos
