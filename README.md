@@ -1,3 +1,8 @@
+<p align="center">
+    <img src="https://github.com/codenation-dev/squad-2-ad-java-contaazul-1/blob/master/doc/Logo.JPG" 
+         alt="logo Icon" style="width:100px;height:100px;">
+</p>
+
 # Error-Center API
 Error-Center é uma API que centraliza e gerencia os logs de erros de microserviços. <br>
 *Projeto desenvolvido no programa AceleraDev Java Women oferecido pela Codenation com o apoio da Conta Azul.* <br>
