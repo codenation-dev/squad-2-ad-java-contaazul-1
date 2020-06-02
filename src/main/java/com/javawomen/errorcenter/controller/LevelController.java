@@ -44,16 +44,18 @@ public class LevelController{
 	 
 	// -------------------------- GET ALL ---------------------------
 	// http://localhost:8080/levels
-	@ApiOperation(value = "Retorna uma lista de níveis de log existentes")
+	@ApiOperation(value = "Retorna uma lista de níveis de log existentes", notes = "Retorna todos os níveis cadastrado no sistema")
 	@GetMapping
 	public ResponseEntity<List<LevelDto>> getAllLevel(){
 		List<Level> levels = levelService.findAll();
+		if (levels.isEmpty())
+			throw new ResourceNotFoundException("Não existe nenhum nível cadastrado");
 		return ResponseEntity.ok(levelService.converter(levels));
 	}
 
 	// ------------------------ GET BY ID ---------------------------
 	// http://localhost:8080/levels/{id}
-	@ApiOperation(value = "Retorna um nível cadastrado")
+	@ApiOperation(value = "Retorna um nível cadastrado", notes = "Digite o ID de um nível válido")
 	@GetMapping("/{id}")
 	public ResponseEntity<LevelDto> getLevelById(@PathVariable Long id) {	
 		Optional<Level> levelOptional = levelService.findById(id);
@@ -64,7 +66,7 @@ public class LevelController{
 
 	// --------------------------- POST -----------------------------
 	// http://localhost:8080/levels/#@RequestBody
-	@ApiOperation(value = "Cria um novo nível")
+	@ApiOperation(value = "Cria um novo nível", notes = "Digite o nome do nível que deseja cadastrar")
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
 	@Transactional
 	public ResponseEntity<LevelDto> createLevel(@RequestBody @Valid LevelForm levelName,
@@ -77,7 +79,7 @@ public class LevelController{
 
 	// -------------------------- DELETE ----------------------------
 	// http://localhost:8080/levels/{id}
-	@ApiOperation(value = "Exclui um nível")
+	@ApiOperation(value = "Exclui um nível", notes = "Digite o ID do nível que deseja excluir")
 	@DeleteMapping("/{id}")
 	@Transactional
 	public ResponseEntity<?> deleteLevel(@PathVariable Long id) {

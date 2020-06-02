@@ -1,11 +1,15 @@
 package com.javawomen.errorcenter.controller.form;
 
+import javax.validation.constraints.NotBlank;
+
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 public class LoginForm {
-
+	
+	@NotBlank(message = "{name.not.blank}")
 	private String email;
 	
+	@NotBlank(message = "{name.not.blank}")
 	private String senha;
 	
 

@@ -1,4 +1,4 @@
-package com.javawomen.errorcenter.unittests;
+package com.javawomen.errorcenter.unitTest.log;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -18,93 +18,78 @@ public class LogMock {
 	List<LogForm> listaForm = new ArrayList<LogForm>();
 
 	public LogMock() {
-
 	}
 
 	public List<LogForm> getListaForm() {
 		return listaForm;
 	}
 
-	// cria 20 form
+	// cria dados de entrada
 	public void createForm() {
 		LogForm form1 = new LogForm();
-		// for (int i = 0; i < 5; i++) {
-		form1.setNameLevel("error");
-		form1.setNameEnvironment("desenvolvimento");
+		form1.setNameLevel("ERROR");
+		form1.setNameEnvironment("DESENVOLVIMENTO");
 		form1.setOrigin("127.0.0.1");
 		form1.setDescription("description do log");
 		form1.setDetails("details do log");
 		listaForm.add(form1);
 		
 		LogForm form2 = new LogForm();
-		form2.setNameLevel("error");
-		form2.setNameEnvironment("desenvolvimento");
+		form2.setNameLevel("ERROR");
+		form2.setNameEnvironment("PRODUCAO");
 		form2.setOrigin("127.0.0.1");
 		form2.setDescription("description do log");
 		form2.setDetails("details do log");
 		listaForm.add(form2);
 
 		LogForm form3 = new LogForm();
-		form3.setNameLevel("warn");
-		form3.setNameEnvironment("homologacao");
+		form3.setNameLevel("WARN");
+		form3.setNameEnvironment("HOMOLOGACAO");
 		form3.setOrigin("127.0.0.1");
 		form3.setDescription("description do log");
 		form3.setDetails("details do log");
 		listaForm.add(form3);
 
 		LogForm form4 = new LogForm();
-		form4.setNameLevel("error");
-		form4.setNameEnvironment("producao");
+		form4.setNameLevel("DEBUG");
+		form4.setNameEnvironment("PRODUCAO");
 		form4.setOrigin("127.0.0.1");
 		form4.setDescription("description do log");
 		form4.setDetails("details do log");
 		listaForm.add(form4);
-
-		// }
 	}
 
 	public Level getLevel(String name) {
-
 		int id = 0;
 		Level level = new Level();
-
-		if (name.equals("error"))
+		if (name.equals("ERROR"))
 			id = 1;
-		if (name.equals("debug"))
+		if (name.equals("DEBUG"))
 			id = 2;
-		if (name.equals("warn"))
+		if (name.equals("WARN"))
 			id = 3;
-
 		level.setId((long) id);
 		level.setName(name);
-
 		return level;
 	}
 
 	public Environment getEnvironment(String name) {
 		int id = 0;
 		Environment environment = new Environment();
-
-		if (name.equals("desenvolvimento"))
+		if (name.equals("DESENVOLVIMENTO"))
 			id = 1;
-		if (name.equals("homologacao"))
+		if (name.equals("HOMOLOGACAO"))
 			id = 2;
-		if (name.equals("producao"))
+		if (name.equals("PRODUCAO"))
 			id = 3;
-
 		environment.setId((long) id);
 		environment.setName(name);
-
 		return environment;
 	}
 
 	public Log createLog(int id) {
-
 		Log log = new Log();
-		Long ids = (long) id;
-
 		LogForm form = listaForm.get(id);
-
 		log.setCreatedAt(LocalDateTime.now());
 		log.setId((long) id);
 		log.setLevel(getLevel(form.getNameLevel()));
@@ -116,9 +101,8 @@ public class LogMock {
 		return log;
 	}
 
+	//cria log 
 	public List<Log> listaLog() {
-		// createForm();
-		// ==20
 		List<Log> lista = new ArrayList<>();
 		for (int j = 0; j < listaForm.size(); j++) {
 			Log log = createLog(j);
@@ -127,6 +111,7 @@ public class LogMock {
 		return lista;
 	}
 
+	//lista por ambiente
 	public List<Log> listaEnvironment(String name) {
 		List<Log> lista = new ArrayList<>();
 		for (int j = 0; j < listaForm.size(); j++) {
@@ -138,6 +123,7 @@ public class LogMock {
 		return lista;
 	}
 	
+	//lista por nivel
 	public List<Log> listaLevel(String name) {
 		List<Log> lista = new ArrayList<>();
 		for (int j = 0; j < listaForm.size(); j++) {
@@ -149,6 +135,7 @@ public class LogMock {
 		return lista;
 	}
 
+	//lista por origem
 	public List<Log> listaOrigem(String name) {
 		List<Log> lista = new ArrayList<>();
 		for (int j = 0; j < listaForm.size(); j++) {
@@ -160,6 +147,7 @@ public class LogMock {
 		return lista;
 	}
 	
+	//lista por descrição
 	public List<Log> listaDescription(String name) {
 		List<Log> lista = new ArrayList<>();
 		for (int j = 0; j < listaForm.size(); j++) {
@@ -171,10 +159,14 @@ public class LogMock {
 		return lista;
 	}
 
-	public void salvar(LogForm form) {
+	//salva um log na lista
+	public int salvar(LogForm form) {
 		listaForm.add(form);
+		return listaForm.indexOf(form);
 	}
 	
+	
+	//conta a frequencia do log na lista
 	public int count(Log log) {
 		int counter = 0;
 		for(int j = 0; j < listaForm.size(); j++){
@@ -186,7 +178,6 @@ public class LogMock {
 				counter ++;
 			}
 		}
-		
 		return counter;
 	}
 }

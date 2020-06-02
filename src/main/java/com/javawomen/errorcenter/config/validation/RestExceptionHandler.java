@@ -1,4 +1,4 @@
-
+ 
 package com.javawomen.errorcenter.config.validation;
 
 import java.util.List;
@@ -40,10 +40,25 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 	//404 - not found
 	@ExceptionHandler(ResourceNotFoundException.class)
 	public ResponseEntity<?> handleResourceNotFound(ResourceNotFoundException ex) {
-		ResourceNotFoundDetails resourceDetails = new ResourceNotFoundDetails("Resource not found.", 
-				HttpStatus.NOT_FOUND.value(), ex.getMessage(), ex.getClass().getName());
+		ResourceNotFoundDetails resourceDetails = new ResourceNotFoundDetails( 
+				HttpStatus.NOT_FOUND.value(), HttpStatus.NOT_FOUND.name(), ex.getMessage());
 		return new ResponseEntity<>(resourceDetails, HttpStatus.NOT_FOUND);
-
+	}
+	
+	//400 - Bad Request
+	@ExceptionHandler(DataInvalid.class)
+	public ResponseEntity<?> handleUserDataInvalid(DataInvalid ex) {
+		ResourceNotFoundDetails resourceDetails = new ResourceNotFoundDetails( 
+				HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.name(), ex.getMessage());
+		return new ResponseEntity<>(resourceDetails, HttpStatus.BAD_REQUEST);
+	}
+	
+	//500 - Error Server
+	@ExceptionHandler(ErrorInternal.class)
+	public ResponseEntity<?> handleErrorServer(DataInvalid ex) {
+		ResourceNotFoundDetails resourceDetails = new ResourceNotFoundDetails( 
+				HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.name(), ex.getMessage());
+		return new ResponseEntity<>(resourceDetails, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 }

@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -23,7 +25,8 @@ public class Archive {
 			FileWriter fw = new FileWriter(diretorio + archiveName + ".txt");
 			BufferedWriter bw = new BufferedWriter(fw);
 
-			// DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy MM dd"); // format(formatter));
+			// DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy MM dd"); //
+			// format(formatter));
 			bw.write(dto.getCreatedAt().toString());
 			bw.write(",");
 			bw.write(dto.getOrigin());
@@ -43,7 +46,7 @@ public class Archive {
 
 	public LogDto read(String archiveName) throws Throwable {
 		String diretorio = "datalog/";
-		Scanner scanner = new Scanner(new File(diretorio + archiveName + "*.txt"), "UTF-8");
+		Scanner scanner = new Scanner(new File(diretorio + archiveName), "UTF-8");
 		LogDto logDto = new LogDto();
 		try {
 			while (scanner.hasNextLine()) {
@@ -76,4 +79,20 @@ public class Archive {
 		return logDto;
 	}
 
+	public List<LogDto> readArchive() throws Throwable {
+		List<LogDto> dto = new ArrayList<>();
+		File arquivos[];
+		File diretorio = new File("datalog");
+		try {
+			arquivos = diretorio.listFiles();
+			for (int i = 0; i < arquivos.length; i++) {
+				dto.add(read(arquivos[i].getName()));
+				//System.out.println(arquivos[i].getName());
+			}
+		} catch (Throwable t) {
+			throw new IOException("Falha ao tentar executar o método readArchive de Arquive.class", t);
+		}
+
+		return dto;
+	}
 }

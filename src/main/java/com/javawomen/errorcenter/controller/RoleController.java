@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.javawomen.errorcenter.config.validation.ResourceNotFoundException;
 import com.javawomen.errorcenter.controller.dto.RoleDto;
 import com.javawomen.errorcenter.model.Role;
 import com.javawomen.errorcenter.service.RoleService;
@@ -30,11 +31,13 @@ public class RoleController {
 	
 	// -------------------------- GET ALL ---------------------------
 	// http://localhost:8080/roles
-	@ApiOperation(value = "Retorna uma lista de perfis de usuário existentes")
+	@ApiOperation(value = "Retorna uma lista de perfis (role) existentes", notes = "O perfil segue o padrão: ROLE_USER" )
 	@GetMapping
 	public List<RoleDto> getAllRole() {
-		List<Role> Roles = roleService.findAll();
-		return roleService.converter(Roles);
+		List<Role> roles = roleService.findAll();
+		if (roles.isEmpty())
+			throw new ResourceNotFoundException("Não existe nenhum perfil cadastrado");
+		return roleService.converter(roles);
 	}
 	
 }

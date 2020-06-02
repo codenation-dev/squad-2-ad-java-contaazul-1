@@ -46,19 +46,31 @@ public class LogService implements LogServiceInterface{
 	}
 
 	public List<Log> findByLevel(String nameLevel) {
-		return logRepository.findByLevelName(nameLevel.toUpperCase());
+		List<Log> logs = logRepository.findByLevelName(nameLevel.toUpperCase());								
+		if (logs.isEmpty())
+			throw new ResourceNotFoundException("Não encontrado log com este nível");
+		return logs;
 	}
 
 	public List<Log> findByEnvironment(String nameEnvironment) {
-		return logRepository.findByEnvironmentName(nameEnvironment.toUpperCase());
+		List<Log> logs = logRepository.findByEnvironmentName(nameEnvironment.toUpperCase());
+		if (logs.isEmpty())
+			throw new ResourceNotFoundException("Não encontrado log com este nível");
+		return logs;
 	}
 
 	public List<Log> findByDescription(String description) {
-		return logRepository.findByDescription(description);
+		List<Log> logs = logRepository.findByDescription(description);
+		if (logs.isEmpty())
+			throw new ResourceNotFoundException("Não encontrado log com este nível");
+		return logs;
 	}
 
 	public List<Log> findByOrigin(String origin) {
-		return logRepository.findByOrigin(origin);
+		List<Log> logs = logRepository.findByOrigin(origin);
+		if (logs.isEmpty())
+			throw new ResourceNotFoundException("Não encontrado log com este nível");
+		return logs;
 	}
 
 	public Log save(Log object) {
@@ -163,5 +175,10 @@ public class LogService implements LogServiceInterface{
 		archive.write(dto, date);
 	}
 	
+	//---------------------  LEITURA DE ARQUIVO ---------------------
+	public List<LogDto>readArchives() throws Throwable{
+		Archive archive = new Archive();
+		return archive.readArchive();
+	}
 	
 }

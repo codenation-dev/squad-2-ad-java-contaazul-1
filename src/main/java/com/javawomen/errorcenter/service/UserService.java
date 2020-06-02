@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.javawomen.errorcenter.config.security.TokenService;
 import com.javawomen.errorcenter.config.validation.ResourceNotFoundException;
-import com.javawomen.errorcenter.config.validation.UserDataInvalid;
+import com.javawomen.errorcenter.config.validation.DataInvalid;
 import com.javawomen.errorcenter.controller.dto.ResetPasswordDTO;
 import com.javawomen.errorcenter.controller.dto.UserDto;
 import com.javawomen.errorcenter.controller.form.UserForm;
@@ -62,6 +62,9 @@ public class UserService  implements UserServiceInterface{
 	}
 
 	public List<Role> findAllRolesByUser(Long id) {
+		Optional<User> userOptional = findById(id);
+		if (!userOptional.isPresent())
+			throw new ResourceNotFoundException("Usuário não encontrado");
 		return userRepository.findRolesByUser(id);
 	}
 
@@ -156,10 +159,10 @@ public class UserService  implements UserServiceInterface{
 
 		public void validar(String email, String senha) {
 			if (!validarEmail(email))
-				throw new UserDataInvalid("E-mail inválido. O e-mail deve possuir no mínimo 3 caracteres antes do @,"
+				throw new DataInvalid("E-mail inválido. O e-mail deve possuir no mínimo 3 caracteres antes do @,"
 						+ " sem espaço, sem acentuação e sem caracteres especiais.");
 			if (!validarSenha(senha))
-				throw new UserDataInvalid(
+				throw new DataInvalid(
 						"Senha inválida. " + " A senha deve possuir no mínimo 8 caracteres, entre letras e números.");
 		}
 

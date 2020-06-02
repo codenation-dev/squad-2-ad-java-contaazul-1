@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.javawomen.errorcenter.config.validation.ResourceNotFoundException;
+import com.javawomen.errorcenter.config.validation.DataInvalid;
 import com.javawomen.errorcenter.controller.dto.UserDto;
 import com.javawomen.errorcenter.controller.form.UserForm;
 import com.javawomen.errorcenter.model.Role;
@@ -58,7 +59,7 @@ public class UserController {
 	
 	// -------------------------- GET ALL ---------------------------
 	// http://localhost:8080/users
-	@ApiOperation(value = "Retorna uma lista de usuários existentes")
+	@ApiOperation(value = "Retorna uma lista de usuários existentes", notes = "Retorna os usuários cadastrados. Para ordenar digite um campo válido: name, email, id, createdAt")
 	@GetMapping
 	@Cacheable("listOfUser")
 	@ApiImplicitParams({
@@ -71,25 +72,29 @@ public class UserController {
 	public Page<UserDto> getAllUsers(
 			@PageableDefault(sort = "id", direction = Direction.ASC, page = 0, size = 10) 
 			@ApiIgnore Pageable paginacao) {
+		try {
 		Page<User> users = userService.findAll(paginacao);
 		return userService.converter(users);
+		}catch(Exception e) {
+			throw new DataInvalid("Verifique os campos digitados");
+		}
 
 	}
 
 	// ------------------------ GET BY ID ---------------------------
 	// http://localhost:8080/users/{id}
-	@ApiOperation(value = "Retorna um usuário cadastrado")
+	@ApiOperation(value = "Retorna um usuário cadastrado", notes = "Digite o id do usuário que deseja consultar")
 	@GetMapping("/{id}")
-	public UserDto getUserById(@PathVariable Long id) {
+	public ResponseEntity<UserDto> getUserById(@PathVariable Long id) {
 		Optional<User> userOptional = userService.findById(id);
 		if (!userOptional.isPresent())
 			throw new ResourceNotFoundException("Usuário não encontrado.");
-		return userService.converterToUser(userOptional);
+		return ResponseEntity.ok(userService.converterToUser(userOptional));
 	}
 
 	// ---------------------- GET ROLE BY USER ----------------------
 	// http://localhost:8080/users/role?nameRole=ROLE_ADMIN -> Long == User id
-	@ApiOperation(value = "Retorna as permissões de perfil do usuário")
+	@ApiOperation(value = "Retorna as permissões de perfil do usuário", notes = "Digite o id do usuário que deseja consultar")
 	@GetMapping("/role/{id}")
 	public ResponseEntity<List<Role>> getRoleByUser(@PathVariable Long id) {
 		return ResponseEntity.ok(userService.findAllRolesByUser(id));
@@ -97,12 +102,12 @@ public class UserController {
 
 	// --------------------------- POST -----------------------------
 	// http://localhost:8080/users/#@RequestBody
-	@ApiOperation(value = "Cria um novo usuário")
+	@ApiOperation(value = "Cria um novo usuário", notes = "Para registrar um novo usuário insira o nome, o e-mail e senha válidos")
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
 	@Transactional
-	public ResponseEntity<UserDto> registerUser(@RequestBody @Valid UserForm form, 
+	public ResponseEntity<UserDto> registerUser(@RequestBody @Valid UserForm cadastro, 
 			UriComponentsBuilder uriBuilder) {
-		User user = userService.converter(roleService, form);
+		User user = userService.converter(roleService, cadastro);
 		userService.save(user);
 		URI uri = uriBuilder.path("/users/{id}").buildAndExpand(user.getId()).toUri();
 		return ResponseEntity.created(uri).body(new UserDto(user));
@@ -110,7 +115,7 @@ public class UserController {
 
 	// --------------------------- PUT ------------------------------
 	// http://localhost:8080/users/{id}
-	@ApiOperation(value = "Atualiza os dados do usuário")
+	@ApiOperation(value = "Atualiza os dados do usuário", notes = "Digite o id do usuário que deseja atualizar")
 	@PutMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@Transactional
 	public ResponseEntity<UserDto> updateUser(@PathVariable Long id, 
@@ -124,7 +129,7 @@ public class UserController {
 
 	// -------------------------- DELETE ----------------------------
 	// http://localhost:8080/users/{id}
-	@ApiOperation(value = "Exclui um usuário")
+	@ApiOperation(value = "Exclui um usuário", notes = "Digite o id do usuário que deseja excluir")
 	@DeleteMapping("/{id}")
 	@Transactional
 	public ResponseEntity<UserDto> deleteUser(@PathVariable Long id) {
@@ -138,7 +143,7 @@ public class UserController {
 	// --------------------- UPDATE ROLE USER -----------------------
 	// metodo para o admin setar/mudar a role para admin, user,
 	// http://localhost:8080/users/{id}/role/{id}
-	@ApiOperation(value = "Concede permissões ao perfil do usuário")
+	@ApiOperation(value = "Concede permissões ao perfil do usuário", notes = "Digite o id do usuário e em seguida o id do perfil que deseja conceder ao usuário")
 	@PatchMapping("/{id}/role/{roleId}")
 	@Transactional
 	public ResponseEntity<UserDto> updateUserRole(@PathVariable Long id, 

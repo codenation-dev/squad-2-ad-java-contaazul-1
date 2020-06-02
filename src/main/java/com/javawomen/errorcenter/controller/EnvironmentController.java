@@ -43,16 +43,18 @@ public class EnvironmentController {
  
 	// -------------------------- GET ALL ---------------------------
 	// http://localhost:8080/environments
-	@ApiOperation(value = "Retorna uma lista de ambientes de log existentes")
+	@ApiOperation(value = "Retorna uma lista de ambientes de log existentes", notes = "Retorna todos os ambientes cadastrados no sistema")
 	@GetMapping
 	public List<EnvironmentDto> getAllEnvironment() {
 		List<Environment> environments = environmentService.findAll();
+		if (environments.isEmpty())
+			throw new ResourceNotFoundException("Não existe nenhum ambiente cadastrado");
 		return environmentService.converter(environments);
 	}
 
 	// ------------------------ GET BY ID ---------------------------
 	// http://localhost:8080/environments/{id}	
-	@ApiOperation(value = "Retorna um ambiente cadastrado")
+	@ApiOperation(value = "Retorna um ambiente cadastrado", notes = "Digite o ID de um ambiente válido")
 	@GetMapping("/{id}")
 	public EnvironmentDto getEnvironmentById(@PathVariable Long id) {
 		Optional<Environment> environmentOptional = environmentService.findById(id);
@@ -63,12 +65,12 @@ public class EnvironmentController {
 
 	// --------------------------- POST -----------------------------
 	// http://localhost:8080/environments/#@RequestBody
-	@ApiOperation(value = "Cria um novo ambiente")
+	@ApiOperation(value = "Cria um novo ambiente", notes = "Digite o nome do ambiente que deseja cadastrar")
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
 	@Transactional
-	public ResponseEntity<EnvironmentDto> createEnvironment(@RequestBody @Valid EnvironmentForm ambienteName,
+	public ResponseEntity<EnvironmentDto> createEnvironment(@RequestBody @Valid EnvironmentForm name,
 			UriComponentsBuilder uriBuilder) {
-		Environment environment = environmentService.converter(ambienteName);
+		Environment environment = environmentService.converter(name);
 		environmentService.save(environment);
 		URI uri = uriBuilder.path("/environments/{id}").buildAndExpand(environment.getId()).toUri();
 		return ResponseEntity.created(uri).body(new EnvironmentDto(environment));
@@ -76,7 +78,7 @@ public class EnvironmentController {
 
 	// -------------------------- DELETE ----------------------------
 	// http://localhost:8080/environments/{id}
-	@ApiOperation(value = "Exclui um Ambiente")
+	@ApiOperation(value = "Exclui um Ambiente", notes = "Digite o ID do ambiente que deseja excluir")
 	@DeleteMapping("/{id}")
 	@Transactional
 	public ResponseEntity<?> deleteEnvironment(@PathVariable Long id) {

@@ -1,33 +1,36 @@
 package com.javawomen.errorcenter.config.validation;
 
+import java.time.LocalDateTime;
+
 public class ResourceNotFoundDetails {
 
-	private String title;
+	private LocalDateTime timeStamp= LocalDateTime.now();
 	private int status;
-	private String details;
-	private String developmentMessage;
+	private String error;
+	private String message;
+	
  
 	
-	public ResourceNotFoundDetails(String title, int status, String details, String developmentMessage) {
-		this.title = title;
+	public ResourceNotFoundDetails(int status, String error, String message) {
 		this.status = status;
-		this.details = details;
-		this.developmentMessage = developmentMessage;
+		this.error = error;
+		this.message = message;
 	}
 	
-	public String getTitle() {
-		return title;
-	}
 	public int getStatus() {
 		return status;
 	}
-	public String getDetails() {
-		return details;
+
+	public LocalDateTime getTimeStamp() {
+		return timeStamp;
 	}
-	public String getDevelopmentMessage() {
-		return developmentMessage;
+
+	public String getError() {
+		return error;
 	}
-	
-	
+
+	public String getMessage() {
+		return message;
+	}
 	
 }

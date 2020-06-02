@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.javawomen.errorcenter.config.security.TokenService;
 import com.javawomen.errorcenter.config.validation.ResourceNotFoundException;
+import com.javawomen.errorcenter.config.validation.DataInvalid;
 import com.javawomen.errorcenter.controller.dto.ResetPasswordDTO;
 import com.javawomen.errorcenter.controller.dto.TokenDto;
 import com.javawomen.errorcenter.controller.dto.UserDto;
@@ -56,9 +57,12 @@ public class AuthenticationController {
 	private ResetTokenService resetTokenService;
 
 	//---------------------------- LOGIN ----------------------------
-	@ApiOperation(value = "Login")
+	@ApiOperation(value = "Login", notes = "Para realizar o login insira e-mail e senha válidos")
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<TokenDto> authenticate(@RequestBody @Valid LoginForm login){
+		Optional<User> userOptional = userService.findByEmail(login.getEmail());
+		if (!userOptional.isPresent()
+				)throw new ResourceNotFoundException("Email não encontrado");
 		UsernamePasswordAuthenticationToken loginData = login.convert();
 		try {
 			Authentication authentication = authManager.authenticate(loginData);					
@@ -66,13 +70,12 @@ public class AuthenticationController {
 			String token = tokenService.generateToken(authentication);
 			return ResponseEntity.ok(new TokenDto(token, "Bearer"));
 		} catch (AuthenticationException e) {
-			return ResponseEntity.badRequest().build();
+			throw new DataInvalid("Verifique sua senha.");
 		}
 		
 	}
 	//----------------- GERA TOKEN PARA ALTERAR SENHA ---------------
-	//@GetMapping(path="/forgotPassword")
-	@ApiOperation(value = "Resgata um token para alterar a senha de usuário")	
+	@ApiOperation(value = "Resgata um token para alterar a senha de usuário", notes = "Para alterar a senha digite seu email, colete o token e coloque-o em Alterar a senha de usuário com uso de token.")	
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 		public ResponseEntity<TokenDto> forgotPassword(@RequestParam String email) {
 			Optional<User> user = userService.findByEmail(email);
@@ -87,7 +90,7 @@ public class AuthenticationController {
 		
 	//----------------------- ALTERAR SENHA -------------------------
 	//@PutMapping(path="/resetPassword")
-	@ApiOperation(value = "Altera a senha de usuário com uso de token")
+	@ApiOperation(value = "Altera a senha de usuário com uso de token", notes = "Para alterar a senha digite seu e-mail e uma nova senha, confirme a nova senha e coloque um token válido")
 	@PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<UserDto> resetPassword(@RequestBody ResetPasswordDTO resetPassword) {
 		User user = userService.updatePassword(resetPassword);		

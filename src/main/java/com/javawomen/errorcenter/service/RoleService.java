@@ -26,14 +26,6 @@ public class RoleService implements RoleServiceInterface{
 		return roleRepository.count();
 	}	
 	
-	public Role converter(String roleName) {
-		return new Role(roleName);
-	}
-	
-	public List<RoleDto> converter(List<Role> roles) {
-		return roles.stream().map(RoleDto::new).collect(Collectors.toList());
-	}
-
 	public Optional<Role> findByName(String roleName) {
 		return roleRepository.findByRoleName(roleName);
 	}
@@ -45,4 +37,13 @@ public class RoleService implements RoleServiceInterface{
 	public Optional<Role> findById(Long id) {
 		return roleRepository.findById(id);
 	}
+	
+	public List<RoleDto> converter(List<Role> roles) {
+		return roles.stream().map(RoleDto::new).collect(Collectors.toList());
+	}
+	
+	public Role converter(String roleName) {
+		return new Role(roleName);
+	}
+
 }

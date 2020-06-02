@@ -93,4 +93,16 @@ public class TokenService {
 		long currentTime = System.currentTimeMillis();
 		return expLong <= currentTime;
 	}
+	
+	//realizado para teste
+	public static String createToken(String name) {
+		Date dateActual = new Date();
+		Date dateExpiration = new Date(dateActual.getTime() + Long.parseLong("43200000"));
+		return Jwts.builder().setIssuer("API Central de Erros").setSubject(name)
+				.setIssuedAt(dateActual)
+				.setExpiration(dateExpiration)
+				.signWith(SignatureAlgorithm.HS256, "segredo")
+				.compact();
+	}
+
 }
