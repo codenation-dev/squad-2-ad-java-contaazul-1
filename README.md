@@ -125,6 +125,7 @@ Password: admin
   
 ### Doc
 [ClassDiagram](https://github.com/codenation-dev/squad-2-ad-java-contaazul-1/blob/master/doc/ClassDiagram.jpg) <br>
+[UserCase](https://github.com/codenation-dev/squad-2-ad-java-contaazul-1/blob/master/doc/UserCase.JPG) <br>
 [MER](https://github.com/codenation-dev/squad-2-ad-java-contaazul-1/blob/master/doc/MER.JPG) <br>
 [Manual](https://github.com/codenation-dev/squad-2-ad-java-contaazul-1/blob/master/doc/Como%20testar%20a%20API.pdf) <br>
   
