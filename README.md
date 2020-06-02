@@ -1,6 +1,6 @@
 <p align="center">
     <img src="https://github.com/codenation-dev/squad-2-ad-java-contaazul-1/blob/master/doc/Logo.JPG" 
-         alt="logo Icon" style="width:100px;height:100px;">
+         width="200" height="200">
 </p>
 
 # Error-Center API
