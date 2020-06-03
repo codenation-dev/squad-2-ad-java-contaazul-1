@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="https://github.com/codenation-dev/squad-2-ad-java-contaazul-1/blob/master/doc/Logo.JPG" 
+    <img src="https://github.com/codenation-dev/squad-2-ad-java-contaazul-1/blob/master/doc/logo.png" 
          width="200" height="200">
 </p>
 
