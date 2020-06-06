@@ -36,7 +36,8 @@ public class Archive {
 			bw.write(dto.getLevelName());
 			bw.write(",");
 			bw.write(dto.getEnvironmentName());
-
+			bw.write(",");
+			bw.write(dto.getDetail());
 			bw.close();
 
 		} catch (Exception ex) {
@@ -61,7 +62,8 @@ public class Archive {
 				String description = linhaScanner.next();
 				String levelName = linhaScanner.next();
 				String environmentName = linhaScanner.next();
-
+				String detail = linhaScanner.next();
+				
 				LocalDateTime parsedDate = LocalDateTime.parse(date);
 
 				logDto.setCreatedAt(parsedDate);
@@ -69,7 +71,7 @@ public class Archive {
 				logDto.setEnvironmentName(environmentName);
 				logDto.setOrigin(origin);
 				logDto.setDescription(description);
-
+				logDto.setDetail(detail);
 				linhaScanner.close();
 			}
 			scanner.close();
@@ -87,7 +89,6 @@ public class Archive {
 			arquivos = diretorio.listFiles();
 			for (int i = 0; i < arquivos.length; i++) {
 				dto.add(read(arquivos[i].getName()));
-				//System.out.println(arquivos[i].getName());
 			}
 		} catch (Throwable t) {
 			throw new IOException("Falha ao tentar executar o método readArchive de Arquive.class", t);
