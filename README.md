@@ -6,7 +6,7 @@
 # Error-Center API
 Error-Center é uma API que centraliza e gerencia os logs de erros de microserviços. <br>
 *Projeto desenvolvido no programa AceleraDev Java Women oferecido pela Codenation com o apoio da Conta Azul.* <br>
-[LIVE DEMO ](https://error-center-api.herokuapp.com/swagger-ui.html#/) | [ Wiki](https://github.com/codenation-dev/squad-2-ad-java-contaazul-1.wiki.git) <br> 
+[LIVE DEMO ](https://error-center-api.herokuapp.com/swagger-ui.html#/) | [ Wiki](https://github.com/codenation-dev/squad-2-ad-java-contaazul-1/wiki) <br> 
 
 ## Tecnologias
     Eclipse (4.14.0)
