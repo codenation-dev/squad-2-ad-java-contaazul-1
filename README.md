@@ -121,7 +121,7 @@ $ mvn spring-boot:run
 
 ```txt
 User: admin@email.com
-Password: admin
+Password: admin123
 ```
 
 ### Deploy
